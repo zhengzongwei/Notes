@@ -1,4 +1,4 @@
-# NextCloud API 
+#   NextCloud API 
 
 ## 用户API
 
@@ -16,8 +16,6 @@
    # 查询指定用户
    curl -u admin:zzw123456 -X GET " http://192.168.14.184:8080/ocs/v1.php/cloud/users?search=zzw" -H 'OCS-APIRequest: true'
    ```
-
-   
 
 3. 查询用户信息
 
@@ -42,15 +40,11 @@
    curl -u admin:zzw123456 -X PUT " http://192.168.14.184:8080/ocs/v1.php/cloud/users/zzw" -d key="email" -d value="franksnewemail@example.org" -H 'OCS-APIRequest: true'
    ```
 
-   
-
 5. 禁用用户
 
    ```shell
      curl -u admin:zzw123456 -X PUT " http://192.168.14.184:8080/ocs/v1.php/cloud/users/zzw/disable" -H 'OCS-APIRequest: true'
    ```
-
-   
 
 6. 启用用户
 
@@ -58,15 +52,12 @@
      curl -u admin:zzw123456 -X PUT " http://192.168.14.184:8080/ocs/v1.php/cloud/users/zzw/enable" -H 'OCS-APIRequest: true'
    ```
 
-   
-
 7. 删除用户
 
    ```shell
         curl -u admin:zzw123456 -X DELETE " http://192.168.14.184:8080/ocs/v1.php/cloud/users/zzw" -H 'OCS-APIRequest: true'
    ```
 
-   
 
 ## 用户组API
 
@@ -76,8 +67,6 @@
     curl -u admin:zzw123456 -X POST " http://192.168.14.184:8080/ocs/v1.php/cloud/users/zzw/groups" -d groupid="newgroup" -H 'OCS-APIRequest: true'
    ```
 
-   
-
 2. 添加用户到用户组
 
    ```shell
@@ -86,15 +75,11 @@
    
    ```
 
-   
-
 3. 从用户组中移除用户
 
    ```shell
     curl -u admin:zzw123456 -X DELETE " http://192.168.14.184:8080/ocs/v1.php/cloud/users/zzw/groups" -d groupid="newgroup" -H 'OCS-APIRequest: true'
    ```
-
-   
 
 4. 将用户提升为组管理员
 
@@ -102,15 +87,11 @@
    curl -u admin:zzw123456 -X POST " http://192.168.14.184:8080/ocs/v1.php/cloud/users/zzw/subadmins"  -d groupid="group" -H 'OCS-APIRequest: true'
    ```
 
-   
-
 5. 将组管理员降级为普通用户
 
    ```shell
    curl -u admin:zzw123456 -X DELETE " http://192.168.14.184:8080/ocs/v1.php/cloud/users/zzw/subadmins"  -d groupid="group" -H 'OCS-APIRequest: true'
    ```
-
-   
 
 6. 获取用户管理的组
 
@@ -118,15 +99,11 @@
      curl -u admin:zzw123456 -X GET " http://192.168.14.184:8080/ocs/v1.php/cloud/users/zzw/subadmins" -H 'OCS-APIRequest: true'
    ```
 
-   
-
 7.  发送欢迎邮件
 
    ```shell
    curl -u admin:zzw123456 -X POST " http://192.168.14.184:8080/ocs/v1.php/cloud/users/zzw/welcome" -H 'OCS-APIRequest: true'
    ```
-
-   
 
 8. 获取所有组
 
@@ -134,15 +111,11 @@
    curl -u admin:zzw123456 -X GET " http://192.168.14.184:8080/ocs/v1.php/cloud/groups" -H 'OCS-APIRequest: true'
    ```
 
-   
-
 9. 查找指定组
 
    ```shell
    curl -u admin:zzw123456 -X GET " http://192.168.14.184:8080/ocs/v1.php/cloud/groups?search=admin" -H 'OCS-APIRequest: true'
    ```
-
-   
 
 10. 创建组
 
@@ -150,15 +123,11 @@
     curl -u admin:zzw123456 -X POST " http://192.168.14.184:8080/ocs/v1.php/cloud/groups"  -d groupid="newgroup" -H 'OCS-APIRequest: true'
     ```
 
-    
-
 11. 获取组成员
 
     ```shell
     curl -u admin:zzw123456 -X GET " http://192.168.14.184:8080/ocs/v1.php/cloud/groups/admin"  -H 'OCS-APIRequest: true'
     ```
-
-    
 
 12. 获取指定组的组管理员
 
@@ -166,15 +135,12 @@
     curl -u admin:zzw123456 -X GET " http://192.168.14.184:8080/ocs/v1.php/cloud/groups/admin/subadmins"  -H 'OCS-APIRequest: true'
     ```
 
-    
-
 13. 删除组
 
     ```shell
     curl -u admin:zzw123456 -X DELETE " http://192.168.14.184:8080/ocs/v1.php/cloud/groups/admin/"  -H 'OCS-APIRequest: true'
     ```
 
-    
 
 ## 文件API
 
@@ -225,9 +191,43 @@
 8. 获取文件列表
 
    ```shell
-         curl -u admin:admin -X GET " http://192.168.14.184:8080/ocs/v1.php/cloud/apps/files"  -H 'OCS-APIRequest: true'
+         curl -u admin:admin -X GET "http://192.168.14.184:8080/ocs/v1.php/cloud/apps/files"  -H 'OCS-APIRequest: true'
     
    ```
+
+
+
+## 回收站API
+
+1. 显示回收站
+
+   ```shell
+   curl -u admin:admin -X PROPFIND "http://192.168.14.184:8080//nextcloud/remote.php/dav/trashbin/admin/trash"
+   ```
+
+   
+
+2. 恢复回收站文件
+
+   ```shell
+   curl -u admin:admin -X MOVE " http://192.168.14.104:8080/nextcloud/remote.php/dav/trashbin/zzw/ss.php" -H "Destination:http://192.168.14.104:8080/remote.php/dav/files/admin/ss".php
+   ```
+
+3. 删除回收站文件
+
+   ```shell
+   curl -u admin:admin -X DELETE "http://192.168.14.184:8080//nextcloud/remote.php/dav/trashbin/admin/trash/ss.config"
+   ```
+
+   
+
+4. 清空回收站
+
+   ```shell
+   curl -u admin:admin -X DELETE "http://192.168.14.184:8080//nextcloud/remote.php/dav/trashbin/admin/trash"
+   ```
+
+   
 
 ## 分享API
 
