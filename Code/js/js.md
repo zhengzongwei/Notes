@@ -1,7 +1,5 @@
 
-
 ## 1. 生成网卡地址代码
-
 ```js
  function randomMac() {
       const mac = [
@@ -15,9 +13,7 @@
       return mac.join(':')
     }
 ```
-
 ## 2. 时间格式化
-
 ```js
 	//  格式化时间
 	let dt = new Date()
@@ -29,4 +25,3 @@
 	let s = dt.getSeconds().toString().padStart(2, '0')
 	const time = yyyy + MM +dd + '_' + h  + m + s
 ```
-

@@ -37,7 +37,7 @@
        twitter
        password
        
-   curl -u admin:zzw123456 -X PUT " http://192.168.14.184:8080/ocs/v1.php/cloud/users/zzw" -d key="email" -d value="franksnewemail@example.org" -H 'OCS-APIRequest: true'
+   curl -u _ -X PUT " http://127.0.0.1：8080/nextcloud/ocs/v1.php/cloud/users/zzw" -d key="email" -d value="franksnewemail@example.org" -H 'OCS-APIRequest: true'
    ```
 
 5. 禁用用户
@@ -161,7 +161,7 @@
 3. 上传文件
 
    ```shell
-   curl -u admin:zzw123456 -X DELETE ' http://192.168.14.184:8080/remote.php/dav/files/admin/test2/' 
+   curl -u admin:zzw123456 -X P ' http://192.168.14.184:8080/remote.php/dav/files/admin/test2/' 
    ```
 
 4. 下载文件
@@ -195,14 +195,12 @@
     
    ```
 
-
-
 ## 回收站API
 
 1. 显示回收站
 
    ```shell
-   curl -u admin:admin -X PROPFIND "http://192.168.14.184:8080//nextcloud/remote.php/dav/trashbin/admin/trash"
+   curl -u admin:admin -X PROPFIND "http://192.168.10.160:8080//nextcloud/remote.php/dav/trashbin/admin/trash"
    ```
 
    
@@ -235,7 +233,7 @@
 
    ```shell
    # 显示分享信息根目录列表
-   curl -u Pr6Ke6BnQxQzczk: -X PROPFIND http://192.168.10.130:8080/nextcloud/public.php/webdav/
+   curl -u k3GeMHHPJQi9w42: -X PROPFIND http://192.168.14.104:8080/nextcloud/public.php/webdav/
    
    # 显示指定目录信息
    curl -u Pr6Ke6BnQxQzczk: -X PROPFIND http://192.168.10.130:8080/nextcloud/public.php/webdav/gg/
