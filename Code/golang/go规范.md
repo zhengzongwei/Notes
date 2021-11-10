@@ -127,19 +127,57 @@
       return os.Symlink(target, dest)
     ```
 
-### 2.10 import规范
+### 2.10 注释模板
 
 ```go
+/*
+ * @Title common.go
+ * @Description
+ * @Author zheng 2021/11/10 10:16
+ * @Update
+ */
 
-// 单行引入
-import  "fmt"
+package common
 
-// 多包引入，每包独占一行
-// 使用绝对路径，避免相对路径如 ../encoding/json
 import (
-"strings"
-"fmt"
+	"fmt"
+	"time"
 )
+
+/*
+ * @title FormatPrint
+ * @description
+ * @param
+ * @return None
+ */
+func FormatPrint() {
+	fmt.Printf("this is a common.go")
+}
+
+/*
+ * @title TimeStamp()
+ * @description Convert time to timestamp
+ * @param None
+ * @return currentTimeStamp int64 "timestamp"
+ */
+func TimeStamp() int64 {
+	currentTimeStamp := time.Now().Unix()
+	return currentTimeStamp
+}
+
+/*
+ * @title NowTime
+ * @description get current time
+ * @param None
+ * @return currentTime string "time"
+ */
+func NowTime() string {
+	currentTime := time.Now().Format("2006-01-02 15:04:05")
+	return currentTime
+}
+
+//TODO 创建一个记录程序运行时间的函数
+
 ```
 
 ## 3. 命名规范
@@ -276,9 +314,25 @@ import (
   }
   ```
 
-  ## 4. 声明语句
+## 4. 导入规范
 
-  ### 4.1 函数或方法
+###  4.1 import规范
+
+```go
+// 单行引入
+import  "fmt"
+
+// 多包引入，每包独占一行
+// 使用绝对路径，避免相对路径如 ../encoding/json
+import (
+"strings"
+"fmt"
+)
+```
+
+  ## 5. 声明语句
+
+  ### 5.1 函数或方法
 
   函数或方法的参数排列顺序遵循以下几点原则（从左到右）：
 
@@ -292,9 +346,10 @@ import (
   func IsRepositoryExist(user *User, repoName string) (bool, error) { ...
   ```
 
-  ## 5. 代码指导
 
-  ### 5.1 基本约束
+  ## 6. 代码指导
+
+  ### 6.1 基本约束
 
   - 所有应用的 `main` 包需要有 `APP_VER` 常量表示版本，格式为 `X.Y.Z.Date [Status]`，例如：`0.7.6.1112 Beta`。
   
@@ -410,13 +465,15 @@ import (
      复制代码  AddHookTask(&HookTask{      Type:        HTT_WEBHOOK,      Url:         w.Url,      Payload:     p,      ContentType: w.ContentType,      IsSsl:       w.IsSsl,  })
     ```
 
-## 6. 测试用例
+## 7. 测试用例
 
 - 单元测试都必须使用 [GoConvey](http://goconvey.co/) 编写，且辅助包覆盖率必须在 80% 以上。
 
-### 6.1 使用示例
+### 7.1 使用示例
 
 - 为辅助包书写使用示例的时，文件名均命名为 `example_test.go`。
 - 测试用例的函数名称必须以 `Test_` 开头，例如：`Test_Logger`。
 - 如果为方法书写测试用例，则需要以 `Text_<Struct>_<Method>` 的形式命名，例如：`Test_Macaron_Run`。
+
+
 
