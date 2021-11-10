@@ -461,8 +461,8 @@ import (
   
   - 在初始化结构时，尽可能使用一一对应方式：
   
-    ```
-     复制代码  AddHookTask(&HookTask{      Type:        HTT_WEBHOOK,      Url:         w.Url,      Payload:     p,      ContentType: w.ContentType,      IsSsl:       w.IsSsl,  })
+    ```go
+      	AddHookTask(&HookTask{      Type:        HTT_WEBHOOK,      Url:         w.Url,      Payload:     p,      ContentType: w.ContentType,      IsSsl:       w.IsSsl,  })
     ```
 
 ## 7. 测试用例
@@ -474,6 +474,4 @@ import (
 - 为辅助包书写使用示例的时，文件名均命名为 `example_test.go`。
 - 测试用例的函数名称必须以 `Test_` 开头，例如：`Test_Logger`。
 - 如果为方法书写测试用例，则需要以 `Text_<Struct>_<Method>` 的形式命名，例如：`Test_Macaron_Run`。
-
-
 
