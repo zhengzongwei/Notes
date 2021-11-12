@@ -171,3 +171,50 @@ func Join(str []string, sep string) string {
   return buffer.String()
 }
 ```
+
+### 字符串重复几次
+
+将 s 重复 count 次，如果 count 为负数或返回值长度 len(s)*count 超出 string 上限会导致 panic，这个函数使用很简单：
+
+```go
+func Repeat(s string, count int) string
+```
+
+### 字符替换
+
+Map 函数，将 s 的每一个字符按照 mapping 的规则做映射替换，如果 mapping 返回值  <0 ，则舍弃该字符。该方法只能对每一个字符做处理，但处理方式很灵活，可以方便的过滤，筛选汉字等
+
+```go
+func Map(mapping func(rune) rune, s string) string
+```
+
+### 字符串子串替换
+
+```go
+
+// 如果 n < 0，则不限制替换次数，即全部替换
+func Replace(s, old, new string, n int) string
+
+// 该函数内部直接调用了函数 Replace(s, old, new , -1)
+func ReplaceAll(s, old, new string) string
+```
+
+### 大小写转换
+
+```go
+func ToLower(s string) string
+func ToLowerSpecial(c unicode.SpecialCase, s string) string
+func ToUpper(s string) string
+func ToUpperSpecial(c unicode.SpecialCase, s string) string
+```
+
+### 标题处理
+
+标题处理包含 3 个相关函数，其中 Title 会将 s 每个单词的首字母大写，不处理该单词的后续字符。ToTitle 将 s 的每个字母大写。ToTitleSpecial 将 s 的每个字母大写，并且会将一些特殊字母转换为其对应的特殊大写字母。
+
+```go
+func Title(s string) string
+func ToTitle(s string) string
+func ToTitleSpecial(c unicode.SpecialCase, s string) string
+```
+
