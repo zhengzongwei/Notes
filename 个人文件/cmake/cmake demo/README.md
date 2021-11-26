@@ -1,2 +1,0 @@
-# cprimerplus
- study C language
