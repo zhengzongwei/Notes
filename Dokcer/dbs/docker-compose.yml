@@ -1,0 +1,49 @@
+version: "3"
+
+networks:
+  db:
+    external: false
+
+services:
+  mariadb:
+    image: mariadb
+    container_name: mariadb_server
+    environment:
+      - MARIADB_USER=zhengzongwei
+      - MARIADB_PASSWORD=zhengzongwei
+      - MARIADB_ROOT_PASSWORD=zhengzongwei
+    networks:
+      - db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+  
+  redis:
+    image: redis
+    container_name: redis_server
+    networks:
+      - db
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/:/etc/redis
+      - ./redis/data:/data
+    
+  mongo:
+    image: mongo
+    container_name: mongo_server
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=zhengzongwei
+      - MONGO_INITDB_ROOT_PASSWORD=zhengzongwei
+    networks:
+      - db
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo/data:/data/db
+      - ./mongo/conf:/data/configdb
+
+
+
+    
