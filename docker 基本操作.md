@@ -67,3 +67,14 @@ docker 容器名：路径 本地路径
 ```shell
 ```
 
+a) 创建docker 组
+
+sudo groupadd docker
+
+b) 将当前用户加入docker组
+
+sudo gpasswd -a ubuntu docker
+
+c) 刷新docker组
+
+newgrp docker
