@@ -1,0 +1,102 @@
+## 系统镜像
+
+### centos
+
+```dockerfile
+FROM ubuntu
+MAINTAINER zhengzongwei<zhengzongwei@foxmail.com>
+
+WORKDIR /root
+
+# 更换源
+RUN cp -a /etc/apt/sources.list /etc/apt/sources.list.bak \
+    && sed -i "s@http://.*archive.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list \
+    && sed -i "s@http://.*security.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list \
+    && apt-get -y update \
+    # 
+    && DEBIAN_FRONTEND=noninteractive apt-get -y install tzdata \
+    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/timezone && echo 'Asia/Shanghai' >/etc/timezone \
+    && dpkg-reconfigure -f noninteractive tzdata \
+    # 安装软件
+    && DEBIAN_FRONTEND=noninteractive apt-get -y install vim sudo golang git wget curl
+
+# clean 
+RUN rm -rf /root/var \
+    && rm -rf /var/cache/apt
+
+```
+
+### openeuler
+
+```dockerfile
+FROM openeuler/openeuler:latest
+MAINTAINER zhengzongwei<zhengzongwei@foxmail.com>
+
+WORKDIR /
+
+# RUN dnf update  -y \
+#     dnf install sudo unzip golang gcc g++ git vim tmux -y
+
+# 配置文件
+RUN sed -i "s@TMOUT=300@TMOUT=0@g" /etc/bashrc \
+    && source ~/.bashrc
+
+# clean 
+RUN dnf clean all
+# clean 
+RUN rm -rf /root/var \
+    && rm -rf /var/cache/apt
+
+
+
+# FROM openeuler/openeuler:latest
+# MAINTAINER zhengzongwei<zhengzongwei@foxmail.com>
+
+# WORKDIR /
+
+# RUN dnf update  -y \
+#     dnf install sudo unzip golang gcc g++ git vim tmux -y
+
+# # clean 
+# RUN rm -rf /root/var \
+#     && rm -rf /var/cache/apt
+```
+
+## 应用镜像
+
+### gitea
+
+```dockerfile
+version: "3"
+
+networks:
+  gitea:
+    external: false
+
+services:
+  serveer:
+    image: gitea/gitea:1.17.0
+    container_name: gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    restart: always
+    networks:
+      - gitea
+    volumes:
+      - ./gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3000:3000"
+      - "222:22"
+
+   
+# # Edit `docker-compose.yml` to update the version, if you have one specified
+# Pull new images
+# docker-compose pull
+# Start a new container, automatically removes old one
+# docker-compose up -d
+
+```
+
