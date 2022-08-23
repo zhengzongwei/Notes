@@ -1,6 +1,8 @@
 ## 系统镜像
 
-### centos
+### ubuntu
+
+#### dockerfile
 
 ```dockerfile
 FROM ubuntu
@@ -27,6 +29,8 @@ RUN rm -rf /root/var \
 ```
 
 ### openeuler
+
+#### dockerfile
 
 ```dockerfile
 FROM openeuler/openeuler:latest
@@ -66,6 +70,8 @@ RUN rm -rf /root/var \
 
 ### gitea
 
+#### dockerfile
+
 ```dockerfile
 version: "3"
 
@@ -98,5 +104,44 @@ services:
 # Start a new container, automatically removes old one
 # docker-compose up -d
 
+```
+
+### mariadb
+
+#### dockerfile
+
+```dockerfile
+ARG UBUNTU_VERSION
+
+FROM ubuntu:$UBUNTU_VERSION
+MAINTAINER zhengzongwei<zhengzongwei@foxmail.com>
+
+
+# 更换源
+RUN cp -a /etc/apt/sources.list /etc/apt/sources.list.bak \
+    && sed -i "s@http://.*archive.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list \
+    && sed -i "s@http://.*security.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list \
+    && apt-get -y update \
+    && DEBIAN_FRONTEND=noninteractive apt-get -y install mariadb-server \
+    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/timezone && echo 'Asia/Shanghai' >/etc/timezone
+
+# clean 
+RUN rm -rf /root/var \
+    && rm -rf /var/cache/apt
+
+VOLUME ["/etc/mysql", "/var/lib/mysql"]
+
+EXPOSE 3306
+
+HEALTHCHECK --start-period=5m \
+  CMD mariadb -e 'SELECT @@datadir;' || exit 1
+
+CMD ["mysqld"]
+```
+
+#### 运行命令
+
+```she
+docker build -f ./mariadb.dockerfile  --build-arg UBUNTU_VERSION=22.04 . -t mariadb
 ```
 
