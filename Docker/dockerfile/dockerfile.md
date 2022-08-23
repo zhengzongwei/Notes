@@ -119,15 +119,13 @@ MAINTAINER zhengzongwei<zhengzongwei@foxmail.com>
 
 # 更换源
 RUN cp -a /etc/apt/sources.list /etc/apt/sources.list.bak \
-    && sed -i "s@http://.*archive.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list \
-    && sed -i "s@http://.*security.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list \
+    && sed -i "s@http://.*ports.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list \
+    && sed -i "s@http://.*ports.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list \
     && apt-get -y update \
-    && DEBIAN_FRONTEND=noninteractive apt-get -y install mariadb-server \
-    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/timezone && echo 'Asia/Shanghai' >/etc/timezone
+    && DEBIAN_FRONTEND=noninteractive apt-get -y install mariadb-server
 
-# clean 
-RUN rm -rf /root/var \
-    && rm -rf /var/cache/apt
+
+
 
 VOLUME ["/etc/mysql", "/var/lib/mysql"]
 
@@ -137,11 +135,32 @@ HEALTHCHECK --start-period=5m \
   CMD mariadb -e 'SELECT @@datadir;' || exit 1
 
 CMD ["mysqld"]
+
+
+# docker build -f ./mariadb.dockerfile  --build-arg UBUNTU_VERSION=22.04 . -t mariadb:develop
 ```
 
-#### 运行命令
+#### docker-compose
 
-```she
-docker build -f ./mariadb.dockerfile  --build-arg UBUNTU_VERSION=22.04 . -t mariadb
+```dockerfile
+version: '3.1'
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: "db"
+    restart: always
+    environment:
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "zhengzongwei"
+      MYSQL_ROOT_PASSWORD: "zhengzongwei"
+      TZ: "Asia/Shanghai"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./log:/var/log/mysql
+   # docker-compose up -d
 ```
+
+
 
