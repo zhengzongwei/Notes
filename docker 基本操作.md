@@ -1,5 +1,18 @@
 # docker基本操作
 
+```shell
+# 创建docker 组
+sudo groupadd docker
+
+# 将当前用户加入docker组
+sudo gpasswd -a ubuntu docker
+
+# 刷新docker组
+newgrp docker
+```
+
+
+
 ## 1. docker images
 
 ### 拉取镜像
@@ -26,6 +39,12 @@ docker rm image_id
 ### 镜像导入/导出
 
 ```shell
+# 导出镜像
+docker save d72b5e7fce8f > zentao.tar
+docker save -o image.tar easysoft/zentao:17.6 mariadb:latest
+
+# 导入镜像
+docker load < zentao.tar
 ```
 
 ## 2. docker container
@@ -55,26 +74,11 @@ docker 容器名：路径 本地路径
 ### 容器导入/导出
 
 ```shell
-
+# 导出容器
+docker export d72b5e7fce8f > zentao.tar
+# 导入容器
+docker import - zentao < zentao.tar
 ```
 
-## 3. 备份
+## 3. logs
 
-```shell
-```
-
-## 4. docker compose配置
-```shell
-```
-
-a) 创建docker 组
-
-sudo groupadd docker
-
-b) 将当前用户加入docker组
-
-sudo gpasswd -a ubuntu docker
-
-c) 刷新docker组
-
-newgrp docker

@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+  mariadb:
+    image: mariadb:10.9.2
+    container_name: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: zhengzongwei
+      MYSQL_USER: zhengzongwei
+      MYSQL_PASSWORD: zhengzongwei
+      TZ: Asia/Shanghai
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./log:/var/log/mysql
+  
+  postgres:
+    image: postgres:14.5
+    container_name: postgres
+    environment:
+      POSTGRES_USER: zhengzongwei #在此填写postgres的用户名
+      POSTGRES_DB: postgres #在此填写postgres的数据库名，默认是postgres
+      POSTGRES_PASSWORD: zhengzongwei #在此填写posgres的数据库密码
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
