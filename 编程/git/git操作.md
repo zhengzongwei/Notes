@@ -42,8 +42,10 @@ git rebase --continue
 
 git push -f
 
-       http://172.16.99.4/openstack/python-eagleclient/merge_requests/66
-
-
 ```
 
+
+
+## 同步现有仓库到远程仓库
+
+待补充 
