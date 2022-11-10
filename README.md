@@ -1,7 +1,6 @@
 ```she
-.
+
 ├── README.md
-├── tree.txt
 ├── 硬件
 │   ├── K2 键盘.md
 │   ├── images
