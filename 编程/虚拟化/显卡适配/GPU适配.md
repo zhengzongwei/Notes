@@ -20,3 +20,30 @@
 
 
 
+```shell
+
+
+    <hostdev mode='subsystem' type='mdev' managed='yes' model='vfio-pci' display='off'>
+      <source>
+        <address uuid='3d355e58-8744-4fc3-8bfb-7001648b4a9a'/>
+      </source>
+      <alias name='hostdev0'/>
+    </hostdev>
+
+    <hostdev mode='subsystem' type='mdev' managed='yes' model='vfio-pci' display='off'>
+      <source>
+        <address uuid='3d8cebfd-7d49-48d7-b2b2-285387d775ad'/>
+      </source>
+    </hostdev>
+
+0fd6c6e9-b590-409a-b4b7-d22a733cb67e
+
+3d8cebfd-7d49-48d7-b2b2-285387d775ad
+
+3d355e58-8744-4fc3-8bfb-7001648b4a9a
+```
+
+
+
+
+
