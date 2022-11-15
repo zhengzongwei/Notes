@@ -21,26 +21,18 @@
 
 
 ```shell
-
-
-    <hostdev mode='subsystem' type='mdev' managed='yes' model='vfio-pci' display='off'>
-      <source>
-        <address uuid='3d355e58-8744-4fc3-8bfb-7001648b4a9a'/>
-      </source>
-      <alias name='hostdev0'/>
-    </hostdev>
-
-    <hostdev mode='subsystem' type='mdev' managed='yes' model='vfio-pci' display='off'>
-      <source>
-        <address uuid='3d8cebfd-7d49-48d7-b2b2-285387d775ad'/>
-      </source>
-    </hostdev>
-
-0fd6c6e9-b590-409a-b4b7-d22a733cb67e
-
-3d8cebfd-7d49-48d7-b2b2-285387d775ad
-
-3d355e58-8744-4fc3-8bfb-7001648b4a9a
+# NVIDIA MDEV
+<hostdev mode='subsystem' type='mdev' managed='yes' model='vfio-pci' display='on'>
+	<source>
+		<address uuid='ecb554b7-778f-46a9-b18c-0d7e327e51ed'/>
+	</source>
+</hostdev>
+# 直通方式
+<hostdev mode='subsystem' type='pci' managed='yes'>
+  <source>
+    <address domain='0x0' bus='0x5e' slot='0x00' function='0x0'/>
+  </source>
+</hostdev>
 ```
 
 
