@@ -119,3 +119,12 @@ git push github master
 方法一在 push 的时候比较方便。但是在 pull 的时候只能从方法一中的第一个 url 地址拉取代码。而方法二则不存在这种问题（可能要解决冲突）。
 所以，如果只进行 push 操作，推荐方法一，如果也要进行 pull 操作，推荐方法二。
 
+
+### git 配置
+
+```shell
+ git config #查看本机是否配置了个人信息
+ git config --global user.name "……" #定义全局的用户名
+ git config --global user.email "……" #定义全局的邮件地址
+ git config --list #查看配置信息
+```
