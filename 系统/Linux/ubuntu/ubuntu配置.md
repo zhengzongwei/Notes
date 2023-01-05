@@ -11,8 +11,12 @@
 2. 修改配置文件
 
    ```shell
+   # x86_64
    sudo sed -i "s@http://.*archive.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list
    sudo sed -i "s@http://.*security.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list
+   
+   # aarch64
+   sudo sed -i 's@//.*ports.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list
    ```
 
 3. 更新索引
@@ -20,7 +24,6 @@
    ```shell
    apt-get update
    ```
-
 
 
 
