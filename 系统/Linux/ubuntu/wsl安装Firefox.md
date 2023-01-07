@@ -26,14 +26,28 @@ Pin-Priority: 1001
 ' | sudo tee /etc/apt/preferences.d/mozilla-firefox
 ```
 
-### 4. 配置自动升级
+### 4.配置自动升级
 
 ```shell
 echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox
 ```
 
-### 5. 安装firefox
+### 5.安装firefox
 
 ```shell
 sudo apt install firefox
+```
+
+### 6.设置中文字符集
+
+```
+vim /etc/default/locale
+LANG=zh_CN.UTF-8
+LANGUAGE=zh_CN:zh
+```
+
+### 7.安装中文字体
+
+```shell
+sudo apt install ttf-wqy-microhei
 ```
