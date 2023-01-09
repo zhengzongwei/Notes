@@ -1,7 +1,7 @@
 #! /bin/bash
 
 
-cat << EOF > README.md
+cat << EOF > ReadMe.md
 \`\`\`shell
 ```
 tree
