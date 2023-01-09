@@ -1,10 +1,11 @@
 #! /bin/bash
 
-cat << EOF > ReadMe.md
-\`\`\`shell
-```
-tree
-```
-\`\`\`
-EOF
+echo "test actions"
+#cat << EOF > ReadMe.md
+#\`\`\`shell
+#```
+#tree
+#```
+#\`\`\`
+#EOF
 
