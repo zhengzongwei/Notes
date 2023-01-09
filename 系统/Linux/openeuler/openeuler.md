@@ -21,3 +21,59 @@ dnf -y upgrade --downloadonly --downloaddir=.
 ```shell
 dnf install rpmdevtools*
 ```
+
+## 环境初始化
+
+```shell
+#!/usr/bin/env bash
+# 环境初始化设置
+
+USER_LIST=("zhengzongwei" "nieantai" "hujinyong")
+
+msg() {
+  printf '%b\n' "$1" >&2
+}
+
+tips() {
+  msg "\33[36m[*]\33[0m ${1}${2}"
+}
+
+success() {
+  msg "\33[32m[✔]\33[0m ${1}${2}"
+}
+
+error() {
+  msg "\33[31m[✘]\33[0m ${1}${2}"
+  exit 1
+}
+
+create_user(){
+  for USER in ${USER_LIST[*]};do
+    tips "create user ${USER}"
+
+    useradd -d /home/$USER -s /bin/bash -m $USER
+    echo "$USER:$USER" | chpasswd
+    success "create user ${USER} success!"
+  done
+
+}
+
+add_docker_group(){
+    for USER in ${USER_LIST[*]};do
+        tips "add user ${USER} to docker group"
+        gpasswd -a $USER docker
+        success "add user ${USER} to docker group success!"
+    done
+    newgrp docker
+}
+
+main(){
+    create_user
+    add_docker_group
+}
+
+main
+
+
+```
+
