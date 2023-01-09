@@ -9,7 +9,7 @@ jobs:
     steps:
 
     - name: GENERATE_README
-      run: bash ./install.sh
+      run: bash ./gen.sh
     - name: Commit changes
       uses: EndBug/add-and-commit@v4
       with:
