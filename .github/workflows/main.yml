@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: GENERATE_README
-      run: bash ./install.sh
+      run: bash ${PATH}/install.sh
 
     - name: Commit changes
       uses: EndBug/add-and-commit@v4
