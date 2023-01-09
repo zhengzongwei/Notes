@@ -2,12 +2,13 @@ name: update-readme
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
     - name: GENERATE_README
       run: bash ./gen.sh
     - name: Commit changes
