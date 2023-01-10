@@ -29,7 +29,7 @@ swapoff -a
 
 ```
 
-vi /etc/fstab 注释swap行![img](../../../注释swap行.png)
+vi /etc/fstab 注释swap行![注释swap行](./images/注释swap行.png)
 
 ### 4. 修改内核参数和模块
 
