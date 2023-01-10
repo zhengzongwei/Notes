@@ -3,6 +3,7 @@
 ├── LICENSE
 ├── ReadMe.md
 ├── gen.sh
+├── 注释swap行.png
 ├── 硬件
 │   ├── K2 键盘.md
 │   ├── ikbc w210.pdf
@@ -89,7 +90,9 @@
 │   │   │   ├── dockerfile.md
 │   │   │   ├── gitea.yml
 │   │   │   └── openeuler.dockerfile
-│   │   └── gitea.md
+│   │   ├── gitea.md
+│   │   └── k8s
+│   │       └── k8s环境部署.md
 │   └── 虚拟化
 │       ├── KVM
 │       │   └── windows
@@ -122,5 +125,5 @@
         │   └── image-20221113182232347.png
         └── virtual studio.md
 
-44 directories, 77 files
+45 directories, 79 files
 ```
