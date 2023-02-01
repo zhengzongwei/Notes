@@ -49,6 +49,15 @@ GATEWAY=gw-ip` 或者 `GATEWAY=gw-dev
 
 # 设置静态路由
 any net x.x.x.x/24 gw y.y.y.y
-————————————————
-版权声明：本文为CSDN博主「fustcyasdy」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/weixin_42419762/article/details/115383588
+
+
+## 操作
+
+
+```shell
+# 删除默认网关
+route del default gw 
+
+# 添加默认网关
+route add default gw 192.168.20.1
+```
