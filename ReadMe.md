@@ -15,6 +15,8 @@
 │       ├── centos
 │       │   ├── centos7 命令配置系统.md
 │       │   └── 挂载ISO镜像作为本地yum源.md
+│       ├── debian
+│       │   └── debian安装指南.md
 │       ├── openeuler
 │       │   ├── mariadb-connector-c
 │       │   │   └── spec.md
@@ -126,5 +128,5 @@
         │   └── image-20221113182232347.png
         └── virtual studio.md
 
-46 directories, 79 files
+47 directories, 80 files
 ```
