@@ -21,11 +21,9 @@
 │       │   ├── mariadb-connector-c
 │       │   │   └── spec.md
 │       │   └── openeuler.md
-│       ├── ubuntu
-│       │   ├── ubuntu配置.md
-│       │   └── wsl安装Firefox.md
-│       ├── wget.md
-│       └── 云主机配置.md
+│       └── ubuntu
+│           ├── ubuntu配置.md
+│           └── wsl安装Firefox.md
 ├── 编程
 │   ├── 前端开发
 │   │   └── js
@@ -98,8 +96,9 @@
 │   │       └── k8s环境部署.md
 │   └── 虚拟化
 │       ├── KVM
-│       │   └── windows
-│       │       └── windows 根盘扩容.md
+│       │   ├── windows
+│       │   │   └── windows 根盘扩容.md
+│       │   └── 云主机配置.md
 │       ├── openstack
 │       │   ├── OpenStack Client.md
 │       │   └── OpenStack.md
@@ -128,5 +127,5 @@
         │   └── image-20221113182232347.png
         └── virtual studio.md
 
-47 directories, 80 files
+47 directories, 79 files
 ```
