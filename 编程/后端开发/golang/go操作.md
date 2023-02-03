@@ -4,10 +4,6 @@
 
 ### 1.1 基本的IO接口
 
-
-
-
-
 ## 2. 字符串操作
 
 字符串常见操作
@@ -28,7 +24,7 @@
 
 ### 2.1 字符串比较
 
--  Compare 
+- Compare
 
   ```go
   // Compare 函数，用于比较两个字符串的大小，如果两个字符串相等，返回为 0。如果 a 小于 b ，返回 -1 ，反之返回 1 。不推荐使用这个函数，直接使用 == != > < >= <= 等一系列运算符更加直观。
@@ -36,14 +32,13 @@
   
   ```
 
-- EqualFold 
+- EqualFold
 
   ```go
   // //   EqualFold 函数，计算 s 与 t 忽略字母大小写后是否相等。
   func EqualFold(s, t string) bool
   
   ```
-
 
 ### 2.2 是否存在某个字符或字串
 
@@ -71,7 +66,6 @@
   	a :=strings.ContainsRune(name, ' ')
   	fmt.Printf("%v", a)
   ```
-
 
 ### 2.3 子串出现次数 ( 字符串匹配 )
 
@@ -108,7 +102,7 @@ fmt.Printf("%q\n", strings.Split(" xyz ", "")) // [" " "x" "y" "z" " "]
 fmt.Printf("%q\n", strings.Split("", "Bernardo O'Higgins")) // [""]
 ```
 
-### 	2.5 字符串是否有某个前缀或后缀
+### 2.5 字符串是否有某个前缀或后缀
 
 - HasPrefix
 
@@ -367,4 +361,3 @@ fmt.Println(b.String())
 164
 7夕Hello, World你好，世界
 ```
-

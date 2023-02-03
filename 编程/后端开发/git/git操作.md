@@ -2,8 +2,6 @@
 
 ## 分支
 
-
-
 ## 工作暂存
 
 ```shell
@@ -28,8 +26,6 @@ git stash clear
 
 ```
 
-
-
 ## 解决冲突
 
 ```shell
@@ -48,24 +44,21 @@ git push -f
 
 ```
 
-
-
 ## 同步现有仓库到远程仓库
 
 ### 方法一
 
 添加第一个仓库
 
-git remote add origin https://gitee.com/fsoooo/test.git
+git remote add origin <https://gitee.com/fsoooo/test.git>
 
 再添加第二个仓库
 
-git remote set-url --add origin https://github.com/fsooo/test.git
+git remote set-url --add origin <https://github.com/fsooo/test.git>
 
 如果还有其他，则可以像添加第二个一样继续添加其他仓库。
 
-然后使用下面命令提交：
-		git push origin --all
+然后使用下面命令提交：`git push origin --all`
 
 ### 方法二
 
@@ -118,7 +111,6 @@ git push github master
 
 方法一在 push 的时候比较方便。但是在 pull 的时候只能从方法一中的第一个 url 地址拉取代码。而方法二则不存在这种问题（可能要解决冲突）。
 所以，如果只进行 push 操作，推荐方法一，如果也要进行 pull 操作，推荐方法二。
-
 
 ### git 配置
 

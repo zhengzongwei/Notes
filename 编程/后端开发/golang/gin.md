@@ -1,4 +1,3 @@
- 
 
 # Gin
 
@@ -14,17 +13,13 @@ mkdir web-app
 go mod init
 ```
 
-
-
 ## 安装 gin
 
 ```go
 go get github.com/gin-gonic/gin
 ```
 
-
-
-##  创建
+## 创建
 
 ```go
 package main
@@ -45,4 +40,3 @@ func main() {
 	}
 }
 ```
-

@@ -16,7 +16,7 @@ sudo nova-rootwrap /etc/nova/rootwrap.conf chmod 202 /sys/class/mdev_bus/0000:5e
 |  break 或 b    |     设置断点 |
 |  continue 或 c |     继续执行程序 |
 |  list 或 l     |     查看当前行的代码段 |
-|  step 或 s   |     	进入函数 	|
+|  step 或 s   |       进入函数 |
 |  return 或 r   |     执行代码直到从当前函数返回 |
 |  exit 或 q     |     中止并退出 |
 |  next 或 n     |     执行下一行 |

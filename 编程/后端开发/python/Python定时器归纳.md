@@ -27,19 +27,11 @@ if __name__ == '__main__':
 
 ```
 
-
-
-
-
-
-
 ```shell
 {
     "message": null,
     "code": 0,
     "data": [
-    
-	]
+    ]
 }
 ```
-
