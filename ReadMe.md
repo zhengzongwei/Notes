@@ -28,7 +28,8 @@
 │       │   ├── arch (bios)
 │       │   │   └── images
 │       │   │       └── arch-0204-2023-02-04-21-00-09.png
-│       │   └── arch (bios).md
+│       │   ├── arch (bios).md
+│       │   └── arch 系统安装.md
 │       ├── centos
 │       │   ├── centos7 命令配置系统.md
 │       │   └── 挂载ISO镜像作为本地yum源.md
@@ -54,7 +55,6 @@
 │   │   │   └── git操作.md
 │   │   ├── golang
 │   │   │   ├── gin.md
-│   │   │   ├── gin项目.md
 │   │   │   ├── go操作.md
 │   │   │   └── go规范.md
 │   │   ├── python
