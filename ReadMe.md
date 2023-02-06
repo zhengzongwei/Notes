@@ -129,6 +129,7 @@
     │   └── iterm2.json
     ├── mac_config
     │   ├── Brewfile
+    │   ├── homebrew.md
     │   └── install.sh
     ├── msys2
     │   └── 环境配置.md
@@ -144,5 +145,5 @@
         │   └── image-20221113182232347.png
         └── virtual studio.md
 
-52 directories, 91 files
+52 directories, 92 files
 ```
