@@ -10,38 +10,39 @@
 │   │   └── 烧录系统.png
 │   └── 树莓派安装openueler.md
 ├── 系统
-│   └── Linux
-│       ├── Linux 双网卡服务器选择默认路由.md
-│       ├── arch
-│       │   ├── arch
-│       │   │   └── images
-│       │   │       ├── arch-2023-02-04-12-22-24.png
-│       │   │       ├── arch-2023-02-04-12-25-00.png
-│       │   │       ├── arch-2023-02-04-16-04-59.png
-│       │   │       ├── arch-2023-02-04-16-20-27.png
-│       │   │       ├── arch-2023-02-04-16-21-56.png
-│       │   │       ├── arch-2023-02-04-16-25-41-1675499259666-7.png
-│       │   │       ├── arch-2023-02-04-16-25-41.png
-│       │   │       ├── arch-2023-02-04-16-27-31.png
-│       │   │       ├── arch-2023-02-04-16-33-07.png
-│       │   │       └── image-20230204161742384.png
-│       │   ├── arch (bios)
-│       │   │   └── images
-│       │   │       └── arch-0204-2023-02-04-21-00-09.png
-│       │   ├── arch (bios).md
-│       │   └── arch 系统安装.md
-│       ├── centos
-│       │   ├── centos7 命令配置系统.md
-│       │   └── 挂载ISO镜像作为本地yum源.md
-│       ├── debian
-│       │   └── debian安装指南.md
-│       ├── openeuler
-│       │   ├── mariadb-connector-c
-│       │   │   └── spec.md
-│       │   └── openeuler.md
-│       └── ubuntu
-│           ├── ubuntu配置.md
-│           └── wsl安装Firefox.md
+│   ├── Linux
+│   │   ├── Linux 双网卡服务器选择默认路由.md
+│   │   ├── arch
+│   │   │   ├── arch
+│   │   │   │   └── images
+│   │   │   │       ├── arch-2023-02-04-12-22-24.png
+│   │   │   │       ├── arch-2023-02-04-12-25-00.png
+│   │   │   │       ├── arch-2023-02-04-16-04-59.png
+│   │   │   │       ├── arch-2023-02-04-16-20-27.png
+│   │   │   │       ├── arch-2023-02-04-16-21-56.png
+│   │   │   │       ├── arch-2023-02-04-16-25-41-1675499259666-7.png
+│   │   │   │       ├── arch-2023-02-04-16-25-41.png
+│   │   │   │       ├── arch-2023-02-04-16-27-31.png
+│   │   │   │       ├── arch-2023-02-04-16-33-07.png
+│   │   │   │       └── image-20230204161742384.png
+│   │   │   ├── arch (bios)
+│   │   │   │   └── images
+│   │   │   │       └── arch-0204-2023-02-04-21-00-09.png
+│   │   │   ├── arch (bios).md
+│   │   │   └── arch 系统安装.md
+│   │   ├── centos
+│   │   │   ├── centos7 命令配置系统.md
+│   │   │   └── 挂载ISO镜像作为本地yum源.md
+│   │   ├── debian
+│   │   │   └── debian安装指南.md
+│   │   ├── openeuler
+│   │   │   ├── mariadb-connector-c
+│   │   │   │   └── spec.md
+│   │   │   └── openeuler.md
+│   │   └── ubuntu
+│   │       ├── ubuntu配置.md
+│   │       └── wsl安装Firefox.md
+│   └── system_config.sh
 ├── 编程
 │   ├── 前端开发
 │   │   └── js
@@ -145,5 +146,5 @@
         │   └── image-20221113182232347.png
         └── virtual studio.md
 
-52 directories, 92 files
+52 directories, 93 files
 ```
