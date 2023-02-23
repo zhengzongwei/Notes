@@ -15,7 +15,7 @@ networks:
 
 services:
   serveer:
-    image: gitea/gitea:1.17.3
+    image: gitea/gitea:1.18.3
     container_name: gitea
     environment:
       - USER_UID=1000
@@ -24,12 +24,12 @@ services:
     networks:
       - gitea
     volumes:
-      - ./gitea:/data
+      - ./data:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - "9527:9527"
-      - "222:22"
+      - "9527:3000"
+      - "9528:22"
 ```
 
 

@@ -56,7 +56,3 @@ Device 'wlan0' successfully activated with '9c711295-efe2-444a-adc2-de2071503dab
 nmcli connection show 
 ```
 
-
-
-
-
