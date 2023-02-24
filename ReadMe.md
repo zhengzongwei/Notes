@@ -131,6 +131,7 @@
     ├── mac_config
     │   ├── Brewfile
     │   ├── homebrew.md
+    │   ├── init_mac.sh
     │   └── install.sh
     ├── msys2
     │   └── 环境配置.md
@@ -146,5 +147,5 @@
         │   └── image-20221113182232347.png
         └── virtual studio.md
 
-52 directories, 93 files
+52 directories, 94 files
 ```
