@@ -120,3 +120,12 @@ git push github master
  git config --global user.email "……" #定义全局的邮件地址
  git config --list #查看配置信息
 ```
+
+
+
+### 修改已提交用户的账户名
+
+```
+git commit --amend --reset-author
+```
+
