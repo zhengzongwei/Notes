@@ -128,7 +128,8 @@
 │               └── image-20221108180806277-8046578.png
 └── 软件配置
     ├── iterm2
-    │   └── iterm2.json
+    │   ├── iterm2.json
+    │   └── iterm2配置.md
     ├── mac_config
     │   ├── Brewfile
     │   ├── homebrew.md
@@ -148,5 +149,5 @@
         │   └── image-20221113182232347.png
         └── virtual studio.md
 
-52 directories, 95 files
+52 directories, 96 files
 ```
