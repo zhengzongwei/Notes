@@ -143,11 +143,13 @@
     │   └── tmux.md
     ├── vim
     │   └── vim.md
-    └── virtual studio
-        ├── images
-        │   ├── image-20221113181839739.png
-        │   └── image-20221113182232347.png
-        └── virtual studio.md
+    ├── virtual studio
+    │   ├── images
+    │   │   ├── image-20221113181839739.png
+    │   │   └── image-20221113182232347.png
+    │   └── virtual studio.md
+    └── zsh
+        └── zsh.md
 
-52 directories, 96 files
+53 directories, 97 files
 ```
