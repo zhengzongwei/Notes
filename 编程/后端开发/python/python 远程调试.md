@@ -7,8 +7,6 @@ from remote_pdb import RemotePdb;RemotePdb('127.0.0.1', 14444).set_trace()
 
 # 项目启动之后，在终端使用socat进入调试模式，使用Ctrl+C退出调试模式
 socat readline tcp:127.0.0.1:14444
-
-sudo nova-rootwrap /etc/nova/rootwrap.conf chmod 202 /sys/class/mdev_bus/0000:5e:01.4/mdev_supported_types/nvidia-588/create && echo 0726b12b-5c6a-4c0b-b942-baed76152158 > /sys/class/mdev_bus/0000:5e:01.4/mdev_supported_types/nvidia-588/create
 ```
 
 |  命令           |     说明    |
