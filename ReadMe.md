@@ -1,49 +1,6 @@
 ```shell
 .
-├── LICENSE
-├── ReadMe.md
-├── gen.sh
-├── 硬件
-│   ├── K2 键盘.md
-│   ├── ikbc w210.pdf
-│   ├── images
-│   │   └── 烧录系统.png
-│   └── 树莓派安装openueler.md
-├── 系统
-│   ├── Linux
-│   │   ├── Linux 双网卡服务器选择默认路由.md
-│   │   ├── arch
-│   │   │   ├── arch
-│   │   │   │   └── images
-│   │   │   │       ├── arch-2023-02-04-12-22-24.png
-│   │   │   │       ├── arch-2023-02-04-12-25-00.png
-│   │   │   │       ├── arch-2023-02-04-16-04-59.png
-│   │   │   │       ├── arch-2023-02-04-16-20-27.png
-│   │   │   │       ├── arch-2023-02-04-16-21-56.png
-│   │   │   │       ├── arch-2023-02-04-16-25-41-1675499259666-7.png
-│   │   │   │       ├── arch-2023-02-04-16-25-41.png
-│   │   │   │       ├── arch-2023-02-04-16-27-31.png
-│   │   │   │       ├── arch-2023-02-04-16-33-07.png
-│   │   │   │       └── image-20230204161742384.png
-│   │   │   ├── arch (bios)
-│   │   │   │   └── images
-│   │   │   │       └── arch-0204-2023-02-04-21-00-09.png
-│   │   │   ├── arch (bios).md
-│   │   │   └── arch 系统安装.md
-│   │   ├── centos
-│   │   │   ├── centos7 命令配置系统.md
-│   │   │   └── 挂载ISO镜像作为本地yum源.md
-│   │   ├── debian
-│   │   │   └── debian安装指南.md
-│   │   ├── openeuler
-│   │   │   ├── mariadb-connector-c
-│   │   │   │   └── spec.md
-│   │   │   └── openeuler.md
-│   │   └── ubuntu
-│   │       ├── ubuntu配置.md
-│   │       └── wsl安装Firefox.md
-│   └── system_config.sh
-├── 编程
+├── 00-编程
 │   ├── 前端开发
 │   │   └── js
 │   │       ├── js.md
@@ -120,36 +77,82 @@
 │       │   └── 云主机配置.md
 │       ├── openstack
 │       │   ├── OpenStack Client.md
-│       │   └── OpenStack.md
+│       │   ├── OpenStack.md
+│       │   ├── nova
+│       │   │   └── nova基础知识.md
+│       │   └── 环境搭建.md
 │       └── 显卡适配
 │           ├── GPU适配.md
 │           ├── deployment-guide-vgpu-Ampere-GPU.pdf
 │           └── images
 │               └── image-20221108180806277-8046578.png
-└── 软件配置
-    ├── iterm2
-    │   ├── iterm2.json
-    │   └── iterm2配置.md
-    ├── mac_config
-    │   ├── Brewfile
-    │   ├── homebrew.md
-    │   ├── init_mac.sh
-    │   └── install.sh
-    ├── msys2
-    │   └── 环境配置.md
-    ├── tmux
-    │   ├── tmux.conf
-    │   ├── tmux.conf.md
-    │   └── tmux.md
-    ├── vim
-    │   └── vim.md
-    ├── virtual studio
-    │   ├── images
-    │   │   ├── image-20221113181839739.png
-    │   │   └── image-20221113182232347.png
-    │   └── virtual studio.md
-    └── zsh
-        └── zsh.md
+├── 01-系统
+│   ├── Linux
+│   │   ├── Linux 双网卡服务器选择默认路由.md
+│   │   ├── arch
+│   │   │   ├── arch
+│   │   │   │   └── images
+│   │   │   │       ├── arch-2023-02-04-12-22-24.png
+│   │   │   │       ├── arch-2023-02-04-12-25-00.png
+│   │   │   │       ├── arch-2023-02-04-16-04-59.png
+│   │   │   │       ├── arch-2023-02-04-16-20-27.png
+│   │   │   │       ├── arch-2023-02-04-16-21-56.png
+│   │   │   │       ├── arch-2023-02-04-16-25-41-1675499259666-7.png
+│   │   │   │       ├── arch-2023-02-04-16-25-41.png
+│   │   │   │       ├── arch-2023-02-04-16-27-31.png
+│   │   │   │       ├── arch-2023-02-04-16-33-07.png
+│   │   │   │       └── image-20230204161742384.png
+│   │   │   ├── arch (bios)
+│   │   │   │   └── images
+│   │   │   │       └── arch-0204-2023-02-04-21-00-09.png
+│   │   │   ├── arch (bios).md
+│   │   │   └── arch 系统安装.md
+│   │   ├── centos
+│   │   │   ├── centos7 命令配置系统.md
+│   │   │   └── 挂载ISO镜像作为本地yum源.md
+│   │   ├── debian
+│   │   │   └── debian安装指南.md
+│   │   ├── openeuler
+│   │   │   ├── mariadb-connector-c
+│   │   │   │   └── spec.md
+│   │   │   └── openeuler.md
+│   │   └── ubuntu
+│   │       ├── ubuntu配置.md
+│   │       └── wsl安装Firefox.md
+│   └── system_config.sh
+├── 02-硬件
+│   ├── K2 键盘.md
+│   ├── ikbc w210.pdf
+│   ├── images
+│   │   └── 烧录系统.png
+│   └── 树莓派安装openueler.md
+├── 03-软件
+│   ├── iterm2
+│   │   ├── iterm2.json
+│   │   └── iterm2配置.md
+│   ├── mac_config
+│   │   ├── Brewfile
+│   │   ├── homebrew.md
+│   │   ├── init_mac.sh
+│   │   └── install.sh
+│   ├── msys2
+│   │   └── 环境配置.md
+│   ├── tmux
+│   │   ├── tmux.conf
+│   │   ├── tmux.conf.md
+│   │   └── tmux.md
+│   ├── vim
+│   │   └── vim.md
+│   ├── virtual studio
+│   │   ├── images
+│   │   │   ├── image-20221113181839739.png
+│   │   │   └── image-20221113182232347.png
+│   │   └── virtual studio.md
+│   └── zsh
+│       └── zsh.md
+├── LICENSE
+├── ReadMe.md
+└── gen.sh
 
-53 directories, 97 files
+54 directories, 99 files
 ```
