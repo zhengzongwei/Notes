@@ -119,7 +119,9 @@
 │   │   └── ubuntu
 │   │       ├── ubuntu配置.md
 │   │       └── wsl安装Firefox.md
-│   └── system_config.sh
+│   ├── system_config.sh
+│   └── windwos
+│       └── windwos11 跳过TPM检查.md
 ├── 02-硬件
 │   ├── K2 键盘.md
 │   ├── ikbc w210.pdf
@@ -154,5 +156,5 @@
 ├── ReadMe.md
 └── gen.sh
 
-54 directories, 99 files
+55 directories, 100 files
 ```
