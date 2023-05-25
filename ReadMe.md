@@ -75,9 +75,13 @@
 │       │   ├── windows
 │       │   │   └── windows 根盘扩容.md
 │       │   └── 云主机配置.md
+│       ├── Libvirt XML.md
 │       ├── openstack
 │       │   ├── OpenStack Client.md
 │       │   ├── OpenStack.md
+│       │   ├── neutron
+│       │   │   ├── 基础概念.md
+│       │   │   └── 源码学习.md
 │       │   ├── nova
 │       │   │   └── nova基础知识.md
 │       │   └── 环境搭建.md
@@ -119,6 +123,12 @@
 │   │   └── ubuntu
 │   │       ├── ubuntu配置.md
 │   │       └── wsl安装Firefox.md
+│   ├── Macos
+│   │   └── mac_config
+│   │       ├── Brewfile
+│   │       ├── homebrew.md
+│   │       ├── init_mac.sh
+│   │       └── install.sh
 │   ├── system_config.sh
 │   └── windwos
 │       └── windwos11 跳过TPM检查.md
@@ -129,32 +139,28 @@
 │   │   └── 烧录系统.png
 │   └── 树莓派安装openueler.md
 ├── 03-软件
-│   ├── iterm2
-│   │   ├── iterm2.json
-│   │   └── iterm2配置.md
-│   ├── mac_config
-│   │   ├── Brewfile
-│   │   ├── homebrew.md
-│   │   ├── init_mac.sh
-│   │   └── install.sh
-│   ├── msys2
-│   │   └── 环境配置.md
-│   ├── tmux
-│   │   ├── tmux.conf
-│   │   ├── tmux.conf.md
-│   │   └── tmux.md
 │   ├── vim
 │   │   └── vim.md
-│   ├── virtual studio
-│   │   ├── images
-│   │   │   ├── image-20221113181839739.png
-│   │   │   └── image-20221113182232347.png
-│   │   └── virtual studio.md
-│   └── zsh
-│       └── zsh.md
+│   └── 软件配置
+│       ├── iterm2
+│       │   ├── iterm2.json
+│       │   └── iterm2配置.md
+│       ├── msys2
+│       │   └── 环境配置.md
+│       ├── tmux
+│       │   ├── tmux.conf
+│       │   ├── tmux.conf.md
+│       │   └── tmux.md
+│       ├── virtual studio
+│       │   ├── images
+│       │   │   ├── image-20221113181839739.png
+│       │   │   └── image-20221113182232347.png
+│       │   └── virtual studio.md
+│       └── zsh
+│           └── zsh.md
 ├── LICENSE
 ├── ReadMe.md
 └── gen.sh
 
-55 directories, 100 files
+58 directories, 103 files
 ```
