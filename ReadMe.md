@@ -140,6 +140,8 @@
 │   └── 树莓派安装openueler.md
 ├── 03-软件
 │   ├── vim
+│   │   ├── images
+│   │   │   └── vim键盘图.webp
 │   │   └── vim.md
 │   └── 软件配置
 │       ├── iterm2
@@ -162,5 +164,5 @@
 ├── ReadMe.md
 └── gen.sh
 
-58 directories, 103 files
+59 directories, 104 files
 ```
