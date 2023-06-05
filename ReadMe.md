@@ -84,7 +84,9 @@
 │       │   │   └── 源码学习.md
 │       │   ├── nova
 │       │   │   └── nova基础知识.md
-│       │   └── 环境搭建.md
+│       │   ├── 环境搭建.md
+│       │   └── 部署
+│       │       └── Kolla-ansible部署.md
 │       └── 显卡适配
 │           ├── GPU适配.md
 │           ├── deployment-guide-vgpu-Ampere-GPU.pdf
@@ -164,5 +166,5 @@
 ├── ReadMe.md
 └── gen.sh
 
-59 directories, 104 files
+60 directories, 105 files
 ```
