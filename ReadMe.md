@@ -141,6 +141,8 @@
 │   │   └── 烧录系统.png
 │   └── 树莓派安装openueler.md
 ├── 03-软件
+│   ├── tmux
+│   │   └── tmux.md
 │   ├── vim
 │   │   ├── images
 │   │   │   └── vim键盘图.webp
@@ -166,5 +168,5 @@
 ├── ReadMe.md
 └── gen.sh
 
-60 directories, 105 files
+61 directories, 106 files
 ```
