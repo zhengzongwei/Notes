@@ -122,9 +122,10 @@
 │   │   │   ├── mariadb-connector-c
 │   │   │   │   └── spec.md
 │   │   │   └── openeuler.md
-│   │   └── ubuntu
-│   │       ├── ubuntu配置.md
-│   │       └── wsl安装Firefox.md
+│   │   ├── ubuntu
+│   │   │   ├── ubuntu配置.md
+│   │   │   └── wsl安装Firefox.md
+│   │   └── vscode 不能使用remote ssh连接.md
 │   ├── Macos
 │   │   └── mac_config
 │   │       ├── Brewfile
@@ -168,5 +169,5 @@
 ├── ReadMe.md
 └── gen.sh
 
-61 directories, 106 files
+61 directories, 107 files
 ```
