@@ -153,3 +153,16 @@ vim /etc/hosts
 
 
 
+rpm -e libguestfs-tools-c-1.40.2-10.el7.x86_64 libguestfs-tools-1.40.2-10.el7.noarch libguestfs-1.40.2-10.el7.x86_64 perl-Sys-Guestfs-1:1.40.2-10.el7.x86_64 libguestfs-winsupport-7.2-3.el7.x86_64
+
+
+
+ yum localinstall libguestfs-1.32.7-3.el7.centos.x86_64.rpm libguestfs-tools-1.32.7-3.el7.centos.noarch.rpm libguestfs-tools-c-1.32.7-3.el7.centos.x86_64.rpm
+
+
+
+yum install libguestfs-winsupport
+
+
+
+yum install redhat-lsb-core yum-plugin-priorities yum-plugin-fastestmirror kexec-tools redis libcgroup libcgroup-tools libxslt-devel ntfs-3g libguestfs-tools libguestfs libguestfs-tools-c libguestfs-winsupport abrt-addon-python cloud-client python-cloudadmin kvmdiskstat kvmloadstat kvmnetstat elfin-host elfin-proxy tuneTHP ntfsprogs mysql-libs --exclude=libvirt*
