@@ -132,6 +132,7 @@
 │   │       ├── homebrew.md
 │   │       ├── init_mac.sh
 │   │       └── install.sh
+│   ├── pipconf.sh
 │   ├── system_config.sh
 │   └── windwos
 │       └── windwos11 跳过TPM检查.md
@@ -169,5 +170,5 @@
 ├── ReadMe.md
 └── gen.sh
 
-61 directories, 107 files
+61 directories, 108 files
 ```
