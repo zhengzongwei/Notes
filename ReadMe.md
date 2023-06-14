@@ -1,14 +1,85 @@
 ```shell
 .
-├── 00-编程
+├── 00-系统
+│   ├── 操作系统
+│   │   ├── Linux
+│   │   │   ├── 环境配置
+│   │   │   │   ├── Linux 双网卡服务器选择默认路由.md
+│   │   │   │   ├── openeuler
+│   │   │   │   │   ├── mariadb-connector-c
+│   │   │   │   │   │   └── spec.md
+│   │   │   │   │   └── openeuler.md
+│   │   │   │   ├── ubuntu
+│   │   │   │   │   ├── ubuntu配置.md
+│   │   │   │   │   └── wsl安装Firefox.md
+│   │   │   │   └── vscode 不能使用remote ssh连接.md
+│   │   │   └── 部署
+│   │   │       ├── arch
+│   │   │       │   ├── arch
+│   │   │       │   │   └── images
+│   │   │       │   │       ├── arch-2023-02-04-12-22-24.png
+│   │   │       │   │       ├── arch-2023-02-04-12-25-00.png
+│   │   │       │   │       ├── arch-2023-02-04-16-04-59.png
+│   │   │       │   │       ├── arch-2023-02-04-16-20-27.png
+│   │   │       │   │       ├── arch-2023-02-04-16-21-56.png
+│   │   │       │   │       ├── arch-2023-02-04-16-25-41-1675499259666-7.png
+│   │   │       │   │       ├── arch-2023-02-04-16-25-41.png
+│   │   │       │   │       ├── arch-2023-02-04-16-27-31.png
+│   │   │       │   │       ├── arch-2023-02-04-16-33-07.png
+│   │   │       │   │       └── image-20230204161742384.png
+│   │   │       │   ├── arch (bios)
+│   │   │       │   │   └── images
+│   │   │       │   │       └── arch-0204-2023-02-04-21-00-09.png
+│   │   │       │   ├── arch (bios).md
+│   │   │       │   └── arch 系统安装.md
+│   │   │       ├── centos
+│   │   │       │   ├── centos7 命令配置系统.md
+│   │   │       │   └── 挂载ISO镜像作为本地yum源.md
+│   │   │       └── debian
+│   │   │           └── debian安装指南.md
+│   │   ├── Mac
+│   │   │   └── mac_config
+│   │   │       ├── Brewfile
+│   │   │       ├── homebrew.md
+│   │   │       ├── init_mac.sh
+│   │   │       └── install.sh
+│   │   └── Windows
+│   │       └── windwos11 跳过TPM检查.md
+│   ├── 硬件
+│   │   ├── K2 键盘.md
+│   │   ├── ikbc w210.pdf
+│   │   ├── images
+│   │   │   └── 烧录系统.png
+│   │   └── 树莓派安装openueler.md
+│   └── 软件
+│       ├── vim
+│       │   ├── images
+│       │   │   └── vim键盘图.webp
+│       │   └── vim.md
+│       └── 软件配置
+│           ├── iterm2
+│           │   ├── iterm2.json
+│           │   └── iterm2配置.md
+│           ├── msys2
+│           │   └── 环境配置.md
+│           ├── tmux
+│           │   ├── tmux 快捷键指北.md
+│           │   ├── tmux.conf
+│           │   ├── tmux.conf.md
+│           │   └── tmux.md
+│           ├── virtual studio
+│           │   ├── images
+│           │   │   ├── image-20221113181839739.png
+│           │   │   └── image-20221113182232347.png
+│           │   └── virtual studio.md
+│           └── zsh
+│               └── zsh.md
+├── 01-编程
 │   ├── 前端开发
 │   │   └── js
 │   │       ├── js.md
 │   │       └── vite+element3.md
 │   ├── 后端开发
-│   │   ├── bash
-│   │   │   └── config
-│   │   │       └── pip.sh
 │   │   ├── git
 │   │   │   ├── git提交规范.md
 │   │   │   └── git操作.md
@@ -49,11 +120,15 @@
 │   │   │           └── 面向对象.md
 │   │   ├── shell
 │   │   │   ├── create_user.md
-│   │   │   └── file.md
+│   │   │   ├── file.md
+│   │   │   ├── pip.sh
+│   │   │   ├── pipconf.sh
+│   │   │   └── system_config.sh
 │   │   └── swift
 │   │       └── String.swift
 │   ├── 容器化
 │   │   ├── db.yml
+│   │   ├── docker registry.md
 │   │   ├── docker 基本操作.md
 │   │   ├── docker-compose
 │   │   │   ├── mariadb
@@ -92,83 +167,9 @@
 │           ├── deployment-guide-vgpu-Ampere-GPU.pdf
 │           └── images
 │               └── image-20221108180806277-8046578.png
-├── 01-系统
-│   ├── Linux
-│   │   ├── Linux 双网卡服务器选择默认路由.md
-│   │   ├── arch
-│   │   │   ├── arch
-│   │   │   │   └── images
-│   │   │   │       ├── arch-2023-02-04-12-22-24.png
-│   │   │   │       ├── arch-2023-02-04-12-25-00.png
-│   │   │   │       ├── arch-2023-02-04-16-04-59.png
-│   │   │   │       ├── arch-2023-02-04-16-20-27.png
-│   │   │   │       ├── arch-2023-02-04-16-21-56.png
-│   │   │   │       ├── arch-2023-02-04-16-25-41-1675499259666-7.png
-│   │   │   │       ├── arch-2023-02-04-16-25-41.png
-│   │   │   │       ├── arch-2023-02-04-16-27-31.png
-│   │   │   │       ├── arch-2023-02-04-16-33-07.png
-│   │   │   │       └── image-20230204161742384.png
-│   │   │   ├── arch (bios)
-│   │   │   │   └── images
-│   │   │   │       └── arch-0204-2023-02-04-21-00-09.png
-│   │   │   ├── arch (bios).md
-│   │   │   └── arch 系统安装.md
-│   │   ├── centos
-│   │   │   ├── centos7 命令配置系统.md
-│   │   │   └── 挂载ISO镜像作为本地yum源.md
-│   │   ├── debian
-│   │   │   └── debian安装指南.md
-│   │   ├── openeuler
-│   │   │   ├── mariadb-connector-c
-│   │   │   │   └── spec.md
-│   │   │   └── openeuler.md
-│   │   ├── ubuntu
-│   │   │   ├── ubuntu配置.md
-│   │   │   └── wsl安装Firefox.md
-│   │   └── vscode 不能使用remote ssh连接.md
-│   ├── Macos
-│   │   └── mac_config
-│   │       ├── Brewfile
-│   │       ├── homebrew.md
-│   │       ├── init_mac.sh
-│   │       └── install.sh
-│   ├── pipconf.sh
-│   ├── system_config.sh
-│   └── windwos
-│       └── windwos11 跳过TPM检查.md
-├── 02-硬件
-│   ├── K2 键盘.md
-│   ├── ikbc w210.pdf
-│   ├── images
-│   │   └── 烧录系统.png
-│   └── 树莓派安装openueler.md
-├── 03-软件
-│   ├── tmux
-│   │   └── tmux.md
-│   ├── vim
-│   │   ├── images
-│   │   │   └── vim键盘图.webp
-│   │   └── vim.md
-│   └── 软件配置
-│       ├── iterm2
-│       │   ├── iterm2.json
-│       │   └── iterm2配置.md
-│       ├── msys2
-│       │   └── 环境配置.md
-│       ├── tmux
-│       │   ├── tmux.conf
-│       │   ├── tmux.conf.md
-│       │   └── tmux.md
-│       ├── virtual studio
-│       │   ├── images
-│       │   │   ├── image-20221113181839739.png
-│       │   │   └── image-20221113182232347.png
-│       │   └── virtual studio.md
-│       └── zsh
-│           └── zsh.md
 ├── LICENSE
 ├── ReadMe.md
 └── gen.sh
 
-61 directories, 108 files
+61 directories, 109 files
 ```
