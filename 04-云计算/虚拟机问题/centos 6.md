@@ -6,11 +6,18 @@
 
 解决方案：
 
+1. 该方案不支持持久化，重启后配置失效
+
 ![0fd21e70-a76c-4697-8592-0980a5b3e988](./images/0fd21e70-a76c-4697-8592-0980a5b3e988.jpeg)
+
+2. 修改 grub参数，支持持久化配置
+
+   ![image-20230705170900927](./images/image-20230705170900927.png)
 
 参考链接
 
 - [http://lost-and-found-narihiro.blogspot.com/2012/07/kvm-centos6-set-up-serial-console-when.html](http://lost-and-found-narihiro.blogspot.com/2012/07/kvm-centos6-set-up-serial-console-when.html)
+- [kvm serial console for virtual machine (github.com)](https://gist.github.com/lukasnellen/fe9b61cb9add581ef0215bd40c09c7c2)
 
 附件
 
