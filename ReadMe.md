@@ -165,7 +165,8 @@
 │   └── 虚拟机问题
 │       ├── centos 6.md
 │       └── images
-│           └── 0fd21e70-a76c-4697-8592-0980a5b3e988.jpeg
+│           ├── 0fd21e70-a76c-4697-8592-0980a5b3e988.jpeg
+│           └── image-20230705170900927.png
 ├── 05-云原生
 │   └── 容器化
 │       ├── db.yml
@@ -193,5 +194,5 @@
 ├── ReadMe.md
 └── gen.sh
 
-72 directories, 120 files
+72 directories, 121 files
 ```
