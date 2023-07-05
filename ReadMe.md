@@ -1,5 +1,7 @@
 ```shell
 .
+├── 00-笔记
+│   └── keep
 ├── 01-系统
 │   ├── openwrt
 │   │   └── openwrt.md
@@ -184,9 +186,12 @@
 │           ├── images
 │           │   └── 注释swap行.png
 │           └── k8s环境部署.md
+├── 06-其他
+│   └── 面试题
+│       └── keep
 ├── LICENSE
 ├── ReadMe.md
 └── gen.sh
 
-69 directories, 118 files
+72 directories, 120 files
 ```
