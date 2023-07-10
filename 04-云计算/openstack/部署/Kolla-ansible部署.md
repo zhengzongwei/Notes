@@ -6,57 +6,19 @@
 
 2 个网卡接口
 
+- nat网卡 
+
+- 桥接网卡
+
 8GB 内存
 
 40GB 磁盘
 
-支持的操作系统
-
-- CentOS Stream 9
-- Debian Bullseye (11)
-- openEuler 22.03 LTS
-- Rocky Linux 9
-- Ubuntu Jammy (22.04)
 
 
-
-- 网卡
-
-  nat网卡 
-
-  桥接网卡
-
-
+debian11.7
 
 ## 环境准备
-
-### 系统设置
-
-安装基本系统工具
-
-```shell
-yum -y install tmux vim
-
-net-tools vim wget bash-completion lrzsz 
-```
-
-### 关闭Selinux 和防火墙
-
-```shell
-setenforce 0 
-vim /etc/selinux/config
-将SELINUX=enforcing改为SELINUX=disabled
-systemctl stop firewalld && systemctl disable firewalld && systemctl status firewalld
-```
-
-### 修改hosts
-
-```shell
-vim /etc/hosts
-192.168.130.138 openstack
-```
-
-
 
 ### 构建python依赖项
 
@@ -95,8 +57,8 @@ vim /etc/hosts
 2. 创建虚拟环境并激活它：
 
    ```
-   python3 -m venv /path/to/venv
-   source /path/to/venv/bin/activate
+   python3 -m venv /opt/cloud/.venv
+   source /opt/cloud/.venv/bin/activate
    ```
 
    在运行任何命令之前，应激活虚拟环境： 取决于其中安装的软件包。
@@ -119,7 +81,7 @@ vim /etc/hosts
 1. 使用 安装 kolla-ansible 及其依赖项。`pip`
 
    ```
-   pip install git+https://opendev.org/openstack/kolla-ansible@master
+   pip install git+https://opendev.org/openstack/kolla-ansible@stable/zed
    ```
 
 2. 创建目录。`/etc/kolla`
@@ -132,16 +94,33 @@ vim /etc/hosts
 3. 复制 和 到目录。`globals.yml``passwords.yml``/etc/kolla`
 
    ```
-   cp -r /path/to/venv/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
+   cp -r /opt/cloud/.venv/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
    ```
 
 4. 将库存文件复制到当前目录。`all-in-one`
 
    ```
-   cp /path/to/venv/share/kolla-ansible/ansible/inventory/all-in-one .
+   cp /opt/cloud/.venv/share/kolla-ansible/ansible/inventory/all-in-one /etc/kolla
    ```
 
+5. 开始部署
 
+   ```shell
+   kolla-ansible install-deps
+   
+   kolla-ansible -i /etc/kolla/all-in-one bootstrap-servers
+   
+   # 安装前检查
+   kolla-ansible -i /etc/kolla/all-in-one prechecks
+   
+   # 下载镜像
+   kolla-ansible -i /etc/kolla/all-in-one pull
+   
+   # 部署
+   kolla-ansible -i /etc/kolla/all-in-one deploy
+   ```
+   
+   
 
 
 
@@ -150,5 +129,4 @@ vim /etc/hosts
 1. [支持矩阵 — kolla-ansible 16.1.0.dev7 文档 (openstack.org)](https://docs.openstack.org/kolla-ansible/latest/user/support-matrix)
 
    
-
 

@@ -148,6 +148,7 @@
 │   │   ├── 环境搭建.md
 │   │   ├── 终端连接虚拟机的几种方式.md
 │   │   └── 部署
+│   │       ├── DevStack部署.md
 │   │       └── Kolla-ansible部署.md
 │   ├── virt
 │   │   └── debian.md
@@ -194,5 +195,5 @@
 ├── ReadMe.md
 └── gen.sh
 
-72 directories, 121 files
+72 directories, 122 files
 ```
