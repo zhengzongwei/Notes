@@ -9,6 +9,7 @@
 │   │   ├── Linux
 │   │   │   ├── Linux shell命令详解
 │   │   │   │   └── Linux Shell 命令详解.md
+│   │   │   ├── Shell 移动光标快捷键.md
 │   │   │   ├── 环境配置
 │   │   │   │   ├── Linux 双网卡服务器选择默认路由.md
 │   │   │   │   ├── openeuler
@@ -122,6 +123,8 @@
 │   │   │       ├── 字符串Str.md
 │   │   │       ├── 正则表达式.md
 │   │   │       └── 面向对象.md
+│   │   ├── 模块
+│   │   │   └── terminaltables.md
 │   │   ├── 装饰器.md
 │   │   └── 远程调试.md
 │   ├── shell
@@ -137,6 +140,8 @@
 │       ├── js.md
 │       └── vite+element3.md
 ├── 04-云计算
+│   ├── kolla
+│   │   └── kolla.md
 │   ├── openstack
 │   │   ├── OpenStack Client.md
 │   │   ├── OpenStack.md
@@ -145,6 +150,8 @@
 │   │   │   └── 源码学习.md
 │   │   ├── nova
 │   │   │   └── nova基础知识.md
+│   │   ├── 开发
+│   │   │   └── kolla.md
 │   │   ├── 环境搭建.md
 │   │   ├── 终端连接虚拟机的几种方式.md
 │   │   └── 部署
@@ -152,22 +159,26 @@
 │   │       └── Kolla-ansible部署.md
 │   ├── virt
 │   │   └── debian.md
+│   ├── 显卡适配
+│   │   ├── GPU适配.md
+│   │   ├── deployment-guide-vgpu-Ampere-GPU.pdf
+│   │   └── images
+│   │       └── image-20221108180806277-8046578.png
 │   ├── 虚拟化
-│   │   ├── KVM
-│   │   │   ├── windows
-│   │   │   │   └── windows 根盘扩容.md
-│   │   │   └── 云主机配置.md
-│   │   ├── Libvirt XML.md
-│   │   └── 显卡适配
-│   │       ├── GPU适配.md
-│   │       ├── deployment-guide-vgpu-Ampere-GPU.pdf
-│   │       └── images
-│   │           └── image-20221108180806277-8046578.png
+│   │   ├── images
+│   │   │   ├── 135199189-f8ca013b-c21b-40e4-9cbb-1b16c6a11806.png
+│   │   │   ├── 135199939-f6a6a6aa-fad4-4419-93b2-fc4eab4d90ed.png
+│   │   │   ├── 135200115-d03732b9-d26e-4aa6-928f-e852a5891a43.png
+│   │   │   ├── 135200207-0556db7e-dce4-49b5-a14f-6104a0f9e28f.png
+│   │   │   └── 135200286-d21ccfcb-9b08-4ce7-bb22-80534d399738.png
+│   │   └── 虚拟化基础.md
 │   └── 虚拟机问题
 │       ├── centos 6.md
-│       └── images
-│           ├── 0fd21e70-a76c-4697-8592-0980a5b3e988.jpeg
-│           └── image-20230705170900927.png
+│       ├── images
+│       │   ├── 0fd21e70-a76c-4697-8592-0980a5b3e988.jpeg
+│       │   └── image-20230705170900927.png
+│       └── windows
+│           └── windows 根盘扩容.md
 ├── 05-云原生
 │   └── 容器化
 │       ├── db.yml
@@ -189,11 +200,13 @@
 │           │   └── 注释swap行.png
 │           └── k8s环境部署.md
 ├── 06-其他
+│   ├── cicd
+│   │   └── cicd.md
 │   └── 面试题
 │       └── keep
 ├── LICENSE
 ├── ReadMe.md
 └── gen.sh
 
-72 directories, 122 files
+76 directories, 131 files
 ```
