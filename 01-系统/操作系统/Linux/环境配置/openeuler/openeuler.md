@@ -77,3 +77,15 @@ main
 
 ```
 
+## 系统升级配置
+
+```shell
+# 22.03-LTS 升级到 22.03-LTS-SP2
+sed -i 's/22.03-LTS/22.03-LTS-SP2/g' /etc/yum.repos.d/openEuler.repo
+
+# 22.03-LTS-SP1 升级到 22.03-LTS-SP2
+sed -i 's/22.03-LTS-SP1/22.03-LTS-SP2/g' /etc/yum.repos.d/openEuler.repo
+
+dnf update -y
+```
+
