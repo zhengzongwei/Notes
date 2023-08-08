@@ -9,6 +9,7 @@
 │   │   ├── Linux
 │   │   │   ├── Linux shell命令详解
 │   │   │   │   └── Linux Shell 命令详解.md
+│   │   │   ├── Shell 移动光标快捷键.md
 │   │   │   ├── 环境配置
 │   │   │   │   ├── Linux 双网卡服务器选择默认路由.md
 │   │   │   │   ├── openeuler
@@ -122,6 +123,11 @@
 │   │   │       ├── 字符串Str.md
 │   │   │       ├── 正则表达式.md
 │   │   │       └── 面向对象.md
+│   │   ├── 模块
+│   │   │   ├── PySnooper
+│   │   │   │   ├── PySnooper-1.2.0-py2.py3-none-any.whl
+│   │   │   │   └── PySnooper-1.2.0.tar.gz
+│   │   │   └── terminaltables.md
 │   │   ├── 装饰器.md
 │   │   └── 远程调试.md
 │   ├── shell
@@ -137,6 +143,8 @@
 │       ├── js.md
 │       └── vite+element3.md
 ├── 04-云计算
+│   ├── kolla
+│   │   └── kolla.md
 │   ├── openstack
 │   │   ├── OpenStack Client.md
 │   │   ├── OpenStack.md
@@ -145,6 +153,8 @@
 │   │   │   └── 源码学习.md
 │   │   ├── nova
 │   │   │   └── nova基础知识.md
+│   │   ├── 开发
+│   │   │   └── kolla.md
 │   │   ├── 环境搭建.md
 │   │   ├── 终端连接虚拟机的几种方式.md
 │   │   └── 部署
@@ -152,22 +162,56 @@
 │   │       └── Kolla-ansible部署.md
 │   ├── virt
 │   │   └── debian.md
+│   ├── 显卡适配
+│   │   ├── GPU适配.md
+│   │   ├── deployment-guide-vgpu-Ampere-GPU.pdf
+│   │   └── images
+│   │       └── image-20221108180806277-8046578.png
 │   ├── 虚拟化
-│   │   ├── KVM
-│   │   │   ├── windows
-│   │   │   │   └── windows 根盘扩容.md
-│   │   │   └── 云主机配置.md
-│   │   ├── Libvirt XML.md
-│   │   └── 显卡适配
-│   │       ├── GPU适配.md
-│   │       ├── deployment-guide-vgpu-Ampere-GPU.pdf
-│   │       └── images
-│   │           └── image-20221108180806277-8046578.png
+│   │   ├── CPU虚拟化
+│   │   │   ├── CPU虚拟化.md
+│   │   │   └── images
+│   │   │       ├── 134466367-8c6ec4cf-cb71-4c9d-95f2-a0f177eef1e4.png
+│   │   │       ├── 134466413-87122124-2cc4-4195-80e0-05316d8494ea.png
+│   │   │       ├── 134466479-8f7b5aa3-6a36-42fa-b1d2-7ec66ca1f756.png
+│   │   │       ├── 134466527-4eb1f3a0-bb69-48a2-bde0-d8a958e5f95e.png
+│   │   │       ├── 134468695-2f476685-f3ad-47be-9e70-8278f9323a4d.png
+│   │   │       ├── 134468707-d0eee613-14ee-4e4e-8339-6391b736f41b.png
+│   │   │       ├── 134468726-2e42cdfe-e882-4820-97c8-881429e8db49.png
+│   │   │       ├── 134468871-5218e35f-b23f-4eda-826a-466d84b4a6be.png
+│   │   │       ├── 134468913-c7f945fd-c5a0-4ec5-b9a8-fd3d8a940038.png
+│   │   │       ├── 134468980-da374074-db59-46fe-8b74-e9aafbc998fc.png
+│   │   │       ├── 134469166-9b773566-9c8b-457d-8952-0666dbdcd5a6-1689928640564-32.png
+│   │   │       ├── 134469182-37ddccb2-580f-4a97-bf08-2b69a72ec409.png
+│   │   │       ├── 134469286-91fb211f-1e1e-4f03-aa11-02048265a8b1.png
+│   │   │       ├── 134469403-f100f316-26e3-4fc1-a871-f748ca7c7b69.png
+│   │   │       ├── 134469475-152425be-3c5a-4024-85af-0fd044db82bc.png
+│   │   │       ├── 134469507-61189300-0c49-4f7f-8f50-f760230efd5f.png
+│   │   │       ├── 134469527-cd408820-df84-408b-a8b8-087e3980967f.png
+│   │   │       ├── 134469548-160ae515-c7ea-4ef3-b5d0-a6e5ed871ee3.png
+│   │   │       ├── 134469568-44e7505b-d3ee-4c6a-916d-28e8997b8882.png
+│   │   │       ├── 134469613-4b9cf68c-aaa8-4d30-8ef7-858e6700cd75.png
+│   │   │       ├── 134469849-282bd67f-3211-4250-8541-eef131096246.png
+│   │   │       ├── 134469968-cda6aea1-ca3a-4377-b5c3-d88bfccece2b.png
+│   │   │       ├── 134470065-5f2f6954-b650-41d9-b7a6-fe1f139a88dc.png
+│   │   │       ├── 134470120-75dc60c6-d78e-44d5-9ce0-98df12c3a6f6.png
+│   │   │       └── 134470198-e7faf3ba-4de4-4efc-a899-fda3f654a35b.png
+│   │   └── 虚拟化基础
+│   │       ├── images
+│   │       │   ├── 135199189-f8ca013b-c21b-40e4-9cbb-1b16c6a11806.png
+│   │       │   ├── 135199939-f6a6a6aa-fad4-4419-93b2-fc4eab4d90ed.png
+│   │       │   ├── 135200115-d03732b9-d26e-4aa6-928f-e852a5891a43.png
+│   │       │   ├── 135200207-0556db7e-dce4-49b5-a14f-6104a0f9e28f.png
+│   │       │   └── 135200286-d21ccfcb-9b08-4ce7-bb22-80534d399738.png
+│   │       ├── 网络模型.md
+│   │       └── 虚拟化基础.md
 │   └── 虚拟机问题
 │       ├── centos 6.md
-│       └── images
-│           ├── 0fd21e70-a76c-4697-8592-0980a5b3e988.jpeg
-│           └── image-20230705170900927.png
+│       ├── images
+│       │   ├── 0fd21e70-a76c-4697-8592-0980a5b3e988.jpeg
+│       │   └── image-20230705170900927.png
+│       └── windows
+│           └── windows 根盘扩容.md
 ├── 05-云原生
 │   └── 容器化
 │       ├── db.yml
@@ -189,11 +233,17 @@
 │           │   └── 注释swap行.png
 │           └── k8s环境部署.md
 ├── 06-其他
+│   ├── cicd
+│   │   └── cicd.md
 │   └── 面试题
 │       └── keep
 ├── LICENSE
 ├── ReadMe.md
 └── gen.sh
 
+<<<<<<< HEAD
 72 directories, 122 files
+=======
+80 directories, 160 files
+>>>>>>> 80f73c7912069c3d322e5995bad5bbc292fc6071
 ```

@@ -1,0 +1,10 @@
+kind: pipline
+type: docker
+name: notes
+
+steps:
+- name: build
+  image: openeuler/openeuler
+  commands:
+  - bash gen.sh
+  
