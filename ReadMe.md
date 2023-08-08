@@ -241,9 +241,5 @@
 ├── ReadMe.md
 └── gen.sh
 
-<<<<<<< HEAD
-72 directories, 122 files
-=======
 80 directories, 160 files
->>>>>>> 80f73c7912069c3d322e5995bad5bbc292fc6071
 ```
