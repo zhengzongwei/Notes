@@ -6,7 +6,6 @@
 │   │   │   └── 编译openwrt固件.md
 │   │   ├── K2 键盘.md
 │   │   └── ikbc w210.pdf
-│   ├── 软件
 │   ├── 部署
 │   │   ├── linux
 │   │   │   ├── arch
@@ -79,8 +78,8 @@
 │       └── 防火墙配置.md
 ├── 01-编程
 │   ├── git
-│   │   ├── git操作.md
-│   │   └── git提交规范.md
+│   │   ├── git提交规范.md
+│   │   └── git操作.md
 │   ├── golang
 │   │   ├── gin.md
 │   │   ├── go操作.md
@@ -91,39 +90,39 @@
 │   ├── python
 │   │   ├── Python定时器归纳.md
 │   │   ├── fastapi.md
+│   │   ├── 单例模式.md
 │   │   ├── 归档
 │   │   │   ├── django
 │   │   │   │   ├── DJANGO.md
 │   │   │   │   ├── REST.images
-│   │   │   │   │   ├── 前后端分离.png
-│   │   │   │   │   └── 前后端不分离.png
+│   │   │   │   │   ├── 前后端不分离.png
+│   │   │   │   │   └── 前后端分离.png
 │   │   │   │   └── REST.md
 │   │   │   ├── flask
 │   │   │   │   ├── Flask_数据库_.md
+│   │   │   │   ├── Flask模板_.md
+│   │   │   │   ├── Flask环境搭建_.md
 │   │   │   │   ├── Flask视图_.images
 │   │   │   │   │   ├── JSON-4759866.png
 │   │   │   │   │   └── JSON.png
-│   │   │   │   ├── Flask模板_.md
 │   │   │   │   ├── Flask视图_.md
-│   │   │   │   ├── Flask环境搭建_.md
 │   │   │   │   ├── cookie和session区别.md
 │   │   │   │   ├── flask_session总结_.md
 │   │   │   │   ├── 项目流程.md
 │   │   │   │   └── 项目部署的步骤.md
 │   │   │   └── 基础
-│   │   │       ├── 列表List.md
-│   │   │       ├── 字符串Str.md
 │   │   │       ├── 代码规范.md
-│   │   │       ├── 面向对象.md
+│   │   │       ├── 列表List.md
+│   │   │       ├── 列表、字典、集合.md
+│   │   │       ├── 字符串Str.md
 │   │   │       ├── 正则表达式.md
-│   │   │       └── 列表、字典、集合.md
+│   │   │       └── 面向对象.md
 │   │   ├── 模块
 │   │   │   ├── PySnooper
 │   │   │   │   ├── PySnooper-1.2.0-py2.py3-none-any.whl
 │   │   │   │   └── PySnooper-1.2.0.tar.gz
 │   │   │   └── terminaltables.md
 │   │   ├── 装饰器.md
-│   │   ├── 单例模式.md
 │   │   └── 远程调试.md
 │   ├── shell
 │   │   ├── create_user.md
@@ -177,13 +176,18 @@
 │   │   │   └── nova基础知识_副本.md
 │   │   ├── 开发
 │   │   │   └── kolla.md
-│   │   ├── 部署
-│   │   │   ├── DevStack部署.md
-│   │   │   └── Kolla-ansible部署.md
 │   │   ├── 环境搭建.md
-│   │   └── 终端连接虚拟机的几种方式.md
+│   │   ├── 终端连接虚拟机的几种方式.md
+│   │   └── 部署
+│   │       ├── DevStack部署.md
+│   │       └── Kolla-ansible部署.md
 │   ├── virt
 │   │   └── debian.md
+│   ├── 显卡适配
+│   │   ├── GPU适配.md
+│   │   ├── deployment-guide-vgpu-Ampere-GPU.pdf
+│   │   └── images
+│   │       └── image-20221108180806277-8046578.png
 │   ├── 虚拟化
 │   │   ├── CPU虚拟化
 │   │   │   ├── CPU虚拟化.md
@@ -222,11 +226,6 @@
 │   │       │   └── 135200286-d21ccfcb-9b08-4ce7-bb22-80534d399738.png
 │   │       ├── 网络模型.md
 │   │       └── 虚拟化基础.md
-│   ├── 显卡适配
-│   │   ├── GPU适配.md
-│   │   ├── deployment-guide-vgpu-Ampere-GPU.pdf
-│   │   └── images
-│   │       └── image-20221108180806277-8046578.png
 │   └── 虚拟机问题
 │       ├── centos 6.md
 │       ├── images
@@ -250,19 +249,16 @@
 │   │   │   └── openeuler.dockerfile
 │   │   ├── docker配置.md
 │   │   └── gitea.md
-│   └── 容器化
-│       └── k8s
-│           ├── images
-│           │   └── 注释swap行.png
-│           └── k8s环境部署.md
+│   └── k8s
+│       ├── images
+│       │   └── 注释swap行.png
+│       └── k8s环境部署.md
 ├── 04-其他
-│   ├── cicd
-│   │   └── cicd.md
 │   └── 面试题
 │       └── keep
 ├── LICENSE
 ├── ReadMe.md
 └── gen.sh
 
-80 directories, 184 files
+76 directories, 183 files
 ```
