@@ -1,136 +1,129 @@
 ```shell
 .
-├── 00-笔记
-│   ├── keep
-│   └── ssh 隧道.md
-├── 01-系统
-│   ├── openwrt
-│   │   └── openwrt.md
-│   ├── 操作系统
-│   │   ├── Linux
-│   │   │   ├── Linux shell命令详解
-│   │   │   │   └── Linux Shell 命令详解.md
-│   │   │   ├── Shell 移动光标快捷键.md
-│   │   │   ├── 环境配置
-│   │   │   │   ├── Linux 双网卡服务器选择默认路由.md
-│   │   │   │   ├── openeuler
-│   │   │   │   │   ├── mariadb-connector-c
-│   │   │   │   │   │   └── spec.md
-│   │   │   │   │   └── openeuler.md
-│   │   │   │   ├── ubuntu
-│   │   │   │   │   ├── ubuntu配置.md
-│   │   │   │   │   └── wsl安装Firefox.md
-│   │   │   │   └── vscode 不能使用remote ssh连接.md
-│   │   │   ├── 部署
-│   │   │   │   ├── arch
-│   │   │   │   │   ├── arch
-│   │   │   │   │   │   └── images
-│   │   │   │   │   │       ├── arch-2023-02-04-12-22-24.png
-│   │   │   │   │   │       ├── arch-2023-02-04-12-25-00.png
-│   │   │   │   │   │       ├── arch-2023-02-04-16-04-59.png
-│   │   │   │   │   │       ├── arch-2023-02-04-16-20-27.png
-│   │   │   │   │   │       ├── arch-2023-02-04-16-21-56.png
-│   │   │   │   │   │       ├── arch-2023-02-04-16-25-41-1675499259666-7.png
-│   │   │   │   │   │       ├── arch-2023-02-04-16-25-41.png
-│   │   │   │   │   │       ├── arch-2023-02-04-16-27-31.png
-│   │   │   │   │   │       ├── arch-2023-02-04-16-33-07.png
-│   │   │   │   │   │       └── image-20230204161742384.png
-│   │   │   │   │   ├── arch (bios)
-│   │   │   │   │   │   └── images
-│   │   │   │   │   │       └── arch-0204-2023-02-04-21-00-09.png
-│   │   │   │   │   ├── arch (bios).md
-│   │   │   │   │   └── arch 系统安装.md
-│   │   │   │   ├── centos
-│   │   │   │   │   ├── centos7 命令配置系统.md
-│   │   │   │   │   └── 挂载ISO镜像作为本地yum源.md
-│   │   │   │   └── debian
-│   │   │   │       └── debian安装指南.md
-│   │   │   └── 防火墙配置.md
-│   │   ├── Mac
-│   │   │   ├── mac_config
-│   │   │   │   ├── Brewfile
-│   │   │   │   ├── homebrew.md
-│   │   │   │   ├── init_mac.sh
-│   │   │   │   └── install.sh
-│   │   │   └── 快捷键值北.md
-│   │   └── Windows
-│   │       └── windwos11 跳过TPM检查.md
+├── 00-系统
 │   ├── 硬件
 │   │   ├── GL.iNet
 │   │   │   └── 编译openwrt固件.md
 │   │   ├── K2 键盘.md
-│   │   ├── ikbc w210.pdf
+│   │   └── ikbc w210.pdf
+│   ├── 软件
+│   ├── 部署
+│   │   ├── linux
+│   │   │   ├── arch
+│   │   │   │   ├── arch
+│   │   │   │   │   └── images
+│   │   │   │   │       ├── arch-2023-02-04-12-22-24.png
+│   │   │   │   │       ├── arch-2023-02-04-12-25-00.png
+│   │   │   │   │       ├── arch-2023-02-04-16-04-59.png
+│   │   │   │   │       ├── arch-2023-02-04-16-20-27.png
+│   │   │   │   │       ├── arch-2023-02-04-16-21-56.png
+│   │   │   │   │       ├── arch-2023-02-04-16-25-41-1675499259666-7.png
+│   │   │   │   │       ├── arch-2023-02-04-16-25-41.png
+│   │   │   │   │       ├── arch-2023-02-04-16-27-31.png
+│   │   │   │   │       ├── arch-2023-02-04-16-33-07.png
+│   │   │   │   │       └── image-20230204161742384.png
+│   │   │   │   ├── arch (bios)
+│   │   │   │   │   └── images
+│   │   │   │   │       └── arch-0204-2023-02-04-21-00-09.png
+│   │   │   │   ├── arch (bios).md
+│   │   │   │   └── arch 系统安装.md
+│   │   │   ├── centos
+│   │   │   │   ├── centos7 命令配置系统.md
+│   │   │   │   └── 挂载ISO镜像作为本地yum源.md
+│   │   │   └── debian
+│   │   │       └── debian安装指南.md
+│   │   ├── windows
+│   │   │   └── windwos11 跳过TPM检查.md
 │   │   └── 树莓派
 │   │       ├── images
 │   │       │   └── 烧录系统.png
 │   │       └── 树莓派安装openueler.md
-│   └── 软件
-│       ├── vim
-│       │   ├── images
-│       │   │   └── vim键盘图.webp
-│       │   └── vim.md
-│       └── 软件配置
-│           ├── iterm2
-│           │   ├── iterm2.json
-│           │   └── iterm2配置.md
-│           ├── msys2
-│           │   └── 环境配置.md
-│           ├── tmux
-│           │   ├── tmux 快捷键指北.md
-│           │   ├── tmux.conf
-│           │   ├── tmux.conf.md
-│           │   └── tmux.md
-│           ├── virtual studio
-│           │   ├── images
-│           │   │   ├── image-20221113181839739.png
-│           │   │   └── image-20221113182232347.png
-│           │   └── virtual studio.md
-│           └── zsh
-│               └── zsh.md
-├── 02-后端
+│   └── 配置
+│       ├── Linux 双网卡服务器选择默认路由.md
+│       ├── mac快捷键值北.md
+│       ├── repo
+│       │   └── linux源配置.md
+│       ├── ssh 隧道.md
+│       ├── 开发环境
+│       │   └── openeuler
+│       │       ├── mariadb-connector-c
+│       │       │   └── spec.md
+│       │       └── openeuler.md
+│       ├── 软件配置
+│       │   ├── brew
+│       │   │   ├── Brewfile
+│       │   │   ├── homebrew.md
+│       │   │   ├── init_mac.sh
+│       │   │   └── install.sh
+│       │   ├── iterm2
+│       │   │   ├── iterm2.json
+│       │   │   └── iterm2配置.md
+│       │   ├── msys2
+│       │   │   └── 环境配置.md
+│       │   ├── tmux
+│       │   │   ├── tmux 快捷键指北.md
+│       │   │   ├── tmux.conf
+│       │   │   ├── tmux.conf.md
+│       │   │   └── tmux.md
+│       │   ├── vim
+│       │   │   ├── images
+│       │   │   │   └── vim键盘图.webp
+│       │   │   └── vim.md
+│       │   ├── virtual studio
+│       │   │   ├── images
+│       │   │   │   ├── image-20221113181839739.png
+│       │   │   │   └── image-20221113182232347.png
+│       │   │   └── virtual studio.md
+│       │   └── zsh
+│       │       └── zsh.md
+│       └── 防火墙配置.md
+├── 01-编程
 │   ├── git
-│   │   ├── git提交规范.md
-│   │   └── git操作.md
+│   │   ├── git操作.md
+│   │   └── git提交规范.md
 │   ├── golang
 │   │   ├── gin.md
 │   │   ├── go操作.md
 │   │   └── go规范.md
+│   ├── javascript
+│   │   ├── js.md
+│   │   └── vite+element3.md
 │   ├── python
 │   │   ├── Python定时器归纳.md
 │   │   ├── fastapi.md
-│   │   ├── 单例模式.md
 │   │   ├── 归档
 │   │   │   ├── django
 │   │   │   │   ├── DJANGO.md
 │   │   │   │   ├── REST.images
-│   │   │   │   │   ├── 前后端不分离.png
-│   │   │   │   │   └── 前后端分离.png
+│   │   │   │   │   ├── 前后端分离.png
+│   │   │   │   │   └── 前后端不分离.png
 │   │   │   │   └── REST.md
 │   │   │   ├── flask
 │   │   │   │   ├── Flask_数据库_.md
-│   │   │   │   ├── Flask模板_.md
-│   │   │   │   ├── Flask环境搭建_.md
 │   │   │   │   ├── Flask视图_.images
 │   │   │   │   │   ├── JSON-4759866.png
 │   │   │   │   │   └── JSON.png
+│   │   │   │   ├── Flask模板_.md
 │   │   │   │   ├── Flask视图_.md
+│   │   │   │   ├── Flask环境搭建_.md
 │   │   │   │   ├── cookie和session区别.md
 │   │   │   │   ├── flask_session总结_.md
 │   │   │   │   ├── 项目流程.md
 │   │   │   │   └── 项目部署的步骤.md
 │   │   │   └── 基础
-│   │   │       ├── 代码规范.md
 │   │   │       ├── 列表List.md
-│   │   │       ├── 列表、字典、集合.md
 │   │   │       ├── 字符串Str.md
+│   │   │       ├── 代码规范.md
+│   │   │       ├── 面向对象.md
 │   │   │       ├── 正则表达式.md
-│   │   │       └── 面向对象.md
+│   │   │       └── 列表、字典、集合.md
 │   │   ├── 模块
 │   │   │   ├── PySnooper
 │   │   │   │   ├── PySnooper-1.2.0-py2.py3-none-any.whl
 │   │   │   │   └── PySnooper-1.2.0.tar.gz
 │   │   │   └── terminaltables.md
 │   │   ├── 装饰器.md
+│   │   ├── 单例模式.md
 │   │   └── 远程调试.md
 │   ├── shell
 │   │   ├── create_user.md
@@ -140,16 +133,17 @@
 │   │   └── system_config.sh
 │   └── swift
 │       └── String.swift
-├── 03-前端
-│   └── js
-│       ├── js.md
-│       └── vite+element3.md
-├── 04-云计算
-│   ├── kolla
-│   │   └── kolla.md
+├── 02-云计算
 │   ├── openstack
 │   │   ├── OpenStack Client.md
 │   │   ├── OpenStack.md
+│   │   ├── glance
+│   │   │   ├── images
+│   │   │   │   ├── 1610676-20200523145052836-69025679.png
+│   │   │   │   ├── 1610676-20200523150905292-596687303.png
+│   │   │   │   ├── 1610676-20200523154140443-1817766473.png
+│   │   │   │   └── 1610676-20200523154443765-1655498412.png
+│   │   │   └── 基础概念.md
 │   │   ├── neutron
 │   │   │   ├── images
 │   │   │   │   ├── 1610676-20200525092906395-1030045008-20230814140923681.png
@@ -179,21 +173,17 @@
 │   │   │   │   ├── 1610676-20200523194306671-1231306966.png
 │   │   │   │   ├── 1610676-20200523194336180-1065575782.png
 │   │   │   │   └── 1610676-20200523194404325-1737146179.png
-│   │   │   └── nova基础知识.md
+│   │   │   ├── nova基础知识.md
+│   │   │   └── nova基础知识_副本.md
 │   │   ├── 开发
 │   │   │   └── kolla.md
+│   │   ├── 部署
+│   │   │   ├── DevStack部署.md
+│   │   │   └── Kolla-ansible部署.md
 │   │   ├── 环境搭建.md
-│   │   ├── 终端连接虚拟机的几种方式.md
-│   │   └── 部署
-│   │       ├── DevStack部署.md
-│   │       └── Kolla-ansible部署.md
+│   │   └── 终端连接虚拟机的几种方式.md
 │   ├── virt
 │   │   └── debian.md
-│   ├── 显卡适配
-│   │   ├── GPU适配.md
-│   │   ├── deployment-guide-vgpu-Ampere-GPU.pdf
-│   │   └── images
-│   │       └── image-20221108180806277-8046578.png
 │   ├── 虚拟化
 │   │   ├── CPU虚拟化
 │   │   │   ├── CPU虚拟化.md
@@ -232,6 +222,11 @@
 │   │       │   └── 135200286-d21ccfcb-9b08-4ce7-bb22-80534d399738.png
 │   │       ├── 网络模型.md
 │   │       └── 虚拟化基础.md
+│   ├── 显卡适配
+│   │   ├── GPU适配.md
+│   │   ├── deployment-guide-vgpu-Ampere-GPU.pdf
+│   │   └── images
+│   │       └── image-20221108180806277-8046578.png
 │   └── 虚拟机问题
 │       ├── centos 6.md
 │       ├── images
@@ -239,27 +234,28 @@
 │       │   └── image-20230705170900927.png
 │       └── windows
 │           └── windows 根盘扩容.md
-├── 05-云原生
+├── 03-云原生
+│   ├── docker
+│   │   ├── docker registry.md
+│   │   ├── docker 基本操作.md
+│   │   ├── docker-compose
+│   │   │   ├── mariadb
+│   │   │   │   └── mariadb.md
+│   │   │   └── nginx
+│   │   │       └── nginx.md
+│   │   ├── dockerfile
+│   │   │   ├── centos.dockerfile
+│   │   │   ├── dockerfile.md
+│   │   │   ├── gitea.yml
+│   │   │   └── openeuler.dockerfile
+│   │   ├── docker配置.md
+│   │   └── gitea.md
 │   └── 容器化
-│       ├── db.yml
-│       ├── docker registry.md
-│       ├── docker 基本操作.md
-│       ├── docker-compose
-│       │   ├── mariadb
-│       │   │   └── mariadb.md
-│       │   └── nginx
-│       │       └── nginx.md
-│       ├── dockerfile
-│       │   ├── centos.dockerfile
-│       │   ├── dockerfile.md
-│       │   ├── gitea.yml
-│       │   └── openeuler.dockerfile
-│       ├── gitea.md
 │       └── k8s
 │           ├── images
 │           │   └── 注释swap行.png
 │           └── k8s环境部署.md
-├── 06-其他
+├── 04-其他
 │   ├── cicd
 │   │   └── cicd.md
 │   └── 面试题
@@ -268,5 +264,5 @@
 ├── ReadMe.md
 └── gen.sh
 
-82 directories, 185 files
+80 directories, 184 files
 ```
