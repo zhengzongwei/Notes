@@ -1,81 +1,39 @@
 ```shell
 .
-├── 00-系统
-│   ├── 硬件
-│   │   ├── GL.iNet
-│   │   │   └── 编译openwrt固件.md
-│   │   ├── K2 键盘.md
-│   │   └── ikbc w210.pdf
-│   ├── 部署
-│   │   ├── linux
+├── 00-部署
+│   ├── gitlab
+│   │   └── gitlab部署.md
+│   ├── linux
+│   │   ├── arch
 │   │   │   ├── arch
-│   │   │   │   ├── arch
-│   │   │   │   │   └── images
-│   │   │   │   │       ├── arch-2023-02-04-12-22-24.png
-│   │   │   │   │       ├── arch-2023-02-04-12-25-00.png
-│   │   │   │   │       ├── arch-2023-02-04-16-04-59.png
-│   │   │   │   │       ├── arch-2023-02-04-16-20-27.png
-│   │   │   │   │       ├── arch-2023-02-04-16-21-56.png
-│   │   │   │   │       ├── arch-2023-02-04-16-25-41-1675499259666-7.png
-│   │   │   │   │       ├── arch-2023-02-04-16-25-41.png
-│   │   │   │   │       ├── arch-2023-02-04-16-27-31.png
-│   │   │   │   │       ├── arch-2023-02-04-16-33-07.png
-│   │   │   │   │       └── image-20230204161742384.png
-│   │   │   │   ├── arch (bios)
-│   │   │   │   │   └── images
-│   │   │   │   │       └── arch-0204-2023-02-04-21-00-09.png
-│   │   │   │   ├── arch (bios).md
-│   │   │   │   └── arch 系统安装.md
-│   │   │   ├── centos
-│   │   │   │   ├── centos7 命令配置系统.md
-│   │   │   │   └── 挂载ISO镜像作为本地yum源.md
-│   │   │   └── debian
-│   │   │       └── debian安装指南.md
-│   │   ├── windows
-│   │   │   └── windwos11 跳过TPM检查.md
-│   │   └── 树莓派
-│   │       ├── images
-│   │       │   └── 烧录系统.png
-│   │       └── 树莓派安装openueler.md
-│   └── 配置
-│       ├── Linux 双网卡服务器选择默认路由.md
-│       ├── mac快捷键值北.md
-│       ├── repo
-│       │   └── linux源配置.md
-│       ├── ssh 隧道.md
-│       ├── 开发环境
-│       │   └── openeuler
-│       │       ├── mariadb-connector-c
-│       │       │   └── spec.md
-│       │       └── openeuler.md
-│       ├── 软件配置
-│       │   ├── brew
-│       │   │   ├── Brewfile
-│       │   │   ├── homebrew.md
-│       │   │   ├── init_mac.sh
-│       │   │   └── install.sh
-│       │   ├── iterm2
-│       │   │   ├── iterm2.json
-│       │   │   └── iterm2配置.md
-│       │   ├── msys2
-│       │   │   └── 环境配置.md
-│       │   ├── tmux
-│       │   │   ├── tmux 快捷键指北.md
-│       │   │   ├── tmux.conf
-│       │   │   ├── tmux.conf.md
-│       │   │   └── tmux.md
-│       │   ├── vim
-│       │   │   ├── images
-│       │   │   │   └── vim键盘图.webp
-│       │   │   └── vim.md
-│       │   ├── virtual studio
-│       │   │   ├── images
-│       │   │   │   ├── image-20221113181839739.png
-│       │   │   │   └── image-20221113182232347.png
-│       │   │   └── virtual studio.md
-│       │   └── zsh
-│       │       └── zsh.md
-│       └── 防火墙配置.md
+│   │   │   │   └── images
+│   │   │   │       ├── arch-2023-02-04-12-22-24.png
+│   │   │   │       ├── arch-2023-02-04-12-25-00.png
+│   │   │   │       ├── arch-2023-02-04-16-04-59.png
+│   │   │   │       ├── arch-2023-02-04-16-20-27.png
+│   │   │   │       ├── arch-2023-02-04-16-21-56.png
+│   │   │   │       ├── arch-2023-02-04-16-25-41-1675499259666-7.png
+│   │   │   │       ├── arch-2023-02-04-16-25-41.png
+│   │   │   │       ├── arch-2023-02-04-16-27-31.png
+│   │   │   │       ├── arch-2023-02-04-16-33-07.png
+│   │   │   │       └── image-20230204161742384.png
+│   │   │   ├── arch (bios)
+│   │   │   │   └── images
+│   │   │   │       └── arch-0204-2023-02-04-21-00-09.png
+│   │   │   ├── arch (bios).md
+│   │   │   └── arch 系统安装.md
+│   │   ├── centos
+│   │   │   ├── centos7 命令配置系统.md
+│   │   │   └── 挂载ISO镜像作为本地yum源.md
+│   │   └── debian
+│   │       └── debian安装指南.md
+│   ├── windows
+│   │   ├── windwos11 跳过TPM检查.md
+│   │   └── windwos11 跳过TPM检查~.md
+│   └── 树莓派
+│       ├── images
+│       │   └── 烧录系统.png
+│       └── 树莓派安装openueler.md
 ├── 01-编程
 │   ├── git
 │   │   ├── git提交规范.md
@@ -87,6 +45,9 @@
 │   ├── javascript
 │   │   ├── js.md
 │   │   └── vite+element3.md
+│   ├── kernel编译
+│   │   └── 内核
+│   │       └── 编译内核.md
 │   ├── python
 │   │   ├── Python定时器归纳.md
 │   │   ├── fastapi.md
@@ -254,11 +215,54 @@
 │       │   └── 注释swap行.png
 │       └── k8s环境部署.md
 ├── 04-其他
+│   ├── 硬件
+│   │   ├── GL.iNet
+│   │   │   └── 编译openwrt固件.md
+│   │   ├── K2 键盘.md
+│   │   └── ikbc w210.pdf
+│   ├── 配置
+│   │   ├── Linux 双网卡服务器选择默认路由.md
+│   │   ├── mac快捷键值北.md
+│   │   ├── repo
+│   │   │   └── linux源配置.md
+│   │   ├── ssh 隧道.md
+│   │   ├── 开发环境
+│   │   │   └── openeuler
+│   │   │       ├── mariadb-connector-c
+│   │   │       │   └── spec.md
+│   │   │       └── openeuler.md
+│   │   ├── 软件配置
+│   │   │   ├── brew
+│   │   │   │   ├── homebrew.md
+│   │   │   │   ├── init_mac.sh
+│   │   │   │   └── install.sh
+│   │   │   ├── iterm2
+│   │   │   │   ├── iterm2.json
+│   │   │   │   └── iterm2配置.md
+│   │   │   ├── msys2
+│   │   │   │   └── 环境配置.md
+│   │   │   ├── tmux
+│   │   │   │   ├── tmux 快捷键指北.md
+│   │   │   │   ├── tmux.conf
+│   │   │   │   ├── tmux.conf.md
+│   │   │   │   └── tmux.md
+│   │   │   ├── vim
+│   │   │   │   ├── images
+│   │   │   │   │   └── vim键盘图.webp
+│   │   │   │   └── vim.md
+│   │   │   ├── virtual studio
+│   │   │   │   ├── images
+│   │   │   │   │   ├── image-20221113181839739.png
+│   │   │   │   │   └── image-20221113182232347.png
+│   │   │   │   └── virtual studio.md
+│   │   │   └── zsh
+│   │   │       └── zsh.md
+│   │   └── 防火墙配置.md
 │   └── 面试题
 │       └── keep
 ├── LICENSE
 ├── ReadMe.md
 └── gen.sh
 
-76 directories, 183 files
+78 directories, 185 files
 ```
