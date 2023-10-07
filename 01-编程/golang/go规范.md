@@ -6,33 +6,37 @@
 
 以下为一般项目结构，根据不同的 Web 框架习惯，可使用括号内的文字替换；根据不同的项目类型和需求，可自由增删某些结构：
 
-    - templates (views)          # 模板文件
-    - public (static)            # 静态文件
-        - css                    
-        - fonts                  
-        - img                    
-        - js                     
-    - routers (controllers)      # 路由逻辑处理
-    - models                     # 数据逻辑层
-    - modules                    # 子模块
-        - setting                # 应用配置存取
-    - cmd                        # 命令行程序命令
-    - conf                       # 默认配置
-        - locale                 # i18n 本地化文件
-    - custom                     # 自定义配置
-    - data                       # 应用生成数据文件
-    - log                        # 应用生成日志文件
+```bash
+- templates (views)          # 模板文件
+- public (static)            # 静态文件
+    - css                    
+    - fonts                  
+    - img                    
+    - js                     
+- routers (controllers)      # 路由逻辑处理
+- models                     # 数据逻辑层
+- modules                    # 子模块
+    - setting                # 应用配置存取
+- cmd                        # 命令行程序命令
+- conf                       # 默认配置
+    - locale                 # i18n 本地化文件
+- custom                     # 自定义配置
+- data                       # 应用生成数据文件
+- log                        # 应用生成日志文件
+```
 
 ### 1.2 命令行应用
 
 当应用类型为命令行应用时，需要将命令相关文件存放于 `/cmd` 目录下，并为每个命令创建一个单独的源文件
 
-    /cmd
-    dump.go
-    fix.go
-    serve.go
-    update.go
-    web.go
+```go
+/cmd
+dump.go
+fix.go
+serve.go
+update.go
+web.go
+```
 
 ## 2. 注释规范
 
@@ -485,8 +489,6 @@ import (
 - 为辅助包书写使用示例的时，文件名均命名为 `example_test.go`。
 - 测试用例的函数名称必须以 `Test_` 开头，例如：`Test_Logger`。
 - 如果为方法书写测试用例，则需要以 `Text_<Struct>_<Method>` 的形式命名，例如：`Test_Macaron_Run`。
-
-
 
 
 

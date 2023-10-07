@@ -89,3 +89,19 @@ sed -i 's/22.03-LTS-SP1/22.03-LTS-SP2/g' /etc/yum.repos.d/openEuler.repo
 dnf update -y
 ```
 
+## vscode ssh-remote
+
+dnf install tar vim tmux
+
+- 修改ssh配置文件
+
+  ```bash
+  vim /etc/ssh/sshd_config
+  
+  AllowTcpForwarding yes
+  AllowAgentForwarding yes
+  GatewayPorts yes
+  ```
+
+  重启 ssh 服务 `systemctl restart sshd`
+
