@@ -120,9 +120,6 @@ debian11.7
    kolla-ansible -i /etc/kolla/all-in-one deploy
    ```
    
-   
-
-
 
 ## 参考链接
 
