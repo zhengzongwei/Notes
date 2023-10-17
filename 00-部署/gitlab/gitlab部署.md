@@ -13,7 +13,17 @@
 ### 部署docker
 
 ```bash
-dnf install docker
+dnf install docker.io
+
+# 创建docker 组
+sudo groupadd docker
+
+# 将当前用户加入docker组
+# sudo usermod -aG docker ${USER}
+sudo gpasswd -a ${USER} docker
+
+# 刷新docker组
+newgrp docker
 ```
 
 ## 配置gitlab
