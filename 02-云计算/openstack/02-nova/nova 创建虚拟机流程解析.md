@@ -8,6 +8,7 @@ Nova是OpenStack中处理计算业务（虚拟机、裸机、容器）的组件�
 
 ```mermaid
 sequenceDiagram
+autonumber
 participant User
 participant Nova-API
 participant Conductor

@@ -16,10 +16,6 @@
 
 重启主机
 
-
-
-
-
 ```shell
 # NVIDIA MDEV
 <hostdev mode='subsystem' type='mdev' managed='yes' model='vfio-pci' display='on'>
