@@ -27,3 +27,14 @@ python3 setup.py -c configs/config-siflower-18.x.yml && cd openwrt-18.06/siflowe
 make V=s -j5
 ```
 
+
+
+## 安装插件
+
+```bash
+wget -qO- https://cdn.jsdelivr.net/gh/ericwang2006/sft1200_buddha/install.sh | sh
+
+
+opkg install luci shadowsocksr-libev ssr-redir
+```
+
