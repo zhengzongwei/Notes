@@ -146,6 +146,11 @@
 │   │   │   └── 基础概念.md
 │   │   ├── OpenStack Client.md
 │   │   └── OpenStack.md
+│   ├── 基础服务
+│   │   ├── DNS
+│   │   │   └── DNS解析.md
+│   │   └── NTP
+│   │       └── NTP.md
 │   └── 虚拟化
 │       ├── 01-虚拟化概念
 │       │   ├── 00-虚拟化基础
@@ -298,9 +303,14 @@
 │   │   └── 防火墙配置.md
 │   └── 面试题
 │       └── keep
+├── 05-数据库
+│   ├── mysql
+│   │   └── mysql.md
+│   └── redis
+│       └── redis.md
 ├── LICENSE
 ├── ReadMe.md
 └── gen.sh
 
-84 directories, 217 files
+90 directories, 221 files
 ```
