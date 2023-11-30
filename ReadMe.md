@@ -257,6 +257,7 @@
 │       │   └── 注释swap行.png
 │       └── k8s环境部署.md
 ├── 04-其他
+│   ├── onenote笔记简要.md
 │   ├── 画图示例.md
 │   ├── 硬件
 │   │   ├── GL.iNet
@@ -312,5 +313,5 @@
 ├── ReadMe.md
 └── gen.sh
 
-90 directories, 221 files
+90 directories, 222 files
 ```
