@@ -68,17 +68,17 @@ web.go
     
     ```
 
-
 ### 2.3 结构（接口）注释
 
 每个自定义的结构体或者接口都应该有注释说明，该注释对结构进行简要介绍，放在结构体定义的前一行，格式为： 结构体名， 结构体说明。同时结构体内的每个成员变量都要有说明，该说明放在成员变量的后面（注意对齐），实例如下：
 
+  ```go
         // User   用户对象，定义了用户的基础信息
         type User struct{
             Username  string // 用户名
             Email     string // 邮箱
         }
-
+  ```
 
 ### 2.4 函数（方法）注释
 
@@ -144,8 +144,8 @@ web.go
 package common
 
 import (
-	"fmt"
-	"time"
+ "fmt"
+ "time"
 )
 
 /*
@@ -166,7 +166,7 @@ func main() {
 
 
 func FormatPrint() {
-	fmt.Printf("this is a common.go")
+ fmt.Printf("this is a common.go")
 }
 
 /*
@@ -176,8 +176,8 @@ func FormatPrint() {
  * @return currentTimeStamp int64 "timestamp"
  */
 func TimeStamp() int64 {
-	currentTimeStamp := time.Now().Unix()
-	return currentTimeStamp
+ currentTimeStamp := time.Now().Unix()
+ return currentTimeStamp
 }
 
 /*
@@ -187,8 +187,8 @@ func TimeStamp() int64 {
  * @return currentTime string "time"
  */
 func NowTime() string {
-	currentTime := time.Now().Format("2006-01-02 15:04:05")
-	return currentTime
+ currentTime := time.Now().Format("2006-01-02 15:04:05")
+ return currentTime
 }
 
 //TODO 创建一个记录程序运行时间的函数
@@ -219,7 +219,7 @@ func NowTime() string {
     ```go
       const APP_VER = "0.7.0.1110 Beta"
     ```
-    
+
 - 如果是枚举类型的常量，需要先创建相应类型：
 
     ```go
@@ -331,7 +331,7 @@ func NowTime() string {
 
 ## 4. 导入规范
 
-###  4.1 import规范
+### 4.1 import规范
 
 ```go
 // 单行引入
@@ -345,9 +345,9 @@ import (
 )
 ```
 
-  ## 5. 声明语句
+## 5. 声明语句
 
-  ### 5.1 函数或方法
+### 5.1 函数或方法
 
   函数或方法的参数排列顺序遵循以下几点原则（从左到右）：
 
@@ -361,16 +361,15 @@ import (
   func IsRepositoryExist(user *User, repoName string) (bool, error) { ...
   ```
 
+## 6. 代码指导
 
-  ## 6. 代码指导
+### 6.1 基本约束
 
-  ### 6.1 基本约束
-
-  - 所有应用的 `main` 包需要有 `APP_VER` 常量表示版本，格式为 `X.Y.Z.Date [Status]`，例如：`0.7.6.1112 Beta`。
+- 所有应用的 `main` 包需要有 `APP_VER` 常量表示版本，格式为 `X.Y.Z.Date [Status]`，例如：`0.7.6.1112 Beta`。
   
-  - 单独的库需要有函数 `Version` 返回库版本号的字符串，格式为 `X.Y.Z[.Date]`。
+- 单独的库需要有函数 `Version` 返回库版本号的字符串，格式为 `X.Y.Z[.Date]`。
   
-  - 当单行代码超过 80 个字符时，就要考虑分行。分行的规则是以参数为单位将从较长的参数开始换行，以此类推直到每行长度合适：
+- 当单行代码超过 80 个字符时，就要考虑分行。分行的规则是以参数为单位将从较长的参数开始换行，以此类推直到每行长度合适：
   
     ```go
       So(z.ExtractTo(
@@ -378,7 +377,7 @@ import (
           "dir/", "dir/bar", "readonly"), ShouldBeNil)
     ```
   
-  - 当单行声明语句超过 80 个字符时，就要考虑分行。分行的规则是将参数按类型分组，紧接着的声明语句的是一个空行，以便和函数体区别：
+- 当单行声明语句超过 80 个字符时，就要考虑分行。分行的规则是将参数按类型分组，紧接着的声明语句的是一个空行，以便和函数体区别：
   
     ```go
       // NewNode initializes and returns a new Node representation.
@@ -401,7 +400,7 @@ import (
       }
     ```
   
-  - 分组声明一般需要按照功能来区分，而不是将所有类型都分在一组：
+- 分组声明一般需要按照功能来区分，而不是将所有类型都分在一组：
   
     ```go
       const (
@@ -419,7 +418,7 @@ import (
       )
     ```
   
-  - 当一个源文件中存在多个相对独立的部分时，为方便区分，需使用由 [ASCII Generator](http://www.network-science.de/ascii/) 提供的句型字符标注（示例：`Comment`）：
+- 当一个源文件中存在多个相对独立的部分时，为方便区分，需使用由 [ASCII Generator](http://www.network-science.de/ascii/) 提供的句型字符标注（示例：`Comment`）：
   
     ```go
       // _________                                       __
@@ -430,7 +429,7 @@ import (
       //         \/             \/      \/     \/     \/
     ```
   
-  - 函数或方法的顺序一般需要按照依赖关系由浅入深由上至下排序，即最底层的函数出现在最前面。例如，下方的代码，函数 `ExecCmdDirBytes` 属于最底层的函数，它被 `ExecCmdDir` 函数调用，而 `ExecCmdDir` 又被 `ExecCmd` 调用：
+- 函数或方法的顺序一般需要按照依赖关系由浅入深由上至下排序，即最底层的函数出现在最前面。例如，下方的代码，函数 `ExecCmdDirBytes` 属于最底层的函数，它被 `ExecCmdDir` 函数调用，而 `ExecCmdDir` 又被 `ExecCmd` 调用：
   
     ```go
       // ExecCmdDirBytes executes system command in given directory
@@ -451,7 +450,7 @@ import (
       }
     ```
   
-  - 结构附带的方法应置于结构定义之后，按照所对应操作的字段顺序摆放方法：
+- 结构附带的方法应置于结构定义之后，按照所对应操作的字段顺序摆放方法：
   
     ```go
       type Webhook struct { ... }
@@ -460,24 +459,24 @@ import (
       func (w *Webhook) HasPushEvent() bool { ... }
     ```
   
-  - 如果一个结构拥有对应操作函数，大体上按照 `CRUD` 的顺序放置结构定义之后：
+- 如果一个结构拥有对应操作函数，大体上按照 `CRUD` 的顺序放置结构定义之后：
   
-    ```
+    ```go
       func CreateWebhook(w *Webhook) error { ... }  func GetWebhookById(hookId int64) (*Webhook, error) { ... }  func UpdateWebhook(w *Webhook) error { ... }  func DeleteWebhook(hookId int64) error { ... }
     ```
   
-  - 如果一个结构拥有以 `Has`、`Is`、`Can` 或 `Allow` 开头的函数或方法，则应将它们至于所有其它函数及方法之前；这些函数或方法以 `Has`、`Is`、`Can`、`Allow` 的顺序排序。
+- 如果一个结构拥有以 `Has`、`Is`、`Can` 或 `Allow` 开头的函数或方法，则应将它们至于所有其它函数及方法之前；这些函数或方法以 `Has`、`Is`、`Can`、`Allow` 的顺序排序。
   
-  - 变量的定义要放置在相关函数之前：
+- 变量的定义要放置在相关函数之前：
   
-    ```
+    ```go
       var CmdDump = cli.Command{      Name:  "dump",      ...      Action: runDump,      Flags:  []cli.Flag{},  }  func runDump(*cli.Context) { ...
     ```
   
-  - 在初始化结构时，尽可能使用一一对应方式：
+- 在初始化结构时，尽可能使用一一对应方式：
   
     ```go
-      	AddHookTask(&HookTask{      Type:        HTT_WEBHOOK,      Url:         w.Url,      Payload:     p,      ContentType: w.ContentType,      IsSsl:       w.IsSsl,  })
+       AddHookTask(&HookTask{      Type:        HTT_WEBHOOK,      Url:         w.Url,      Payload:     p,      ContentType: w.ContentType,      IsSsl:       w.IsSsl,  })
     ```
 
 ## 7. 测试用例
@@ -489,6 +488,3 @@ import (
 - 为辅助包书写使用示例的时，文件名均命名为 `example_test.go`。
 - 测试用例的函数名称必须以 `Test_` 开头，例如：`Test_Logger`。
 - 如果为方法书写测试用例，则需要以 `Text_<Struct>_<Method>` 的形式命名，例如：`Test_Macaron_Run`。
-
-
-

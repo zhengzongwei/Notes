@@ -10,11 +10,3 @@
    yarn add vue-router@next vuex@next
    
    ```
-
-   
-
-   
-
-
-
-

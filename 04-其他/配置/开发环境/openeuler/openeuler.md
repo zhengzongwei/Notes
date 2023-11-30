@@ -104,4 +104,3 @@ dnf install tar vim tmux
   ```
 
   重启 ssh 服务 `systemctl restart sshd`
-

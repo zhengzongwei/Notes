@@ -114,18 +114,15 @@ git push github master
 
 ### git 配置
 
-```shell
+``` shell
  git config #查看本机是否配置了个人信息
  git config --global user.name "……" #定义全局的用户名
  git config --global user.email "……" #定义全局的邮件地址
  git config --list #查看配置信息
 ```
 
-
-
 ### 修改已提交用户的账户名
 
-```
+``` bash
 git commit --amend --reset-author
 ```
-

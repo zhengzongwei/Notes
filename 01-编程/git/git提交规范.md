@@ -1,6 +1,6 @@
 # git 提交规范
 
-git 提交规范 
+git 提交规范
 
 ```shell
 <type>(<scope>): <subject>
@@ -18,12 +18,6 @@ git 提交规范
 - subject: commit 的概述, 建议符合 50/72 formatting
 - body: commit 具体修改内容, 可以分为多行, 建议符合 50/72 formatting
 - footer: 一些备注, 通常是 BREAKING CHANGE 或修复的 bug 的链接.
-
-
-
-
-
-
 
 - feat：新增功能
 - fix：bug 修复

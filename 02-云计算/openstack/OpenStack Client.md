@@ -145,4 +145,3 @@ nova service-list #获取到可用的获取coompute的主机名和zone名称
 
 
 ```
-

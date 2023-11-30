@@ -27,4 +27,3 @@ grant all privileges on book_cloud.* to 'bookcloud'@'%';
 -- 刷新权限
 flush privileges; 
 ```
-

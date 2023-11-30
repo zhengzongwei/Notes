@@ -71,7 +71,7 @@ nova --debug boot --image 81e58b1a-4732-4255-b4f8-c844430485d2 --flavor 1 zzw-te
 
 我们通过`--debug`来开启debug模式，来看看命令行究竟做了什么事，可以从回显中，看到一个关键的信息：
 
-> curl -g -i -X POST http://xxx.xxx.xxx.xxx/compute/v2.1/servers -H “Accept: application/json” -H “User-Agent: python-novaclient” -H “OpenStack-API-Version: compute 2.53” -H “X-OpenStack-Nova-API-Version: 2.53” -H “X-Auth-Token: $token” -H “Content-Type: application/json” -d **‘{“server”: {“name”: “zzw-test”, “imageRef”: “81e58b1a-4732-4255-b4f8-c844430485d2”, “flavorRef”: “1”, “max_count”: 1, “min_count”: 1, “networks”: “auto”}}’**
+> curl -g -i -X POST <http://xxx.xxx.xxx.xxx/compute/v2.1/servers> -H “Accept: application/json” -H “User-Agent: python-novaclient” -H “OpenStack-API-Version: compute 2.53” -H “X-OpenStack-Nova-API-Version: 2.53” -H “X-Auth-Token: $token” -H “Content-Type: application/json” -d **‘{“server”: {“name”: “zzw-test”, “imageRef”: “81e58b1a-4732-4255-b4f8-c844430485d2”, “flavorRef”: “1”, “max_count”: 1, “min_count”: 1, “networks”: “auto”}}’**
 
 我们可以看到虚拟机创建时，传入了一些诸如虚拟机名称、镜像、规格、个数、网络等基本信息。在API中，首先就会对这些参数进行校验，比如镜像ID是否合法、网络是否正确等。
 
@@ -150,4 +150,3 @@ Super Conductor在创建虚拟机的流程其实和之前差不多，选个合�
 整体的看一下，其实在Pike版本，Nova还是有很多的变动。真的是一个版本过去了，创建虚拟机的流程已经面目全非了。
 
 从P版本的虚拟机创建流程来看，主要的优化集中在基于Cell V2架构下的多cell支持、调度的优化、Quota的优化，而后续的发展，目前也是集中在Placement各种资源的支持以及在Cell v2场景的诸如基本流程、调度等的优化。
-

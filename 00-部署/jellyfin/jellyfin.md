@@ -26,4 +26,3 @@ services:
       - "8096:8096"
     restart: unless-stopped
 ```
-

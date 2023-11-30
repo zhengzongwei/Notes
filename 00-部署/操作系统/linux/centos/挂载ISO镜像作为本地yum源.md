@@ -1,7 +1,5 @@
 # 将ISO镜像当作本地yum源
 
-
-
 ## 备份系统 repo
 
 ```shell
@@ -25,4 +23,3 @@ enabled=1
 gpgcheck=0
 
 ```
-

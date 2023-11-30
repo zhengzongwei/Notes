@@ -5,11 +5,11 @@
 ### 虚拟机安装步骤
 
 #### 1. 选择安装方式
+
 - 进入系统
-	![arch-0204-2023-02-04-21-00-09](./arch (bios)/images/arch-0204-2023-02-04-21-00-09.png)
 
-	![arch-2023-02-04-12-25-00](./arch/images/arch-2023-02-04-12-25-00.png)
-
+  ![arch-0204-2023-02-04-21-00-09](./arch (bios)/images/arch-0204-2023-02-04-21-00-09.png)
+  ![arch-2023-02-04-12-25-00](./arch/images/arch-2023-02-04-12-25-00.png)
 
 - 等待一段时间后，进入系统
 
@@ -29,12 +29,10 @@ ls /sys/firmware/efi/efivars
 # 如果显示了相关目录，则系统以UEFI模式引导，如果目录不存在，则系统以BIOS模式引导
 ```
 
-
-
 #### 4. 连接网络
 
 - 虚拟机已经默认配置好网络
-	![arch-2023-02-04-16-21-56](./arch/images/arch-2023-02-04-16-21-56.png)
+ ![arch-2023-02-04-16-21-56](./arch/images/arch-2023-02-04-16-21-56.png)
 
 - 使用无线连接
 
@@ -46,7 +44,6 @@ ls /sys/firmware/efi/efivars
   station wlan0 connect wifi-name # 进行连接，注意这里无法输入中文。回车后输入密码即可
   exit # 连接成功后退出
   ```
-
 
 #### 5. 系统配置
 
@@ -97,7 +94,6 @@ ls /sys/firmware/efi/efivars
   swapon /dev/swap_partition（交换空间分区）
   ```
 
-
 #### 6.安装系统
 
 - 使用 `pacstrap` 脚本安装基础包
@@ -109,7 +105,6 @@ ls /sys/firmware/efi/efivars
   pacstrap /mnt dhcpcd iwd vim sudo zsh zsh-completions
   ```
   
-
 #### 7.配置系统
 
 - Fstab
@@ -154,19 +149,11 @@ ls /sys/firmware/efi/efivars
   vim /etc/hostname
   ```
 
-  
-
-  
-
-  
-
 - root密码
 
   ```shell
   passwd
   ```
-
-  
 
 - 安装微码
 
@@ -185,7 +172,7 @@ ls /sys/firmware/efi/efivars
   grub-mkconfig -o /boot/grub/grub.cfg
   ```
 
- -   完成安装
+- 完成安装
 
   ```shell
   exit # 退回安装环境

@@ -1,7 +1,5 @@
 # CentOS 6 虚拟机问题
 
-
-
 ### centos6 虚拟机 通过vnc可以进入终端，通过`virsh console` 不能进入终端
 
 解决方案：
@@ -87,7 +85,3 @@ openstack 创建的虚拟机
        [root@localhost home]# 
        
        ```
-
-   
-
-   

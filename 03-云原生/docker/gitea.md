@@ -1,7 +1,5 @@
 # gitea
 
-
-
 ## gitea
 
 docker-compose
@@ -31,6 +29,3 @@ services:
       - "9527:3000"
       - "9528:22"
 ```
-
-
-

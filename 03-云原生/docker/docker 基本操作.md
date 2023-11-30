@@ -12,8 +12,6 @@ sudo gpasswd -a ${USER} docker
 newgrp docker
 ```
 
-
-
 ## 1. docker images
 
 ### 拉取镜像
@@ -82,8 +80,3 @@ docker import - zentao < zentao.tar
 ```
 
 ## 3. logs
-
-
-
-
-

@@ -1,3 +1,5 @@
+# centos 7 命令配置系统
+
 ```shell
 
 #! /bin/bash

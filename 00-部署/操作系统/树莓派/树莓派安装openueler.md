@@ -1,9 +1,10 @@
 # 树莓派安装openeuler 系统
 
 ## 准备工作
+
 1. openeuler系统镜像 [树莓派openeuler镜像](https://repo.openeuler.org/openEuler-22.03-LTS/raspi_img/openEuler-22.03-LTS-raspi-aarch64.img.xz)
 
-2. 将系统写入SD卡 [**balenaElcher** ](https://www.balena.io/etcher/)
+2. 将系统写入SD卡 [balenaElcher](https://www.balena.io/etcher/)
 
 ## 步骤
 
@@ -55,4 +56,3 @@ Device 'wlan0' successfully activated with '9c711295-efe2-444a-adc2-de2071503dab
 # 显示当前连接
 nmcli connection show 
 ```
-

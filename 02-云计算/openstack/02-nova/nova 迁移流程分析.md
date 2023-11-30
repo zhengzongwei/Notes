@@ -122,8 +122,6 @@ nova-compute(source) ->> nova-compute(dest): RPC call: pre_live_migration
 nova-compute(source) ->> nova-compute(source): self.driver.live_migration
 ```
 
-
-
 #### 热迁移过程总结
 
 1. nova-api收到冷迁移请求，验证权限、配额等并获取虚拟机信息，通过消息队列向nova-conductor发起热迁移请求
@@ -142,7 +140,7 @@ nova-compute(source) ->> nova-compute(source): self.driver.live_migration
 
 #### 实现原理
 
-​	根据在数据库中保存的配置，重新生成一个一样的云主机，前提是需要能访问到故障云主机的磁盘数据，所以使用共享存储可以实现云主机故障迁移。
+​ 根据在数据库中保存的配置，重新生成一个一样的云主机，前提是需要能访问到故障云主机的磁盘数据，所以使用共享存储可以实现云主机故障迁移。
 
 #### 故障迁移过程总结
 
@@ -151,4 +149,3 @@ nova-compute(source) ->> nova-compute(source): self.driver.live_migration
 2. nova-conductor通过nova-scheduler获取到目的宿主机后通过消息队列让目录宿主机执行重建操作
 
 3. 目的宿主机做分配资源、检查是否共享存储、初始化好存储、初始化虚拟网络设备等工作后重新创建虚拟机并更新数据库元数据信息
-

@@ -4,7 +4,7 @@
 
    打开终端并以管理员身份执行以下命令，使用`dnf`包管理器安装NTP软件包：
 
-   ```
+   ```bash
    sudo dnf install ntp
    ```
 

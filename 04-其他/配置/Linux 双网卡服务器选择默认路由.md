@@ -1,5 +1,6 @@
 服务器有两个网口，一个连内网（enp0s25)，一个连外网(enp9s0)
 使用route 查看
+
 ```shell
 $ route
 目标            网关            子网掩码        标志  跃点   引用  使用 接口
@@ -18,6 +19,7 @@ route add default gw 192.168.1.1
 ```
 
 192.168.1.1对应的是enp9s0连的网关IP，然后就可以连github了，再次察看route
+
 ```shell
 $ route
 内核 IP 路由表
@@ -36,6 +38,7 @@ link-local      0.0.0.0         255.255.0.0     U     1000   0        0 enp0s25
 （1） 在/etc/rc.local里添加
 
 # 配置的路由信息
+
 route add -net 192.168.3.0/24 dev eth0
 route add -net 192.168.2.0/24 gw 192.168.3.254
 1
@@ -48,11 +51,10 @@ GATEWAY=gw-ip` 或者 `GATEWAY=gw-dev
 （3）/etc/sysconfig/static-router :
 
 # 设置静态路由
+
 any net x.x.x.x/24 gw y.y.y.y
 
-
 ## 操作
-
 
 ```shell
 # 删除默认网关

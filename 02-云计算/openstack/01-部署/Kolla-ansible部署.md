@@ -6,15 +6,13 @@
 
 2 个网卡接口
 
-- nat网卡 
+- nat网卡
 
 - 桥接网卡
 
 8GB 内存
 
 40GB 磁盘
-
-
 
 debian11.7
 
@@ -119,11 +117,7 @@ debian11.7
    # 部署
    kolla-ansible -i /etc/kolla/all-in-one deploy
    ```
-   
 
 ## 参考链接
 
 1. [支持矩阵 — kolla-ansible 16.1.0.dev7 文档 (openstack.org)](https://docs.openstack.org/kolla-ansible/latest/user/support-matrix)
-
-   
-

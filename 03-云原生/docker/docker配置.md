@@ -10,4 +10,3 @@ vim /etc/docker/daemon.json
  
  docker info
 ```
-

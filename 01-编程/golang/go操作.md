@@ -45,26 +45,26 @@
 - Contains  子串 substr 在 s 中，返回 true
 
   ```go
-  	name := "hello golang"
-  	a := strings.Contains(name, " ")
-  	fmt.Printf("%v", a)
+   name := "hello golang"
+   a := strings.Contains(name, " ")
+   fmt.Printf("%v", a)
   
   ```
 
 - ContainsAny chars 中任何一个 Unicode 代码点在 s 中
 
   ```go
-  	name := "hello golang"
-  	a :=strings.ContainsAny(name, " & i")
-  	fmt.Printf("%v", a)
+   name := "hello golang"
+   a :=strings.ContainsAny(name, " & i")
+   fmt.Printf("%v", a)
   ```
 
 - ContainsRune Unicode 代码点 r 在 s 中，返回 true
 
   ```go
-  	name := "hello golang"
-  	a :=strings.ContainsRune(name, ' ')
-  	fmt.Printf("%v", a)
+   name := "hello golang"
+   a :=strings.ContainsRune(name, ' ')
+   fmt.Printf("%v", a)
   ```
 
 ### 2.3 子串出现次数 ( 字符串匹配 )
@@ -287,8 +287,6 @@ func NewReader(s string) *Reader
 该方法接收一个字符串，返回的 Reader 实例就是从该参数字符串读数据。在后面学习了 bytes 包之后，可以知道 bytes.NewBufferString 有类似的功能，不过，如果只是为了读取，NewReader 会更高效。
 
 其他方法不介绍了，都是之前接口的实现，有兴趣的可以看看源码实现，大部分都是根据 i、prevRune 两个属性来控制。
-
-
 
 ### 2.16 Builder 类型
 

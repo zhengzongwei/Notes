@@ -314,6 +314,7 @@ SESSION_CACHE_ALIAS = "default"
     }
     
     ```
+
 3. 修改DATABASES的配置信息
 
     ``` python
@@ -328,6 +329,7 @@ SESSION_CACHE_ALIAS = "default"
             }
         }
     ```
+
 4. 在MySQL中.创建数据库
 
 ### 定义模型类
@@ -440,6 +442,7 @@ class HeroInfo(models.Model):
             on_delete=models.SET(get_sentinel_user),
         )
     ```
+
 - DO_NOTHING 不做任何操作，如果数据库前置指明级联性，此选项会抛出IntegrityError异常
 
 ### 迁移
@@ -499,6 +502,7 @@ class HeroInfo(models.Model):
             return redirect('/bk/index')
         
         ```
+
     2) create
 
         通过模型类.objects.create()保存
@@ -506,6 +510,7 @@ class HeroInfo(models.Model):
         ``` Python
             book = BookInfo.objects.create(title=title1, pub_date=pub_date1)
         ```
+
 2. 查询
 
     2.1 基本查询
@@ -579,6 +584,7 @@ class HeroInfo(models.Model):
                 BookInfo.objects.exclude(id=3)
             
             ```
+
         6) 日期查询
 
             year、month、day、week_day、hour、minute、second：对日期时间类型的属性进行运算。
@@ -720,6 +726,7 @@ class HeroInfo(models.Model):
             hero.hname = '猪悟能'
             hero.save()
         ```
+
     2) update
 
         使用模型类.objects.filter().update()，会返回受影响的行数
@@ -1030,6 +1037,7 @@ admin.site.index_title = 首页标题文本
         def __str__(self):
     
     ```
+
 3. 上传图片测试.
 
     最终保存路径为：media_root/upload_to/文件名

@@ -27,6 +27,3 @@ MARIADB_USER=zhengzongwei
 MARIADB_PASSWORD=zhengzongwei
 MARIADB_PORT=16030
 ```
-
-
-

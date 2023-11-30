@@ -47,15 +47,10 @@ sudo docker run --detach \
   gitlab-ce:16.4.1-ce.0
 ```
 
+## 配置gitlab-runinig
 
-
-
+  待补充
 
 ## 参考链接
 
 1. 部署gitlab [GitLab Docker images | GitLab](https://docs.gitlab.com/ee/install/docker.html)
-
-
-
-
-

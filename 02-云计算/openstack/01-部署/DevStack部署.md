@@ -8,9 +8,9 @@
 | Ubuntu 22.04.2 LTS | 5.15.0-76-generic   | 2023.1    |      |
 |                    |                     |           |      |
 
-
-
 ## 安装部署
+
+### openeuler
 
 ### 下载devstack
 
@@ -28,6 +28,7 @@ git clone https://opendev.org/openstack/devstack
 
 # 修改目录权限
 sudo chown -R stack:stack /opt/devstack
+sudo chown -R stack:stack /opt/stack
 chmod -R 755 /opt/devstack
 chmod -R 755 /opt/stack
 # 切换到要部署的openstack版本分支，以yoga为例，不切换的话，默认安装的是master版本的openstack
@@ -56,9 +57,15 @@ GIT_BASE=http://git.trystack.cn
 NOVNC_REPO=http://git.trystack.cn/kanaka/noVNC.git
 SPICE_REPO=http://git.trystack.cn/git/spice/spice-html5.git
 
+HOST_IP=127.0.0.1
+
+
 Q_PLUGIN=ml2
 ENABLE_TENANT_VLANS=True
 ML2_VLAN_RANGES=physnet1:1000:2000
+
+# openeuler 
+enable_service placement-api 
 ```
 
 ### 部OpenStack
@@ -68,9 +75,9 @@ ML2_VLAN_RANGES=physnet1:1000:2000
 bash /opt/devstack/stack.sh
 ```
 
-## 遇到问题
+## 遇到问题IP
 
-### Unable to create the network. No tenant network is available for allocation.
+### Unable to create the network. No tenant network is available for allocation
 
 这是由于在创建network的时候需要先去取vlan id，但是这里没有配置VLAN RANGE，所以创建网络报错．
 
@@ -82,7 +89,14 @@ ENABLE_TENANT_VLANS=True
 ML2_VLAN_RANGES=physnet1:1000:2000
 ```
 
+### ModuleNotFoundError: No module named 'pbr.build'
 
+安装模块 pip install pbr
+
+### Error while executing command: HttpException: 503, Unable to create the network. No tenant network is available for allocation
+
+```bash
+```
 
 ## 参考文档
 
@@ -90,3 +104,31 @@ ML2_VLAN_RANGES=physnet1:1000:2000
 
 2. [OpenStack安装－DevStack]([OpenStack安装－DevStack (trystack.cn)](http://trystack.cn/Articles/devstack1.html))
 
+```bash
+CloudNet-Topic
+
+
+./kafka-topics.sh --create --zookeeper 10.202.5.1:2181,10.202.5.2:2181,10.202.5.3:2181/kafka --replication-factor 2 --partitions 6 --topic Test-Topic
+ 
+ 
+ ./kafka-topics.sh --des --zookeeper 10.179.133.1:2181,10.179.133.2:2181,10.179.133.3:2181/kafka --replication-factor 2 --partitions 6 --topic CloudNet-Topic
+ 10.179.133.1
+# topic需要和jar里的对应
+/kafka/brokers
+
+
+
+d22AavmYh6ZC
+
+
+```
+
+## docker centos 部署devstack
+
+```bash
+ docker run --privileged -it -p 8090:80 -p 6080:6080 --name devstack c9a1fdca3387  /bin/bash
+ 
+ 
+sudo yum install redhat-lsb
+
+```
