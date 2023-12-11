@@ -38,6 +38,11 @@ debian11.7
 
    ```
    sudo apt install git python3-dev libffi-dev gcc libssl-dev
+   
+   
+   sudo apt install python3-pip
+   
+   
    ```
 
 ### 为虚拟环境安装依赖项
@@ -101,11 +106,35 @@ debian11.7
    cp /opt/cloud/.venv/share/kolla-ansible/ansible/inventory/all-in-one /etc/kolla
    ```
 
-5. 开始部署
+5. 配置部署文件
+
+   ```yaml
+   less /etc/kolla/globals.yml
+   
+   workaround_ansible_issue_8743: yes
+   kolla_base_distro: "debian"
+   openstack_release: "2023.1"
+   openstack_tag_suffix: "-aarch64"
+   kolla_internal_vip_address: "192.168.237.250"
+   docker_registry: "quay.nju.edu.cn"
+   network_interface: "ens160"
+   neutron_external_interface: "ens192"
+   enable_skyline: "yes"
+   nova_compute_virt_type: "qemu"
+   ```
+
+   
+
+6. 开始部署
 
    ```shell
+   # 
    kolla-ansible install-deps
    
+   # 生成密码
+   kolla-genpwd
+   
+   # 带有 kolla 部署依赖项的 Bootstrap 服务器
    kolla-ansible -i /etc/kolla/all-in-one bootstrap-servers
    
    # 安装前检查
@@ -121,3 +150,6 @@ debian11.7
 ## 参考链接
 
 1. [支持矩阵 — kolla-ansible 16.1.0.dev7 文档 (openstack.org)](https://docs.openstack.org/kolla-ansible/latest/user/support-matrix)
+
+
+

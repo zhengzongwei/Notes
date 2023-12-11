@@ -91,7 +91,7 @@ dnf update -y
 
 ## vscode ssh-remote
 
-dnf install tar vim tmux
+`dnf install tar vim tmux`
 
 - 修改ssh配置文件
 

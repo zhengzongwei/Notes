@@ -35,5 +35,9 @@ ACL SETUSER zhengzongwei on >zhengzongwei allkeys allcommands
 
 ## String CRUD
 
+```bash
+docker run -d --name mariadb -e MYSQL_ROOT_PASSWORD=mysql -p 16030:3306 -v mariadb/mariadb:/var/lib/mysql mariadb:11.2.2
+```
+
 
 
