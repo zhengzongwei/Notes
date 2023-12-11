@@ -95,40 +95,10 @@ ML2_VLAN_RANGES=physnet1:1000:2000
 
 ### Error while executing command: HttpException: 503, Unable to create the network. No tenant network is available for allocation
 
-```bash
-```
+
 
 ## 参考文档
 
 1. [devstack官方文档]([DevStack — DevStack 文档 (openstack.org)](https://docs.openstack.org/devstack/latest/))
 
 2. [OpenStack安装－DevStack]([OpenStack安装－DevStack (trystack.cn)](http://trystack.cn/Articles/devstack1.html))
-
-```bash
-CloudNet-Topic
-
-
-./kafka-topics.sh --create --zookeeper 10.202.5.1:2181,10.202.5.2:2181,10.202.5.3:2181/kafka --replication-factor 2 --partitions 6 --topic Test-Topic
- 
- 
- ./kafka-topics.sh --des --zookeeper 10.179.133.1:2181,10.179.133.2:2181,10.179.133.3:2181/kafka --replication-factor 2 --partitions 6 --topic CloudNet-Topic
- 10.179.133.1
-# topic需要和jar里的对应
-/kafka/brokers
-
-
-
-d22AavmYh6ZC
-
-
-```
-
-## docker centos 部署devstack
-
-```bash
- docker run --privileged -it -p 8090:80 -p 6080:6080 --name devstack c9a1fdca3387  /bin/bash
- 
- 
-sudo yum install redhat-lsb
-
-```
