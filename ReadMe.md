@@ -195,6 +195,8 @@
 │   │   ├── 01-部署
 │   │   │   ├── DevStack部署.md
 │   │   │   ├── Kolla-ansible部署.md
+│   │   │   ├── OpenEuler 部署.md
+│   │   │   ├── openstack-ansible.md
 │   │   │   └── 环境搭建.md
 │   │   ├── 02-nova
 │   │   │   ├── images
@@ -316,7 +318,8 @@
 ├── LICENSE
 ├── ReadMe.md
 ├── gen.sh
-└── 虚拟环境设置.md
+├── 虚拟环境设置.md
+└── 证书生成.md
 
-92 directories, 225 files
+92 directories, 228 files
 ```
