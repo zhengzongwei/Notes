@@ -104,3 +104,13 @@ dnf update -y
   ```
 
   重启 ssh 服务 `systemctl restart sshd`
+
+## 其他
+
+- 更换源
+
+  ```bash
+  sed -i 's@repo.openeuler.org@repo.huaweicloud.com/openeuler@g' /etc/yum.repos.d/openEuler.repo
+  ```
+
+  

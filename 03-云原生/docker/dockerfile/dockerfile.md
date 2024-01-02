@@ -32,12 +32,12 @@ RUN rm -rf /root/var \
 #### dockerfile
 
 ```dockerfile
-FROM debian
+FROM debian:11
 MAINTAINER zhengzongwei<zhengzongwei@foxmail.com>
 
 RUN cp -a /etc/apt/sources.list /etc/apt/sources.list.bak \
   && sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list \
-  && sudo sed -i 's|security.debian.org/debian-security|mirrors.ustc.edu.cn/debian-security|g' /etc/apt/sources.list
+  && sed -i 's|security.debian.org/debian-security|mirrors.ustc.edu.cn/debian-security|g' /etc/apt/sources.list
 ```
 
 

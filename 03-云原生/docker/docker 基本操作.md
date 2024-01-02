@@ -12,7 +12,7 @@ sudo gpasswd -a ${USER} docker
 newgrp docker
 ```
 
-## 1. docker images
+## docker images
 
 ### 拉取镜像
 
@@ -46,7 +46,7 @@ docker save -o image.tar easysoft/zentao:17.6 mariadb:latest
 docker load < zentao.tar
 ```
 
-## 2. docker container
+## docker container
 
 ### 运行容器
 
@@ -79,4 +79,4 @@ docker export d72b5e7fce8f > zentao.tar
 docker import - zentao < zentao.tar
 ```
 
-## 3. logs
+## logs
