@@ -115,7 +115,7 @@ cpu_mode=custom
 cpu_model=cortex-a72
 ```
 
-### 部OpenStack
+### Delpoy DevStack
 
 ```shell
 # devstack 用户执行
@@ -160,6 +160,20 @@ ML2_VLAN_RANGES=physnet1:1000:2000
 
 ```bash
 /sbin/iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+```
+
+## 调试
+
+```bash
+# 查看特定服务日志
+sudo journalctl -f --unit devstack@n-cpu.service
+
+
+# 查看neutron server 日志
+sudo journalctl -f --unit devstack@q-svc.service
+
+# 查看指定日期日志
+sudo journalctl --since "2023-12-29 13:00:00" --unit "2023-12-29 14:00:00" devstack@q-svc.service > neutron.log
 ```
 
 
