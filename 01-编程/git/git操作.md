@@ -126,3 +126,250 @@ git push github master
 ``` bash
 git commit --amend --reset-author
 ```
+
+
+
+```bash
+name: Release on Tag
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.21
+
+      - name: Build binaries
+        run: make
+
+      - name: List repository contents
+        run: ls -R
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: Release notes for ${{ github.ref }}
+          draft: false
+          prerelease: false
+          commitish: ${{ github.sha }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+
+      - name: Upload Release Asset (Mac amd64)
+        id: upload-release-app-darwin-amd64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/darwin/app_darwin_amd64
+          asset_name: app_darwin_amd64_v${{ github.ref#refs/tags/ }}
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset (Mac arm64)
+        id: upload-release-app-darwin-arm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/darwin/app_darwin_arm64
+          asset_name: app_darwin_arm64_v${{ github.ref#refs/tags/ }}
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset (Linux amd64)
+        id: upload-release-app-darwin-arm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/darwin/app_linux_amd64
+          asset_name: app_linux_amd64_v${{ github.ref#refs/tags/ }}
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset (Linux arm64)
+        id: upload-release-app-darwin-arm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/darwin/app_linux_arm64
+          asset_name: app_linux_arm64_v${{ github.ref#refs/tags/ }}
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset (Windows amd64)
+        id: upload-release-app-windows-arm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/darwin/app_windows_amd64.exe
+          asset_name: app_windows_amd64_v${{ github.ref#refs/tags/ }}.exe
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset (Windows arm64)
+        id: upload-release-app-windows-arm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/darwin/app_windows_arm64.exe
+          asset_name: app_windows_arm64_v${{ github.ref#refs/tags/ }}.exe
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset (Windows 386)
+        id: upload-release-app-windows-386
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/darwin/app_windows_386.exe
+          asset_name: app_windows_386_v${{ github.ref#refs/tags/ }}.exe
+          asset_content_type: application/octet-stream
+
+```
+
+
+
+```bash
+name: Release on Tag
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.21
+
+      - name: Build binaries
+        run: make
+
+      - name: List repository contents
+        run: ls -R
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: Release notes for ${{ github.ref }}
+          draft: false
+          prerelease: false
+          commitish: ${{ github.sha }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+
+      - name: Upload Release Asset (Mac amd64)
+        id: upload-release-app-darwin-amd64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/darwin/app_darwin_amd64
+          asset_name: app_darwin_amd64_v${{ github.ref }}
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset (Mac arm64)
+        id: upload-release-app-darwin-arm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/darwin/app_darwin_arm64
+          asset_name: app_darwin_arm64_v${{ github.ref }}
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset (Linux amd64)
+        id: upload-release-app-darwin-arm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/darwin/app_linux_amd64
+          asset_name: app_linux_amd64_v${{ github.ref }}
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset (Linux arm64)
+        id: upload-release-app-darwin-arm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/darwin/app_linux_arm64
+          asset_name: app_linux_arm64_v${{ github.ref }}
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset (Windows amd64)
+        id: upload-release-app-windows-arm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/darwin/app_windows_amd64.exe
+          asset_name: app_windows_amd64_v${{ github.ref }}.exe
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset (Windows arm64)
+        id: upload-release-app-windows-arm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/darwin/app_windows_arm64.exe
+          asset_name: app_windows_arm64_v${{ github.ref }}.exe
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset (Windows 386)
+        id: upload-release-app-windows-386
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/darwin/app_windows_386.exe
+          asset_name: app_windows_386_v${{ github.ref }}.exe
+          asset_content_type: application/octet-stream
+
+```
+

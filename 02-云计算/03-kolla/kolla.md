@@ -23,6 +23,8 @@ tox -e genconfig
 
 ## 配置
 
+### 配置文件示例
+
 ```bash
 # kolla/etc/kolla/kolla-build.conf
 
@@ -61,6 +63,15 @@ location = http://192.168.110.12/tars/neutron-12.0.4.tar.gz
 location = http://192.168.110.12/tars/nova-17.0.2.tar.gz
 ```
 
+### 配置文件详解
+
+
+
 # 相关链接
 
 [kolla部署openstack](../04-openstack/01-部署/Kolla-ansible部署.md)
+
+
+
+
+
