@@ -1,13 +1,15 @@
-在没有TMP的电脑上安装windwos11 会提示`该电脑不支持此系统`
+## 相关问题
+
+### 1. 在没有TMP的电脑上安装windwos11 会提示`该电脑不支持此系统`
 
 解决方案
 
-```powershell
-# shift + F10 打开 命令行界面
-regedit
-
-# 定位到如下位置 HKEY_LOCAL_MACHINE\SYSTEM\Setup
-```
+    ```powershell
+    # shift + F10 打开 命令行界面
+    regedit
+    
+    # 定位到如下位置 HKEY_LOCAL_MACHINE\SYSTEM\Setup
+    ```
 
 创建一个名为“LabConfig”的项，接着在“LabConfig”下创建两个DWORD值：
 
@@ -17,11 +19,7 @@ regedit
 
 保存退出后，无法安装的提示就消失了。
 
-
-
-
-
-跳过网络检测
+### 2. 跳过网络检测
 
 ```bash
 mac fn + shift + F10 
