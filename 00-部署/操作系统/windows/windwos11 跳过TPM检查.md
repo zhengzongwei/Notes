@@ -16,3 +16,16 @@ regedit
 键名“BypassSecureBootCheck”，赋值“00000001”
 
 保存退出后，无法安装的提示就消失了。
+
+
+
+
+
+跳过网络检测
+
+```bash
+mac fn + shift + F10 
+
+输入 oobe\BypassNRO
+```
+
