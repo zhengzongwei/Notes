@@ -34,7 +34,7 @@
 │       │   └── debian
 │       │       └── debian安装指南.md
 │       ├── windows
-│       │   └── windwos11 跳过TPM检查.md
+│       │   └── windwos11 问题.md
 │       └── 树莓派
 │           ├── images
 │           │   └── 烧录系统.png
