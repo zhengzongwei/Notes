@@ -33,7 +33,7 @@
   ```bash
   dnf install binutils ncurses-devel \
       /usr/include/{libelf.h,openssl/pkcs7.h} \
-      /usr/bin/{bc,bison,flex,gcc,git,gpg2,gzip,make,openssl,pahole,perl,rsync,tar,xz,zstd}
+      /usr/bin/{bc,bison,flex,gcc,git,gpg2,gzip,make,openssl,pahole,perl,rsync,tar,xz,zstd}p
       
   # TODO 未验证    
   dnf install wget gcc gc bc gd make perl ncurses-devel xz rpm-build xmlto asciidoc hmaccalc python-devel newt-devel pesign binutils-devel audit-libs-devel numactl-devel pciutils-devel perl-ExtUtils-Embed -y
@@ -59,9 +59,11 @@ gpg2 --locate-keys torvalds@kernel.org gregkh@kernel.org
 # 校验tar文件的完整性
 gpg2 --verify linux-*.tar.sign
 
-$ gpg2 --verify linux-*.tar.sign
-gpg: assuming signed data in 'linux-6.5.5.tar'
-gpg: Signature made Saturday 23 September 2023 02:46:13 PM IST
+ubuntu@ubuntu:~/work$ gpg2 --verify linux-6.1.73.tar
+linux-6.1.73.tar       linux-6.1.73.tar.sign  linux-6.1.73.tar.xz
+ubuntu@ubuntu:~/work$ gpg2 --verify linux-6.1.73.tar.sign
+gpg: assuming signed data in 'linux-6.1.73.tar'
+gpg: Signature made Mon 15 Jan 2024 05:56:11 PM UTC
 gpg:                using RSA key 647F28654894E3BD457199BE38DBBDC86092693E
 gpg: Good signature from "Greg Kroah-Hartman <gregkh@kernel.org>" [unknown]
 gpg: WARNING: This key is not certified with a trusted signature!
@@ -98,9 +100,6 @@ $ zcat /proc/config.gz > .config
 ```bash
 # 原来的 .config 文件将被重命名为 .config.old 进行备份，并将新的更改写入至 .config 文件
 make olddefconfig
-
-# Debian 及其衍生版为内核模块使用一个签名证书。默认情况下，你的计算机并不包含这个证书。
-
 ```
 
 > [!NOTE]
@@ -111,6 +110,16 @@ make olddefconfig
 ./scripts/config --file .config --set-str SYSTEM_TRUSTED_KEYS ''
 ./scripts/config --file .config --set-str SYSTEM_REVOCATION_KEYS ''
 ```
+
+> [!NOTE]
+>
+> Centos及其衍生版为内核模块使用一个签名证书,默认情况下，你的计算机并不包含这个证书。
+
+```bash
+./scripts/config --file .config --set-str CONFIG_SYSTEM_TRUSTED_KEYS ""
+```
+
+
 
 ### 使用自定义配置
 
@@ -281,3 +290,17 @@ apt-get install elfutils
 
 dnf install elfutils-libelf-devel
 ```
+
+2. make[4]: *** [scripts/Makefile.build:243: net/wireless/nl80211.o] Error 1
+   make[3]: *** [scripts/Makefile.build:480: net/wireless] Error 2
+   make[2]: *** [scripts/Makefile.build:480: net] Error 2
+   make[1]: *** [/root/work/linux-6.6.12/Makefile:1913: .] Error 2
+   make: *** [Makefile:234: __sub-make] Error 2
+
+3. make[2]: *** 没有规则可制作目标“certs/rhel.pem”，由“certs/x509_certificate_list” 需求。 停止。 make[2]: *** 正在等待未完成的任务.... make[1]: *** [scripts/Makefile.build:500：certs] 错误 2 make[1]: *** 正在等待未完成的任务....
+
+   ```bash
+   .config CONFIG_SYSTEM_TRUSTED_KEY=""
+   ```
+
+   
