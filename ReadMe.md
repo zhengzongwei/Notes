@@ -326,7 +326,8 @@
 │       └── redis.md
 ├── 06-Linux
 │   ├── Kernel
-│   │   └── kernel.md
+│   │   ├── kernel开发指南.md
+│   │   └── kernel编译指南.md
 │   └── Linux命令详解
 │       └── brctl.md
 ├── LICENSE
@@ -335,5 +336,5 @@
 ├── 虚拟环境设置.md
 └── 证书生成.md
 
-97 directories, 237 files
+97 directories, 238 files
 ```
