@@ -31,11 +31,9 @@
 - Fedora
 
   ```bash
-  dnf install binutils ncurses-devel \
-      /usr/include/{libelf.h,openssl/pkcs7.h} \
-      /usr/bin/{bc,bison,flex,gcc,git,gpg2,gzip,make,openssl,pahole,perl,rsync,tar,xz,zstd}p
-      
-  # TODO 未验证    
+  sudo yum group install "Development Tools"
+  sudo dnf install openssl openssl-devel dwarves rpm-build libelf-devel elfutils-libelf-devel ncurses rsync
+  
   dnf install wget gcc gc bc gd make perl ncurses-devel xz rpm-build xmlto asciidoc hmaccalc python-devel newt-devel pesign binutils-devel audit-libs-devel numactl-devel pciutils-devel perl-ExtUtils-Embed -y
   ```
 
@@ -117,9 +115,10 @@ make olddefconfig
 
 ```bash
 ./scripts/config --file .config --set-str CONFIG_SYSTEM_TRUSTED_KEYS ""
+
+./scripts/config --file .config --set-str CONFIG_DEBUG_INFO_BTF ""
+./scripts/config --file .config --set-str CONFIG_ARCH_TEGRA_186_SOC ""
 ```
-
-
 
 ### 使用自定义配置
 
@@ -155,12 +154,36 @@ make menuconfig
 ```bash
 # 版本对应为 6.5.5-ksyun
 ./scripts/config --file .config --set-str LOCALVERSION "-ksyun"
+```
+
+- debian
+
+  ```bash
+  make -j$(nproc) 2>&1 | tee log
+  
+  # 查询编译错误
+  grep Error log
+  ```
+
+- centos
+
+  ```bash
+  make rpm-pkg
+  ```
+
+  
+
+  
+
+```bash
+# 版本对应为 6.5.5-ksyun
+./scripts/config --file .config --set-str LOCALVERSION "-ksyun"
 
 # 编译
 make -j$(nproc) 2>&1 | tee log
 
-# 编译成 rpm包 生成位置 /usr/src/redhat/RPMS/
-make rpm
+# CentOS 编译成 rpm包 生成位置 /usr/src/redhat/RPMS/
+make rpm-pkg
 
 # 查询编译错误
 grep Error log
@@ -303,4 +326,22 @@ dnf install elfutils-libelf-devel
    .config CONFIG_SYSTEM_TRUSTED_KEY=""
    ```
 
-   
+4. ERROR: modpost: "vchan_dma_desc_free_list" [drivers/dma/tegra186-gpc-dma.ko] undefined!
+   ERROR: modpost: "vchan_init" [drivers/dma/tegra186-gpc-dma.ko] undefined!
+   ERROR: modpost: "vchan_tx_submit" [drivers/dma/tegra186-gpc-dma.ko] undefined!
+   ERROR: modpost: "vchan_tx_desc_free" [drivers/dma/tegra186-gpc-dma.ko] undefined!
+   ERROR: modpost: "vchan_find_desc" [drivers/dma/tegra186-gpc-dma.ko] undefined!
+   make[3]: *** [scripts/Makefile.modpost:126: Module.symvers] Error 1
+
+​	去掉 .config 中 关于tegra的选项，即可编译成功
+
+5. BTF: .tmp_vmlinux.btf: pahole (pahole) is not available
+   Failed to generate BTF for vmlinux
+   Try to disable CONFIG_DEBUG_INFO_BTF
+   make[3]: *** [scripts/Makefile.vmlinux:34: vmlinux] Error 1
+   make[2]: *** [Makefile:1255: vmlinux] Error 2
+   错误：/var/tmp/rpm-tmp.rBrhTz (%build) 退出状态不好
+
+```bash
+sudo yum install dwarves
+```
