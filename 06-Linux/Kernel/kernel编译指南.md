@@ -345,3 +345,35 @@ dnf install elfutils-libelf-devel
 ```bash
 sudo yum install dwarves
 ```
+
+
+
+
+
+## centos 内核编译
+
+```bash
+dnf install rpmdevtools tmux vim
+
+rpmdev-setuptree
+
+# 安装 epel
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-9.noarch.rpm
+
+dnf remove epel-release
+dnf remove epel-next-release
+
+
+dnf install asciidoc audit-libs-devel bc binutils-devel bpftool dwarves elfutils-devel gcc-c++ gcc-plugin-devel glibc-static java-devel kernel-rpm-macros libbabeltrace-devel libbpf-devel libcap-devel libcap-ng-devel libnl3-devel libtraceevent-devel ncurses-devel newt-devel numactl-devel pciutils-devel "perl(ExtUtils::Embed)" perl-devel perl-generators python3-devel python3-docutils rsync xmlto xz-devel
+
+git clone https://git.centos.org/rpms/kernel.git
+
+cd kernel
+
+git checkout -b c9 remotes/origin/c9
+
+
+```
+
