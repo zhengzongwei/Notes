@@ -249,8 +249,9 @@
 │   │   │   └── 基础概念.md
 │   │   ├── OpenStack Client.md
 │   │   └── OpenStack.md
-│   └── 05-images
-│       └── images.md
+│   ├── 05-images
+│   │   └── images.md
+│   └── OpenStack Python虚拟环境搭建.md
 ├── 03-云原生
 │   ├── docker
 │   │   ├── docker registry.md
@@ -337,5 +338,5 @@
 ├── 虚拟环境设置.md
 └── 证书生成.md
 
-97 directories, 239 files
+97 directories, 240 files
 ```
