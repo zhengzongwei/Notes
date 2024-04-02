@@ -24,13 +24,14 @@ git clone https://opendev.org/openstack/devstack /opt/devstack
 # 创建devstack 用户
 /opt/devstack/tools/create-stack-user.sh
 
-pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+# pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
+/opt/stack/data/venv/bin/pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 # 修改目录权限
 sudo chown -R stack:stack /opt/devstack
 sudo chown -R stack:stack /opt/stack
-chmod -R 755 /opt/devstack
-chmod -R 755 /opt/stack
+sudo chmod -R 755 /opt/devstack
+sudo chmod -R 755 /opt/stack
 
 git checkout .
 # 切换到要部署的openstack版本分支，以yoga为例，不切换的话，默认安装的是master版本的openstack
@@ -38,6 +39,8 @@ git checkout remotes/origin/stable/2023.2 -b stable/2023.2
 ```
 
 ### 初始化devstacl配置文件
+
+#### Base配置
 
 ```shell
 切换到stack用户
@@ -71,17 +74,18 @@ OVN_BUILD_FROM_SOURCE=True
 
 # Enabling Neutron (network) Service
 # openeuler 
-enable_service placement-api 
+# enable_service placement-api 
 
-disable_service n-net
-enable_service q-svc
-enable_service q-agt
-enable_service q-dhcp
-enable_service q-l3
-enable_service q-meta
-enable_service q-metering
-enable_service neutron
-enable_service horizon
+# disable_service n-net
+# enable_service q-svc
+# enable_service q-agt
+# enable_service q-dhcp
+# enable_service q-l3
+# enable_service q-meta
+# enable_service q-metering
+# enable_service neutron
+enable_plugin skyline-apiserver https://opendev.org/openstack/skyline-apiserver stable/2023.2
+disable_service horizon
 
 
 ## Neutron options
@@ -114,6 +118,41 @@ SCREEN_LOGDIR=/opt/stack/logs
 cpu_mode=custom
 cpu_model=cortex-a72
 ```
+
+#### Ubuntu 2204 LTS配置
+
+```bash
+"local.conf" [readonly] 20L, 496B                                                                        1,1           All
+[[local|localrc]]
+ADMIN_PASSWORD=admin
+DATABASE_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+
+GIT_BASE=http://git.trystack.cn
+GIT_BASE=https://opendev.org/openstack
+NOVNC_REPO=http://git.trystack.cn/kanaka/noVNC.git
+SPICE_REPO=http://git.trystack.cn/git/spice/spice-html5.git
+
+HOST_IP=127.0.0.1
+
+
+enable_plugin skyline-apiserver https://opendev.org/openstack/skyline-apiserver stable/2023.2
+disable_service horizon
+
+[[post-config|$NOVA_CONF]]
+[libvirt]
+cpu_mode=custom
+cpu_model=cortex-a72
+```
+
+
+
+#### openeuler 配置
+
+#### centos 配置
+
+
 
 ### Delpoy DevStack
 
