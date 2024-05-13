@@ -273,6 +273,7 @@
 │       │   └── 注释swap行.png
 │       └── k8s环境部署.md
 ├── 04-其他
+│   ├── mirrors.md
 │   ├── onenote笔记简要.md
 │   ├── 画图示例.md
 │   ├── 硬件
@@ -338,5 +339,5 @@
 ├── 虚拟环境设置.md
 └── 证书生成.md
 
-97 directories, 240 files
+97 directories, 241 files
 ```
