@@ -102,8 +102,13 @@
 │   ├── 01-基础服务
 │   │   ├── DNS
 │   │   │   └── DNS解析.md
-│   │   └── NTP
-│   │       └── NTP.md
+│   │   ├── NTP
+│   │   │   └── NTP.md
+│   │   └── 消息队列
+│   │       ├── rabbitmq
+│   │       │   └── images
+│   │       │       └── 999593-20210427064620336-1513832581.png
+│   │       └── rabbitmq.md
 │   ├── 02-虚拟化
 │   │   ├── 01-虚拟化概念
 │   │   │   ├── 00-虚拟化基础
@@ -209,7 +214,13 @@
 │   │   │   │   ├── 1610676-20200523194336180-1065575782.png
 │   │   │   │   ├── 1610676-20200523194404325-1737146179.png
 │   │   │   │   └── 30894282-6c4a59c0-a375-11e7-8396-c3faad0a683d.png
+│   │   │   ├── nova cell架构模式
+│   │   │   │   └── images
+│   │   │   │       └── AA750B6F-4C7A-42B7-BB92-DA09805E515C_cropped_enhanced.png
+│   │   │   ├── nova cell架构模式.md
 │   │   │   ├── nova 创建虚拟机流程解析.md
+│   │   │   ├── nova 功能解析
+│   │   │   │   └── 更改密码.md
 │   │   │   ├── nova 迁移流程分析.md
 │   │   │   └── nova基础知识.md
 │   │   ├── 03-neutron
@@ -247,11 +258,13 @@
 │   │   │   │   ├── 1610676-20200523154140443-1817766473.png
 │   │   │   │   └── 1610676-20200523154443765-1655498412.png
 │   │   │   └── 基础概念.md
+│   │   ├── Build Octavia Amphora Images.md
 │   │   ├── OpenStack Client.md
 │   │   └── OpenStack.md
 │   ├── 05-images
 │   │   └── images.md
-│   └── OpenStack Python虚拟环境搭建.md
+│   ├── OpenStack Python虚拟环境搭建.md
+│   └── 计算节点开启嵌套虚拟化.md
 ├── 03-云原生
 │   ├── docker
 │   │   ├── docker registry.md
@@ -328,6 +341,7 @@
 │       └── redis.md
 ├── 06-Linux
 │   ├── Kernel
+│   │   ├── kernel 构建指南.md
 │   │   ├── kernel开发指南.md
 │   │   └── kernel编译指南.md
 │   ├── Linux命令详解
@@ -340,5 +354,5 @@
 ├── 虚拟环境设置.md
 └── 证书生成.md
 
-97 directories, 242 files
+103 directories, 250 files
 ```
