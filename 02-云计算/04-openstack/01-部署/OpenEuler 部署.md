@@ -1,3 +1,5 @@
+[TOC]
+
 # openEuler OpenStack Bobcat
 
 ## 系统配置
@@ -33,13 +35,12 @@ yum install mariadb mariadb-server python3-PyMySQL
 
 vim /etc/my.cnf.d/openstack.cnf
 [mysqld]
-bind-address = 192.168.31.196
+bind-address = 127.0.0.1
 default-storage-engine = innodb
 innodb_file_per_table = on
 max_connections = 4096
 collation-server = utf8_general_ci
 character-set-server = utf8
-
 
 
 systemctl enable mariadb.service
@@ -153,11 +154,16 @@ memcached-tool controller stats
   provider = fernet
   
   
+  keystone-manage bootstrap --bootstrap-password admin \
+  --bootstrap-admin-url http://compute-2:5000/v3/ \
+  --bootstrap-internal-url http://compute-2:5000/v3/ \
+  --bootstrap-public-url http://compute-2:5000/v3/ \
+  --bootstrap-region-id RegionOne
   
   keystone-manage bootstrap --bootstrap-password admin \
-  --bootstrap-admin-url http://controller:5000/v3/ \
-  --bootstrap-internal-url http://controller:5000/v3/ \
-  --bootstrap-public-url http://controller:5000/v3/ \
+  --bootstrap-admin-url http://controller-1:5000/v3/ \
+  --bootstrap-internal-url http://controller-1:5000/v3/ \
+  --bootstrap-public-url http://controller-1:5000/v3/ \
   --bootstrap-region-id RegionOne
   
   ln -s /opt/keystone/httpd/wsgi-keystone.conf /etc/httpd/conf.d/
@@ -221,15 +227,12 @@ memcached-tool controller stats
   EOF
   
   openstack domain create --description "An Example Domain" example
-  
-  openstack project create --domain default --description "Service Project" service
-  
   openstack project create --domain default --description "Demo Project" demo-project
   openstack user create --domain default --password-prompt demo
   openstack role create demo
   openstack role add --project demo-project --user demo demo
   ```
-
+  
 - 验证
 
   ```bash
@@ -391,9 +394,9 @@ openstack role add --project service --user glance admin
 openstack service create --name glance --description "OpenStack Image" image
 
 # 创建端点
-openstack endpoint create --region RegionOne image public http://controller:9292
-openstack endpoint create --region RegionOne image internal http://controller:9292
-openstack endpoint create --region RegionOne image admin http://controller:9292
+openstack endpoint create --region RegionOne image public http://compute-2:9292
+openstack endpoint create --region RegionOne image internal http://compute-2:9292
+openstack endpoint create --region RegionOne image admin http://compute-2:9292
 
 # 安装glance 包
 git clone https://opendev.org/openstack/glance.git /opt/glance
@@ -480,20 +483,20 @@ openstack role add --project service --user placement admin
 openstack service create --name placement --description "Placement API" placement
 
 # 创建服务端点
-openstack endpoint create --region RegionOne placement public http://controller:8778
-openstack endpoint create --region RegionOne placement internal http://controller:8778
-openstack endpoint create --region RegionOne placement admin http://controller:8778
+openstack endpoint create --region RegionOne placement public http://compute-2:8778
+openstack endpoint create --region RegionOne placement internal http://compute-2:8778
+openstack endpoint create --region RegionOne placement admin http://compute-2:8778
 
 # 配置文件
 vim /etc/placement/placement.conf
 
 [placement_database]
-connection = mysql+pymysql://placement:placement@controller/placement
+connection = mysql+pymysql://placement:placement@compute-2/placement
 [api]
 auth_strategy = keystone
 [keystone_authtoken]
-auth_url = http://controller:5000/v3
-memcached_servers = controller:11211
+auth_url = http://compute-2:5000/v3
+memcached_servers = compute-2:11211
 auth_type = password
 project_domain_name = Default
 user_domain_name = Default
@@ -552,7 +555,7 @@ Alias /placement-api /opt/keystone/venv/bin/placement-api
 
 # 验证
 
-curl http://controller:8778
+curl http://compute-2:8778
 
 placement-status upgrade check
 
@@ -601,11 +604,11 @@ openstack role add --project service --user nova admin
 openstack service create --name nova --description "OpenStack Compute" compute
 
 # 端点
-openstack endpoint create --region RegionOne compute public http://controller:8774/v2.1
+openstack endpoint create --region RegionOne compute public http://compute-2:8774/v2.1
 
-openstack endpoint create --region RegionOne compute internal http://controller:8774/v2.1
+openstack endpoint create --region RegionOne compute internal http://compute-2:8774/v2.1
 
-openstack endpoint create --region RegionOne compute admin http://controller:8774/v2.1
+openstack endpoint create --region RegionOne compute admin http://compute-2:8774/v2.1
 
 
 cp /opt/nova/venv/bin/nova-* /usr/bin/
@@ -711,8 +714,16 @@ systemctl restart \
 openstack-nova-api.service \
 openstack-nova-scheduler.service \
 openstack-nova-conductor.service \
-openstack-nova-novncproxy.service
+openstack-nova-novncproxy.service \
+openstack-nova-compute.service
 
+
+systemctl enable \
+openstack-nova-api.service \
+openstack-nova-scheduler.service \
+openstack-nova-conductor.service \
+openstack-nova-novncproxy.service \
+openstack-nova-compute.service
 ```
 
 ### Neutron
@@ -738,11 +749,16 @@ openstack role add --project service --user neutron admin
 openstack service create --name neutron --description "OpenStack Networking" network
 
 # Endpoint
-openstack endpoint create --region RegionOne network public http://controller:9696
+openstack endpoint create --region RegionOne network public http://compute:9696
 
-openstack endpoint create --region RegionOne network internal http://controller:9696
-openstack endpoint create --region RegionOne network admin http://controller:9696 
+openstack endpoint create --region RegionOne network internal http://compute:9696
+openstack endpoint create --region RegionOne network admin http://compute:9696 
 
+
+
+openstack endpoint create --region RegionOne network public http://10.202.50.4:9696
+openstack endpoint create --region RegionOne network internal http://10.202.50.4:9696
+openstack endpoint create --region RegionOne network admin http://10.202.50.4:9696 
 
 # 包安装
  dnf install ebtables ipset
@@ -898,12 +914,220 @@ cp neutron-sudoers /etc/sudoers.d/neutron
 neutron-linuxbridge-agent.service
 
 
+ cp /opt/neutron/venv/bin/neutron-* /usr/bin/
+ 
+ 
 systemctl restart neutron-server.service \
 neutron-linuxbridge-agent.service \
 neutron-dhcp-agent.service \
 neutron-metadata-agent.service \
 neutron-l3-agent.service
+
+ 
+
+systemctl enable neutron-server.service \
+neutron-linuxbridge-agent.service \
+neutron-dhcp-agent.service \
+neutron-metadata-agent.service \
+neutron-l3-agent.service
 ```
+
+#### Neutron Fwaas
+
+##### 配置文件
+
+- /etc/neutron/neutron.conf
+
+  ```
+  [DEFAULT]
+  service_plugins = router,fwaas_v2
+  
+  [service_providers]
+  service_provider = FIREWALL_V2:fwaas_db:neutron_fwaas.services.firewall.service_drivers.agents.agents.FirewallAgentDriver:default
+  
+  
+  [fwaas]
+  agent_version = v2
+  driver = neutron_fwaas.services.firewall.service_drivers.agents.drivers.linux.iptables_fwaas_v2.IptablesFwaasDriver
+  enabled = True
+  ```
+
+-  /etc/neutron/l3_agent.ini
+
+  ```
+  [DEFAULT]
+  agent_mode = legacy
+  fwaas_driver = neutron_fwaas.services.firewall.service_drivers.agents.l3.firewall_l3_agent_v2.FirewallL3Agent
+  fwaas_enabled = True
+  ```
+
+
+##### 同步数据库
+
+```
+neutron-db-manage --subproject neutron-fwaas upgrade head
+```
+
+##### 重启服务
+
+```
+systemctl restart neutron-server
+systemctl restart neutron-l3-agent
+```
+
+##### 验证
+
+- 创建防火墙策略
+
+  ```
+  openstack firewall group create --description "My Firewall" --name my-firewall
+  ```
+
+- 创建防火墙规则
+
+  ```
+  openstack firewall rule create --action allow --protocol tcp --source-ip-address 192.168.1.0/24 --destination-port 22 --name allow-ssh
+  ```
+
+- 将规则加入防火墙策略中
+
+  ```
+  openstack firewall group add rule my-firewall allow-ssh
+  ```
+
+  
+
+  openstack firewall group list
+
+#### Octavia
+
+```
+# 创建用户
+getent group octavia >/dev/null || groupadd -r octavia
+if ! getent passwd octavia >/dev/null; then
+  useradd -r -g octavia -G octavia,nobody -d /var/lib/octavia -s /sbin/nologin -c "OpenStack Octavia Daemons" octavia
+fi
+
+CREATE DATABASE octavia;
+GRANT ALL PRIVILEGES ON octavia.* TO 'octavia'@'localhost' IDENTIFIED BY 'octavia';
+GRANT ALL PRIVILEGES ON octavia.* TO 'octavia'@'%' IDENTIFIED BY 'octavia';
+
+openstack user create --domain default --password octavia octavia
+openstack role add --project service --user octavia admin
+openstack service create --name octavia --description "OpenStack Octavia" load-balancer
+
+
+openstack endpoint create --region RegionOne load-balancer public http://controller-1:9876
+openstack endpoint create --region RegionOne load-balancer internal http://controller-1:9876
+openstack endpoint create --region RegionOne load-balancer admin http://controller-1:9876
+
+cat << EOF >> $HOME/octavia-openrc
+export OS_PROJECT_DOMAIN_NAME=Default
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_NAME=service
+export OS_USERNAME=octavia
+export OS_PASSWORD=octavia
+export OS_AUTH_URL=http://controller-1:5000
+export OS_IDENTITY_API_VERSION=3
+export OS_IMAGE_API_VERSION=2
+export OS_VOLUME_API_VERSION=3
+EOF
+
+# 下载 负载均衡镜像
+https://tarballs.opendev.org/openstack/octavia/test-images/
+
+openstack image create --disk-format qcow2 --container-format bare --private --tag amphora --file test-only-amphora-x64-haproxy-centos-8.qcow2 amphora-x64-haproxy
+
+# 创建flavor 
+openstack flavor create --id 200 --vcpus 1 --ram 1024 --disk 2 "amphora" --private
+
+# 创建安全组
+openstack security group create lb-mgmt-sec-grp --project service
+openstack security group rule create --protocol udp --dst-port 5555 lb-mgmt-sec-grp
+openstack security group rule create --protocol tcp --dst-port 22 lb-mgmt-sec-grp
+openstack security group rule create --protocol tcp --dst-port 9443 lb-mgmt-sec-grp
+openstack security group rule create --protocol icmp lb-mgmt-sec-grp
+
+
+# 创建网络
+openstack network create lb-mgmt-net
+ openstack subnet create lb-mgmt-subnet --network lb-mgmt-net --subnet-range 10.168.0.0/24 --allocation-pool start=10.168.0.2,end=10.168.0.200 --gateway 10.168.0.1
+
+  
+# 创建密钥对
+mkdir -p /etc/octavia/.ssh
+ssh-keygen -b 2048 -t rsa -N “” -f /etc/octavia/.ssh/octavia_ssh_key
+openstack keypair create --public-key /etc/octavia/.ssh/octavia_ssh_key.pub --user 21282f8b738f44508837d0e2148a6171 octavia_ssh_key
+
+# /etc/octavia/octavia.conf
+
+[DEFAULT]
+transport_url = rabbit://openstack:openstack@controller-1
+[api_settings]
+bind_host = 10.179.130.5
+bind_port = 9876
+api_handler = queue_producer
+auth_strategy = keystone
+[database]
+connection = mysql+pymysql://octavia:octavia@controller-1/octavia
+[oslo_messaging]
+topic = octavia_prov
+[api_settings]
+bind_host = 0.0.0.0
+bind_port = 9876
+
+[keystone_authtoken]
+www_authenticate_uri = http://controller-1:5000
+auth_url = http://controller-1:5000
+memcached_servers = controller-1:11211
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = octavia
+password = octavia
+[service_auth]
+auth_url = http://controller-1:5000
+memcached_servers = controller-1:11211
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = octavia
+password = octavia
+[certificates]
+server_certs_key_passphrase = insecure-key-do-not-use-this-key
+ca_private_key_passphrase = not-secure-passphrase
+ca_private_key = /etc/octavia/certs/private/server_ca.key.pem
+ca_certificate = /etc/octavia/certs/server_ca.cert.pem
+[haproxy_amphora]
+server_ca = /etc/octavia/certs/server_ca-chain.cert.pem
+client_cert = /etc/octavia/certs/private/client.cert-and-key.pem
+[health_manager]
+bind_port = 5555
+bind_ip = 10.179.130.5
+controller_ip_port_list = 10.179.130.5:5555
+
+[controller_worker]
+amp_image_owner_id = 335fc812f000453f8084127fc9f24cff
+amp_image_tag = amphora
+amp_ssh_key_name = octavia_ssh_key
+amp_secgroup_list = 00a93ce4-3c46-452f-9b6b-8737862eb9d7
+amp_boot_network_list = eb5af9f1-d1ea-41c0-9a1c-c24a86da1da4
+amp_flavor_id = 200
+network_driver = allowed_address_pairs_driver
+compute_driver = compute_nova_driver
+amphora_driver = amphora_haproxy_rest_driver
+client_ca = /etc/octavia/certs/client_ca.cert.pem
+
+
+```
+
+
+
+
+
+
 
 ### Cinder
 
@@ -931,12 +1155,12 @@ openstack service create --name cinderv2 --description "OpenStack Block Storage"
 openstack service create --name cinderv3 --description "OpenStack Block Storage" volumev3
 
 # Endpoint
-openstack endpoint create --region RegionOne volumev2 public http://controller:8776/v2/%\(project_id\)s
-openstack endpoint create --region RegionOne volumev2 internal http://controller:8776/v2/%\(project_id\)s
-openstack endpoint create --region RegionOne volumev2 admin http://controller:8776/v2/%\(project_id\)s
-openstack endpoint create --region RegionOne volumev3 public http://controller:8776/v3/%\(project_id\)s
-openstack endpoint create --region RegionOne volumev3 internal http://controller:8776/v3/%\(project_id\)s
-openstack endpoint create --region RegionOne volumev3 admin http://controller:8776/v3/%\(project_id\)s
+openstack endpoint create --region RegionOne volumev2 public http://compute-2:8776/v2/%\(project_id\)s
+openstack endpoint create --region RegionOne volumev2 internal http://compute-2:8776/v2/%\(project_id\)s
+openstack endpoint create --region RegionOne volumev2 admin http://compute-2:8776/v2/%\(project_id\)s
+openstack endpoint create --region RegionOne volumev3 public http://compute-2:8776/v3/%\(project_id\)s
+openstack endpoint create --region RegionOne volumev3 internal http://compute-2:8776/v3/%\(project_id\)s
+openstack endpoint create --region RegionOne volumev3 admin http://compute-2:8776/v3/%\(project_id\)s
 
 
 # service 服务文件
@@ -965,7 +1189,7 @@ filter = [ "a/sdc/", "r/.*/"]
 
 # 准备NFS
 
-mkdir -p /data/cinder/backup
+mkdir -p /opt/cinder/backup
 
 cat << EOF >> /etc/export
 /data/cinder/backup
@@ -976,20 +1200,22 @@ EOF
 vim /etc/cinder/cinder.conf
 
 [DEFAULT]
-transport_url = rabbit://openstack:openstack@controller
+transport_url = rabbit://openstack:openstack@compute-2
 auth_strategy = keystone
-my_ip = 10.211.55.17
+my_ip = 10.202.50.4
 enabled_backends = lvm
 backup_driver=cinder.backup.drivers.nfs.NFSBackupDriver
 backup_share=controller:/data/cinder/backup
 
+osapi_volume_workers = 3
+
 [database]
-connection = mysql+pymysql://cinder:cinder@controller/cinder
+connection = mysql+pymysql://cinder:cinder@compute-2/cinder
 
 [keystone_authtoken]
-www_authenticate_uri = http://controller:5000
-auth_url = http://controller:5000
-memcached_servers = controller:11211
+www_authenticate_uri = http://compute-2:5000
+auth_url = http://compute-2:5000
+memcached_servers = compute-2:11211
 auth_type = password
 project_domain_name = Default
 user_domain_name = Default
@@ -1005,8 +1231,6 @@ volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
 volume_group = cinder-volumes
 iscsi_protocol = iscsi
 iscsi_helper = tgtadm
-
-# 
 
 cinder-manage db sync
 
@@ -1027,19 +1251,42 @@ rpcbind.service nfs-server.service tgtd.service iscsid.service \
                  openstack-cinder-volume.service \
                  openstack-cinder-backup.service
 
+systemctl enable openstack-cinder-api.service openstack-cinder-scheduler.service \
+rpcbind.service nfs-server.service tgtd.service iscsid.service \
+                 openstack-cinder-volume.service \
+                 openstack-cinder-backup.service
+
 ```
 
 ### 验证
 
 ```bash
 # 创建网络
- openstack network create --project bff2e2c0897945ef8fc242c2e8c34c99 --share --provider-network-type flat --provider-physical-network provider sharednet
- # 创建子网
- openstack subnet create subnet --network sharednet --project bff2e2c0897945ef8fc242c2e8c34c99 --subnet-range 10.0.0.0/24 --allocation-pool start=10.0.0.200,end=10.0.0.254 --gateway 10.0.0.1 --dns-nameserver 10.0.0.10
- # 创建flavor
- openstack flavor create --id 2 --vcpus 1 --ram 512 --disk 10 1C0.5G10G
+ openstack network create --project 335fc812f000453f8084127fc9f24cff --share --provider-network-type flat --router:external --provider-physical-network provider sharednet
  
- openstack flavor create --id 1 --vcpus 1 --ram 2048 --disk 10 m1.small
+  openstack network create --project bd30d3b8ca81450f95061b668bd7cbd1 --share --provider-network-type flat --provider-physical-network provider sharednet
+  
+  
+   openstack network create --project 335fc812f000453f8084127fc9f24cff --share --provider-network-type flat --external --provider-physical-network external external-net
+   
+
+  
+   openstack subnet create ext_subnet --network external-net --project 335fc812f000453f8084127fc9f24cff --subnet-range 10.179.171.0/24 --allocation-pool start=10.179.171.2,end=10.179.171.254 --gateway 10.179.171.1
+   
+   --dns-nameserver 10.2.0.10
+   
+     openstack subnet create ext_subnet --network sharednet --project 335fc812f000453f8084127fc9f24cff --subnet-range 10.179.171.0/24 --allocation-pool start=10.179.171.2,end=10.179.171.254 --gateway 10.179.171.1 --dns-nameserver 10.2.0.10
+ # 创建子网
+ lb-mgmt-subnet --network lb-mgmt-net
+ openstack subnet create  lb-mgmt-subnet --network lb-mgmt-net --project 335fc812f000453f8084127fc9f24cff --subnet-range 10.2.0.0/24
+ 
+ --allocation-pool start=10.2.0.200,end=10.2.0.254 --gateway 10.2.0.1 --dns-nameserver 10.2.0.10
+ 
+ 29f57746-0b0a-4652-95f7-966b2504cac0
+ # 创建flavor
+ openstack flavor create --id 2 --vcpus 2 --ram 2048 --disk 50 2C2G50G
+ 
+ openstack flavor create --id 1 --vcpus 1 --ram 2048 --disk 50 m1.small
  
  openstack flavor create --id 4 --vcpus 4 --ram 8192 --disk 10 --ephemeral 10 m2.large
  
@@ -1047,9 +1294,9 @@ rpcbind.service nfs-server.service tgtd.service iscsid.service \
  openstack security group create secgroup
  
  # 创建虚拟机
- openstack server create --flavor 1C0.5G10G --image cirros --security-group secgroup --nic net-id=29a1144f-9046-46bf-b734-ab99054ae213 --password 123 cirros
+ openstack server create --flavor 2C2G50G --image 02f0af90-5123-4f38-9afa-2b30e39f48ab --security-group default --nic net-id=dbfef4a6-6d64-4bff-a597-0cf3b34bcc4b --password 123 zzw-test
  
-  openstack server create --flavor 1C0.5G10G --image cirros --security-group secgroup --nic net-id=7014e416-3b67-48f6-92be-918811689b02 --password 123 cirros
+  openstack server create --flavor 1C0.5G10G --image cirros --security-group secgroup --nic net-id=35e285eb-65a9-4ac0-acc9-5a2c44f51729 --password 123 cirros
 ```
 
 ```
@@ -1101,5 +1348,69 @@ def get_ident(gr=None):
     #    return id(greenlet.getcurrent())
     #else:
     #    return id(gr)
+    
+    
+    tee /etc/logrotate.d/nova > /dev/null <<EOF
+/var/log/nova/*.log {
+    rotate 14
+    size 100M
+    missingok
+    compress
+    copytruncate
+}
+
+EOF
 ```
+
+ # Neutron网桥设置
+
+```
+# 删除现有 br-ex, 风险操作 确认影响后再操作
+ovs-vsctl del-br br-ex
+
+brctl add br-ex
+brctl addif br-ex enp65s0f0np0
+ip addr add 10.179.171.1/26 dev br-ex
+ip link set br-ex up
+
+# 创建 ifcfg-br-ex 文件
+cat /etc/sysconfig/network-scripts/ifcfg-br-ex
+# LinuxBridge 配置
+TYPE=Bridge
+BOOTPROTO=static
+NAME=br-ex
+DEVICE=br-ex
+ONBOOT=yes
+IPADDR=10.179.171.1
+NETMASK=255.255.255.0
+GATEWAY=10.179.171.254
+
+# OVS配置
+BOOTPROTO=static
+ONBOOT=yes
+IPADDR=10.179.171.1
+NETMASK=255.255.255.0
+GATEWAY=10.179.171.254
+NAME=br-ex
+DEVICE=br-ex
+TYPE=OVSBridge
+DEVICETYPE=ovs
+
+
+# 默认路由
+ip route add default via 10.179.171.1 dev br-ex
+
+# 测试连通性
+
+```
+
+
+
+## 参考链接
+
+- neutron 防火墙服务 [Firewall-as-a-Service (FWaaS) v2 scenario — Neutron 25.0.0.0b2.dev119 documentation (openstack.org)](https://docs.openstack.org/neutron/latest/admin/fwaas-v2-scenario.html)
+
+  
+
+
 
