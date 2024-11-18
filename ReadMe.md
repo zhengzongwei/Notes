@@ -33,14 +33,13 @@
 │       │   │   └── 挂载ISO镜像作为本地yum源.md
 │       │   └── debian
 │       │       └── debian安装指南.md
-│       ├── windows
-│       │   └── windwos11 问题.md
 │       └── 树莓派
 │           ├── images
 │           │   └── 烧录系统.png
 │           └── 树莓派安装openueler.md
-├── 01-编程
+├── 01-开发与编程
 │   ├── git
+│   │   ├── git 项目配置.md
 │   │   ├── git提交规范.md
 │   │   └── git操作.md
 │   ├── golang
@@ -52,6 +51,10 @@
 │   │   └── vite+element3.md
 │   ├── kernel编译
 │   │   └── 内核
+│   │       ├── Kernel
+│   │       │   ├── kernel 构建指南.md
+│   │       │   ├── kernel开发指南.md
+│   │       │   └── kernel编译指南.md
 │   │       └── 编译内核.md
 │   ├── python
 │   │   ├── Python定时器归纳.md
@@ -87,6 +90,8 @@
 │   │   │   ├── PySnooper
 │   │   │   │   ├── PySnooper-1.2.0-py2.py3-none-any.whl
 │   │   │   │   └── PySnooper-1.2.0.tar.gz
+│   │   │   ├── click
+│   │   │   │   └── click.md
 │   │   │   └── terminaltables.md
 │   │   ├── 装饰器.md
 │   │   └── 远程调试.md
@@ -95,10 +100,11 @@
 │   │   ├── file.md
 │   │   ├── pip.sh
 │   │   ├── pipconf.sh
+│   │   ├── system init.md
 │   │   └── system_config.sh
 │   └── swift
 │       └── String.swift
-├── 02-云计算
+├── 02-云计算与虚拟化
 │   ├── 01-基础服务
 │   │   ├── DNS
 │   │   │   └── DNS解析.md
@@ -197,13 +203,17 @@
 │   ├── 03-kolla
 │   │   └── kolla.md
 │   ├── 04-openstack
+│   │   ├── 00-oslo
+│   │   │   └── oslo.privsep.md
 │   │   ├── 01-部署
 │   │   │   ├── DevStack部署.md
 │   │   │   ├── Kolla-ansible部署.md
 │   │   │   ├── OpenEuler 部署.md
+│   │   │   ├── OpenStack Python虚拟环境搭建.md
 │   │   │   ├── openstack-ansible.md
 │   │   │   └── 环境搭建.md
 │   │   ├── 02-nova
+│   │   │   ├── alembic.md
 │   │   │   ├── images
 │   │   │   │   ├── 1610676-20200523163017957-1184132094.png
 │   │   │   │   ├── 1610676-20200523163457553-667114280.png
@@ -220,9 +230,11 @@
 │   │   │   ├── nova cell架构模式.md
 │   │   │   ├── nova 创建虚拟机流程解析.md
 │   │   │   ├── nova 功能解析
-│   │   │   │   └── 更改密码.md
+│   │   │   │   ├── 更改密码.md
+│   │   │   │   └── 绑定密钥.md
 │   │   │   ├── nova 迁移流程分析.md
-│   │   │   └── nova基础知识.md
+│   │   │   ├── nova基础知识.md
+│   │   │   └── 计算节点开启嵌套虚拟化.md
 │   │   ├── 03-neutron
 │   │   │   ├── images
 │   │   │   │   ├── 1610676-20200525092906395-1030045008-20230814140923681.png
@@ -240,6 +252,7 @@
 │   │   │   │   ├── 1610676-20200525141304100-1703728165.png
 │   │   │   │   ├── 1610676-20200525142502610-225384625.png
 │   │   │   │   └── 1610676-20200525151257686-2035246993.png
+│   │   │   ├── linuxbridge 切换ovs.md
 │   │   │   ├── 基础概念.md
 │   │   │   ├── 源码学习
 │   │   │   │   └── images
@@ -259,100 +272,88 @@
 │   │   │   │   └── 1610676-20200523154443765-1655498412.png
 │   │   │   └── 基础概念.md
 │   │   ├── Build Octavia Amphora Images.md
-│   │   ├── OpenStack Client.md
-│   │   └── OpenStack.md
-│   ├── 05-images
-│   │   └── images.md
-│   ├── OpenStack Python虚拟环境搭建.md
-│   └── 计算节点开启嵌套虚拟化.md
-├── 03-云原生
-│   ├── docker
-│   │   ├── docker registry.md
-│   │   ├── docker 基本操作.md
-│   │   ├── docker-compose
-│   │   │   ├── mariadb
-│   │   │   │   └── mariadb.md
-│   │   │   └── nginx
-│   │   │       └── nginx.md
-│   │   ├── dockerfile
-│   │   │   ├── centos.dockerfile
-│   │   │   ├── dockerfile.md
-│   │   │   ├── gitea.yml
-│   │   │   └── openeuler.dockerfile
-│   │   ├── docker配置.md
-│   │   └── gitea.md
-│   └── k8s
-│       ├── images
-│       │   └── 注释swap行.png
-│       └── k8s环境部署.md
-├── 04-其他
-│   ├── mirrors.md
-│   ├── onenote笔记简要.md
-│   ├── 画图示例.md
-│   ├── 硬件
+│   │   └── OpenStack Client.md
+│   └── 05-images
+│       └── images.md
+├── 03-云原生与容器
+│   ├── Kubernetes (K8s)
+│   │   ├── images
+│   │   │   └── 注释swap行.png
+│   │   └── k8s环境部署.md
+│   └── docker
+│       ├── docker registry.md
+│       ├── docker 基本操作.md
+│       ├── docker-compose
+│       │   ├── mariadb
+│       │   │   └── mariadb.md
+│       │   └── nginx
+│       │       └── nginx.md
+│       ├── dockerfile
+│       │   ├── centos.dockerfile
+│       │   ├── dockerfile.md
+│       │   ├── gitea.yml
+│       │   └── openeuler.dockerfile
+│       ├── docker配置.md
+│       └── gitea.md
+├── 04-运维与系统管理
+│   ├── 00-Linux
+│   │   ├── Linux 双网卡服务器选择默认路由.md
+│   │   ├── Linux命令详解
+│   │   │   ├── brctl.md
+│   │   │   └── firewall-cmd.md
+│   │   ├── Linux磁盘扩容.md
+│   │   ├── github不能pull.md
+│   │   ├── mirrors.md
+│   │   ├── openeuler
+│   │   │   └── openeuler.md
+│   │   ├── repo
+│   │   │   └── linux源配置.md
+│   │   ├── 证书生成.md
+│   │   └── 防火墙配置.md
+│   ├── 01-Windows
+│   │   └── windwos11 问题.md
+│   ├── 02-Mac
+│   │   └── mac快捷键值北.md
+│   ├── 03-硬件配置
 │   │   ├── GL.iNet
 │   │   │   └── 编译openwrt固件.md
 │   │   ├── K2 键盘.md
 │   │   └── ikbc w210.pdf
-│   ├── 配置
-│   │   ├── Linux 双网卡服务器选择默认路由.md
-│   │   ├── mac快捷键值北.md
-│   │   ├── repo
-│   │   │   └── linux源配置.md
-│   │   ├── ssh 隧道.md
-│   │   ├── 开发环境
-│   │   │   └── openeuler
-│   │   │       ├── mariadb-connector-c
-│   │   │       │   └── spec.md
-│   │   │       └── openeuler.md
-│   │   ├── 软件配置
-│   │   │   ├── brew
-│   │   │   │   ├── homebrew.md
-│   │   │   │   ├── init_mac.sh
-│   │   │   │   └── install.sh
-│   │   │   ├── iterm2
-│   │   │   │   ├── iterm2.json
-│   │   │   │   └── iterm2配置.md
-│   │   │   ├── msys2
-│   │   │   │   └── 环境配置.md
-│   │   │   ├── tmux
-│   │   │   │   ├── tmux 快捷键指北.md
-│   │   │   │   ├── tmux.conf
-│   │   │   │   ├── tmux.conf.md
-│   │   │   │   └── tmux.md
-│   │   │   ├── vim
-│   │   │   │   ├── images
-│   │   │   │   │   └── vim键盘图.webp
-│   │   │   │   └── vim.md
-│   │   │   ├── virtual studio
-│   │   │   │   ├── images
-│   │   │   │   │   ├── image-20221113181839739.png
-│   │   │   │   │   └── image-20221113182232347.png
-│   │   │   │   └── virtual studio.md
-│   │   │   └── zsh
-│   │   │       └── zsh.md
-│   │   └── 防火墙配置.md
-│   └── 面试题
-│       └── keep
+│   └── 04-软件配置
+│       ├── Office的安装与配置.md
+│       ├── brew
+│       │   ├── homebrew.md
+│       │   ├── init_mac.sh
+│       │   └── install.sh
+│       ├── iterm2
+│       │   ├── iterm2.json
+│       │   └── iterm2配置.md
+│       ├── msys2
+│       │   └── 环境配置.md
+│       ├── tmux
+│       │   ├── tmux 快捷键指北.md
+│       │   ├── tmux.conf
+│       │   ├── tmux.conf.md
+│       │   └── tmux.md
+│       ├── vim
+│       │   ├── images
+│       │   │   └── vim键盘图.webp
+│       │   └── vim.md
+│       ├── virtual studio
+│       │   ├── images
+│       │   │   ├── image-20221113181839739.png
+│       │   │   └── image-20221113182232347.png
+│       │   └── virtual studio.md
+│       └── zsh
+│           └── zsh.md
 ├── 05-数据库
 │   ├── mysql
 │   │   └── mysql.md
 │   └── redis
 │       └── redis.md
-├── 06-Linux
-│   ├── Kernel
-│   │   ├── kernel 构建指南.md
-│   │   ├── kernel开发指南.md
-│   │   └── kernel编译指南.md
-│   ├── Linux命令详解
-│   │   ├── brctl.md
-│   │   └── firewall-cmd.md
-│   └── Linux磁盘扩容.md
-├── LICENSE
 ├── ReadMe.md
 ├── gen.sh
-├── 虚拟环境设置.md
-└── 证书生成.md
+└── 画图示例.md
 
-103 directories, 250 files
+102 directories, 252 files
 ```
