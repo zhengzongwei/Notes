@@ -271,6 +271,16 @@
 │   │   │   │   ├── 1610676-20200523154140443-1817766473.png
 │   │   │   │   └── 1610676-20200523154443765-1655498412.png
 │   │   │   └── 基础概念.md
+│   │   ├── 06-octavia
+│   │   │   ├── octavia调研
+│   │   │   │   └── images
+│   │   │   │       ├── image-20241121152751432.png
+│   │   │   │       ├── image-20241121152839488.png
+│   │   │   │       ├── image-20241121153911969.png
+│   │   │   │       ├── image-20241121155454415.png
+│   │   │   │       ├── octavia-component-overview.svg
+│   │   │   │       └── octavia调研.pdf
+│   │   │   └── octavia调研.md
 │   │   ├── Build Octavia Amphora Images.md
 │   │   └── OpenStack Client.md
 │   └── 05-images
@@ -355,5 +365,5 @@
 ├── gen.sh
 └── 画图示例.md
 
-102 directories, 252 files
+105 directories, 259 files
 ```
