@@ -278,8 +278,7 @@
 │   │   │   │       ├── image-20241121152839488.png
 │   │   │   │       ├── image-20241121153911969.png
 │   │   │   │       ├── image-20241121155454415.png
-│   │   │   │       ├── octavia-component-overview.svg
-│   │   │   │       └── octavia调研.pdf
+│   │   │   │       └── octavia-component-overview.svg
 │   │   │   └── octavia调研.md
 │   │   ├── Build Octavia Amphora Images.md
 │   │   └── OpenStack Client.md
@@ -363,6 +362,7 @@
 │       └── redis.md
 ├── ReadMe.md
 ├── gen.sh
+├── openeuler loongarch.md
 └── 画图示例.md
 
 105 directories, 259 files
