@@ -89,7 +89,7 @@
 1. 使用 安装 kolla-ansible 及其依赖项。`pip`
 
    ```
-   pip install git+https://opendev.org/openstack/kolla-ansible@stable/2023.1
+   pip install git+https://opendev.org/openstack/kolla-ansible@stable/2023.2
    ```
 
 2. 创建目录。`/etc/kolla`
@@ -119,6 +119,7 @@
    workaround_ansible_issue_8743: yes
    kolla_base_distro: "debian"
    openstack_release: "2023.1"
+   # aarch64
    openstack_tag_suffix: "-aarch64"
    kolla_internal_vip_address: "192.168.237.250"
    docker_registry: "quay.nju.edu.cn"
@@ -126,6 +127,9 @@
    neutron_external_interface: "ens192"
    enable_skyline: "yes"
    nova_compute_virt_type: "qemu"
+   
+   
+   
    ```
 
    

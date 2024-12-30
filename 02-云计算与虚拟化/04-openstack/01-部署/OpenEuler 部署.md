@@ -5,9 +5,14 @@
 ## 系统配置
 
 ```bash
-#  dnf install gcc python3-devel python3-unversioned-command git 
+dnf install gcc python3-devel python3-unversioned-command git 
 
 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+
+hostnamectl set-hostname controller-1
+
+vi /etc/hostname
+192.168.2.84 controller-1
 ```
 
 ### SElinux 配置
@@ -79,6 +84,22 @@ memcached-tool controller stats
 
 ## OpenStack 组件部署
 
+### openstack
+
+```bash
+mkdir /opt/openstackclient
+cd /opt/openstackclient
+python -m venv venv
+
+source /opt/openstackclient/venv/bin/activate
+
+pip install openstackclient
+
+cp /opt/openstackclient/venv/bin/openstack* /usr/local/bin/
+```
+
+
+
 ### Keystone
 
 - 配置系统环境
@@ -103,23 +124,132 @@ memcached-tool controller stats
 - 克隆源码
 
   ```bash
-  git clone https://opendev.org/openstack/keystone.git /opt/keystone
+  repo_url=https://opendev.org/openstack
+  mode=develop /install
+  hostname=openstack-dev
+  host_ip=192.168.31.165
+  
+  git clone $repo_url/keystone.git /opt/keystone && cd /opt/keystone && git checkout -b stable/2023.2 remotes/origin/stable/2023.2
   ```
 
 - 虚拟环境配置
 
   ```bash
   python -m venv /opt/keystone/venv
-  source /opt/ketstone/venv/bin/activate
+  source /opt/keystone/venv/bin/activate
   
+      
   # 安装依赖包
-  pip install -r keystone.txt
+  pip install -r requirements.txt && python /opt/keystone/setup.py install && pip install python-memcached pymysql SQLAlchemy==1.4.52
   
   # 安装keystone
-  python /opt/keystone/setup.py install
+  python /opt/keystone/setup.py develop && cp /opt/keystone/venv/bin/keystone-* /usr/local/bin/
   
-  # 系统nova环境
-  cp /opt/keystone/venv/bin/keystone-* /usr/bin/
+  
+  tee /etc/keystone/keystone.conf > /dev/null <<EOF
+  [database]
+  connection = mysql+pymysql://keystone:keystone@$hostname/keystone
+  
+  [token]
+  allow_rescope_scoped_token = True
+  provider = fernet
+  expiration = 7200
+  EOF
+  
+  chown -R keystone:keystone /etc/keystone/ 
+  
+  
+  mysql -e "\
+      CREATE DATABASE keystone; \
+      GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'keystone'; \
+      GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'keystone';"
+      
+  keystone-manage db_sync && \
+      keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone && \
+      keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
+      
+  # 需要确认表是否已同步
+  mysql -e "use keystone;show tables;"
+  
+  
+  keystone-manage bootstrap --bootstrap-password admin \
+      --bootstrap-admin-url http://$hostname:5000/v3/ \
+      --bootstrap-internal-url http://$hostname:5000/v3/ \
+      --bootstrap-public-url http://$hostname:5000/v3/ \
+      --bootstrap-region-id RegionOne
+      
+      
+      
+      tee /etc/httpd/conf.d/wsgi-keystone.conf > /dev/null <<EOF
+  Listen 5000
+  
+  <VirtualHost *:5000>
+      WSGIDaemonProcess keystone-public processes=5 threads=1 user=keystone group=keystone display-name=%{GROUP} home=/opt/keystone python-home=/opt/keystone/venv python-path=/opt/keystone/venv/lib/python3.9/site-packages
+      WSGIProcessGroup keystone-public
+      WSGIScriptAlias / /opt/keystone/venv/bin/keystone-wsgi-public
+      WSGIApplicationGroup %{GLOBAL}
+      WSGIPassAuthorization On
+      LimitRequestBody 114688
+      <IfVersion >= 2.4>
+        ErrorLogFormat "%{cu}t %M"
+      </IfVersion>
+      ErrorLog /var/log/keystone/keystone_error.log
+      CustomLog /var/log/keystone/keystone_access.log combined
+  
+      <Directory /opt/keystone/venv>
+          <IfVersion >= 2.4>
+              Require all granted
+          </IfVersion>
+          <IfVersion < 2.4>
+              Order allow,deny
+              Allow from all
+          </IfVersion>
+      </Directory>
+  </VirtualHost>
+  Alias /identity /opt/keystone/venv/bin/keystone-wsgi-public
+  <Location /identity>
+      SetHandler wsgi-script
+      Options +ExecCGI
+  
+      WSGIProcessGroup keystone-public
+      WSGIApplicationGroup %{GLOBAL}
+      WSGIPassAuthorization On
+  </Location>
+  
+  EOF
+  
+  
+  sed -i "s/#ServerName www.example.com:80/ServerName $hostname/g" /etc/httpd/conf/httpd.conf
+  
+  # 验证是否已修改
+  cat /etc/httpd/conf/httpd.conf | grep ServerName
+  
+  
+  # 环境变量创建
+  tee /root/.admin-openrc > /dev/null <<EOF
+  export OS_PROJECT_DOMAIN_NAME=Default
+  export OS_USER_DOMAIN_NAME=Default
+  export OS_PROJECT_NAME=admin
+  export OS_USERNAME=admin
+  export OS_PASSWORD=admin
+  export OS_AUTH_URL=http://$hostname:5000/v3
+  export OS_IDENTITY_API_VERSION=3
+  export OS_IMAGE_API_VERSION=2
+  EOF
+  
+  
+  # 创建 demo项目 用户 service
+  source ~/.admin-openrc && openstack domain create --description "An Example Domain" example && \
+      openstack project create --domain default --description "Service Project" service && \
+      openstack project create --domain default --description "Demo Project" demo-project && \
+      openstack user create --domain default --password "demo" demo && \
+      openstack role create demo && \
+      openstack role add --project demo-project --user demo demo
+  
+  # 验证
+  openstack --os-auth-url http://$hostname:5000/v3 \
+      --os-project-domain-name Default --os-user-domain-name Default \
+      --os-project-name admin --os-username admin token issue
   ```
 
 - 数据库配置
@@ -144,73 +274,8 @@ memcached-tool controller stats
 
 - keystone配置
 
-  ```bash
-  # vim /etc/keystone/keystone.conf
-  
-  [database]
-  connection = mysql+pymysql://keystone:keystone@controller/keystone
-  
-  [token]
-  provider = fernet
   
   
-  keystone-manage bootstrap --bootstrap-password admin \
-  --bootstrap-admin-url http://compute-2:5000/v3/ \
-  --bootstrap-internal-url http://compute-2:5000/v3/ \
-  --bootstrap-public-url http://compute-2:5000/v3/ \
-  --bootstrap-region-id RegionOne
-  
-  keystone-manage bootstrap --bootstrap-password admin \
-  --bootstrap-admin-url http://controller-1:5000/v3/ \
-  --bootstrap-internal-url http://controller-1:5000/v3/ \
-  --bootstrap-public-url http://controller-1:5000/v3/ \
-  --bootstrap-region-id RegionOne
-  
-  ln -s /opt/keystone/httpd/wsgi-keystone.conf /etc/httpd/conf.d/
-  
-  vim /etc/httpd/conf.d/wsgi-keystone.conf
-  Listen 5000
-  
-  <VirtualHost *:5000>
-      WSGIDaemonProcess keystone-public processes=5 threads=1 user=keystone group=keystone display-name=%{GROUP} home=/opt/keystone python-home=/opt/keystone/venv python-path=/opt/keystone/venv/lib/python3.9/site-packages
-      WSGIProcessGroup keystone-public
-      WSGIScriptAlias / /opt/keystone/venv/bin/keystone-wsgi-public
-      WSGIApplicationGroup %{GLOBAL}
-      WSGIPassAuthorization On
-      LimitRequestBody 114688
-      <IfVersion >= 2.4>
-        ErrorLogFormat "%{cu}t %M"
-      </IfVersion>
-      ErrorLog /var/log/httpd/keystone_error.log
-      CustomLog /var/log/httpd/keystone_access.log combined
-  
-      <Directory /opt/keystone/venv>
-          <IfVersion >= 2.4>
-              Require all granted
-          </IfVersion>
-          <IfVersion < 2.4>
-              Order allow,deny
-              Allow from all
-          </IfVersion>
-      </Directory>
-  </VirtualHost>
-  Alias /identity /opt/keystone/venv/bin/keystone-wsgi-public
-  <Location /identity>
-      SetHandler wsgi-script
-      Options +ExecCGI
-  
-      WSGIProcessGroup keystone-public
-      WSGIApplicationGroup %{GLOBAL}
-      WSGIPassAuthorization On
-  </Location>
-  
-  
-  systemctl restart httpd
-  
-  
-  
-  ```
-
 - 服务创建
 
   ```bash
@@ -1413,4 +1478,592 @@ ip route add default via 10.179.171.1 dev br-ex
   
 
 
+
+
+
+### glance
+
+```bash
+getent group glance >/dev/null || groupadd -r glance
+if ! getent passwd glance >/dev/null; then
+  useradd -r -g glance -G glance,nobody -d /var/lib/glance -s /sbin/nologin -c "OpenStack Glance Daemons" glance
+fi
+
+mkdir -p /var/lib/glance/ /var/log/glance /etc/glance
+
+git clone $repo_url/glance.git /opt/glance && cd /opt/glance && git checkout -b stable/2023.2 remotes/origin/stable/2023.2
+
+python -m venv /opt/glance/venv
+source /opt/glance/venv/bin/activate
+
+pip install -r /opt/glance/requirements.txt && python /opt/glance/setup.py develop && pip install python-memcached pymysql SQLAlchemy==1.4.52 oslo.policy==4.4.0
+
+cp /opt/glance/venv/bin/glance-* /usr/local/bin/
+
+HOSTNAME=controller-1
+
+tee /etc/glance/glance-api.conf > /dev/null <<EOF
+[DEFAULT]
+# 日志文件路径，如果不想记录到文件，可以不设置此选项
+log_file = /var/log/glance/api.log
+
+[database]
+connection = mysql+pymysql://glance:glance@$hostname/glance
+
+[keystone_authtoken]
+www_authenticate_uri  = http://$hostname:5000
+auth_url = http://$hostname:5000
+memcached_servers = $hostname:11211
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = glance
+password = glance
+
+[paste_deploy]
+flavor = keystone
+
+[glance_store]
+stores = file,http
+default_store = file
+filesystem_store_datadir = /var/lib/glance/images/
+
+EOF
+
+cp /opt/glance/etc/glance-api-paste.ini /etc/glance/
+
+chown -R glance:glance /etc/glance/ /var/log/glance/ /var/lib/glance/ /opt/glance/
+
+
+mysql -e "\
+    CREATE DATABASE glance; \
+    GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' IDENTIFIED BY 'glance'; \
+    GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' IDENTIFIED BY 'glance';"
+    
+su -s /bin/sh -c "glance-manage db_sync" glance
+
+
+openstack user create --domain default --password "glance" glance && \
+openstack role add --project service --user glance admin && \
+openstack service create --name glance --description "OpenStack Image" image
+
+
+
+openstack endpoint create --region RegionOne image public http://$hostname:9292 && \
+openstack endpoint create --region RegionOne image internal http://$hostname:9292 && \
+openstack endpoint create --region RegionOne image admin http://$hostname:9292
+
+
+tee /etc/logrotate.d/glance > /dev/null <<EOF
+/var/log/glance/*.log {
+    weekly
+    dateext
+    rotate 10
+    size 1M
+    missingok
+    compress
+    notifempty
+    su glance glance
+    minsize 100k
+}
+
+EOF
+
+
+tee /usr/lib/systemd/system/openstack-glance-api.service > /dev/null <<EOF
+[Unit]
+Description=OpenStack Image Service API server
+After=syslog.target network.target
+After=mariadb.service postgresql.service rabbitmq-server.service
+
+[Service]
+Type=simple
+User=glance
+Group=glance
+LimitNOFILE=131072
+LimitNPROC=131072
+WorkingDirectory=/var/lib/glance
+PrivateTmp=yes
+# the connection parameter might be stored in the glance-api related config files
+ExecStartPre=-/usr/local/bin/glance-manage db sync
+ExecStart=/usr/local/bin/glance-api
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+ln -s /usr/lib/systemd/system/openstack-glance-api.service /etc/systemd/system/openstack-glance-api.service
+```
+
+### placement
+
+```bash
+getent group placement >/dev/null || groupadd -r placement 
+if ! getent passwd placement >/dev/null; then
+  useradd -r -g placement -G placement,nobody -d /var/lib/placement -s /sbin/nologin -c "OpenStack Placement Daemons" placement
+fi
+
+cp -r /opt/placement/etc/placement/ /etc/
+
+mkdir -p /var/log/placement/ /etc/placement/ && chown -R placement:placement /var/log/placement/ /etc/placement/ /opt/placement/
+    
+    
+git clone $repo_url/placement.git /opt/placement && cd /opt/placement && git checkout -b stable/2023.2 remotes/origin/stable/2023.2
+
+python -m venv /opt/placement/venv  && source /opt/placement/venv/bin/activate
+
+pip install -r requirements.txt && python /opt/placement/setup.py develop && pip install python-memcached pymysql SQLAlchemy==1.4.52
+
+
+cp /opt/placement/venv/bin/placement-* /usr/local/bin/
+ln -s /usr/local/bin/placement-api.py /usr/bin/placement-api
+
+source ~/.admin-openrc && openstack user create --domain default --password "placement" placement \
+    && openstack role add --project service --user placement admin \
+    && openstack service create --name placement --description "Placement API" placement \
+    && openstack endpoint create --region RegionOne placement public http://$hostname:8778 \
+    && openstack endpoint create --region RegionOne placement internal http://$hostname:8778 \
+    && openstack endpoint create --region RegionOne placement admin http://$hostname:8778
+    
+    tee /etc/logrotate.d/placement > /dev/null <<EOF
+/var/log/placement/*.log {
+    weekly
+    dateext
+    rotate 10
+    size 1M
+    missingok
+    compress
+    notifempty
+    su placement placement
+    minsize 100k
+}
+
+EOF
+
+
+
+
+
+
+
+
+
+
+tee /etc/placement//placement.conf > /dev/null <<EOF
+[placement_database]
+connection = mysql+pymysql://placement:placement@$hostname/placement
+[api]
+auth_strategy = keystone
+[keystone_authtoken]
+auth_url = http://$hostname:5000/v3
+memcached_servers = $hostname:11211
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = placement
+password = placement
+
+EOF
+
+
+tee /etc/httpd/conf.d/00-placement-api.conf > /dev/null <<EOF
+Listen 8778
+
+<VirtualHost *:8778>
+  WSGIProcessGroup placement-api
+  WSGIApplicationGroup %{GLOBAL}
+  WSGIPassAuthorization On
+  WSGIDaemonProcess placement-api processes=5 threads=1 user=placement group=placement display-name=%{GROUP} home=/opt/placement python-home=/opt/placement/venv python-path=/opt/placement/venv/lib/python3.9/site-packages
+  WSGIScriptAlias / /usr/bin/placement-api
+  <IfVersion >= 2.4>
+    ErrorLogFormat "%M"
+  </IfVersion>
+  ErrorLog /var/log/placement/placement-api.log
+  #SSLEngine On
+  #SSLCertificateFile ...
+  #SSLCertificateKeyFile ...
+    <Directory /usr/bin>
+    <IfVersion >= 2.4>
+      Require all granted
+    </IfVersion>
+    <IfVersion < 2.4>
+      Order allow,deny
+      Allow from all
+    </IfVersion>
+  </Directory>
+  <Directory /opt/placement/venv/bin>
+    <IfVersion >= 2.4>
+      Require all granted
+    </IfVersion>
+    <IfVersion < 2.4>
+      Order allow,deny
+      Allow from all
+    </IfVersion>
+  </Directory>
+</VirtualHost>
+
+Alias /placement-api /opt/placement/venv/bin/placement-api
+<Location /placement-api>
+  SetHandler wsgi-script
+  Options +ExecCGI
+  WSGIProcessGroup placement-api
+  WSGIApplicationGroup %{GLOBAL}
+  WSGIPassAuthorization On
+</Location>
+
+EOF
+
+
+mysql -e "\
+    CREATE DATABASE placement; \
+    GRANT ALL PRIVILEGES ON placement.* TO 'placement'@'localhost' IDENTIFIED BY 'placement'; \
+    GRANT ALL PRIVILEGES ON placement.* TO 'placement'@'%' IDENTIFIED BY 'placement';"
+    
+    su -s /bin/sh -c "placement-manage db sync" placement
+    
+    # 重启httpd
+systemctl restart httpd
+
+curl http://$hostname:8778
+placement-status upgrade check
+```
+
+
+
+### nova
+
+```bash
+getent group nova >/dev/null || groupadd -r nova 
+if ! getent passwd nova >/dev/null; then
+  useradd -r -g nova -G nova,nobody -d /var/lib/nova -s /sbin/nologin -c "OpenStack Nova Daemons" nova
+fi
+
+git clone $repo_url/nova.git /opt/nova && cd /opt/nova && git checkout -b stable/2023.2 remotes/origin/stable/2023.2
+
+python -m venv /opt/nova/venv && source /opt/nova/venv/bin/activate \
+    &&  pip install -r /opt/nova/requirements.txt && pip install python-memcached pymysql SQLAlchemy==1.4.52 \
+    && python /opt/nova/setup.py develop && deactivate && cp /opt/nova/venv/bin/nova-* /usr/local/bin/
+
+
+mkdir -p /var/log/nova/ /etc/nova/ /var/lib/nova /var/lib/nova/instances/locks && chown -R nova:nova /var/log/nova/ /etc/nova/ /opt/nova/ /var/lib/nova /var/lib/nova/instances/
+
+cp -r\
+    /opt/nova/etc/nova/api-paste.ini \
+    /opt/nova/etc/nova/rootwrap.conf \
+    /opt/nova/etc/nova/rootwrap.d \
+    /etc/nova/
+    
+# 日志配置
+tee /etc/logrotate.d/nova > /dev/null <<EOF
+/var/log/nova/*.log {
+    rotate 14
+    size 10M
+    missingok
+    compress
+    copytruncate
+}
+
+EOF
+
+
+usermod -aG libvirt nova
+
+
+dnf install libguestfs python3-libguestfs
+
+
+
+
+tee /etc/nova/nova.conf > /dev/null <<EOF
+[DEFAULT]
+reclaim_instance_interval=604800
+osapi_compute_workers = 4
+# ec2_workers = 4
+metadata_workers = 4
+enabled_apis = osapi_compute,metadata
+transport_url = rabbit://openstack:openstack@$hostname:5672/
+my_ip = $host_ip
+use_neutron = true
+firewall_driver = nova.virt.firewall.NoopFirewallDriver
+compute_driver=libvirt.LibvirtDriver
+allow_resize_to_same_host=True
+instances_path = /var/lib/nova/instances/
+lock_path = /var/lib/nova/tmp
+log_dir = /var/log/nova/
+verbose=debug
+debug = True
+
+rpc_response_timeout = 180
+
+# Quota
+[quota]
+instances = 100
+cores=51200
+ram=102400
+
+[api_database]
+connection = mysql+pymysql://nova:nova@$hostname/nova_api
+
+[database]
+connection = mysql+pymysql://nova:nova@$hostname/nova
+
+[scheduler]
+workers = 4
+
+[conductor]
+workers = 4
+
+[api]
+workers = 4
+auth_strategy = keystone
+
+[keystone_authtoken]
+www_authenticate_uri = http://$hostname:5000/
+auth_url = http://$hostname:5000/
+memcached_servers = $hostname:11211
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = nova
+password = nova
+
+[vnc]
+enabled = true
+server_listen = 0.0.0.0
+server_proxyclient_address = \$my_ip
+novncproxy_base_url = http://$my_ip:6080/vnc_auto.html
+
+[libvirt]
+virt_type = qemu
+# cpu_mode = host-passthrough
+# arm 
+#cpu_mode = custom
+#cpu_model = cortex-a72
+num_pcie_ports=10
+inject_password = True
+inject_partition = -1
+
+[glance]
+api_servers = http://$hostname:9292
+
+[oslo_concurrency]
+lock_path = /var/lib/nova/tmp
+
+[placement]
+region_name = RegionOne
+project_domain_name = Default
+project_name = service
+auth_type = password
+user_domain_name = Default
+auth_url = http://$hostname:5000/v3
+username = placement
+password = placement
+
+[neutron]
+auth_url = http://$hostname:5000
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+region_name = RegionOne
+project_name = service
+username = neutron
+password = neutron
+service_metadata_proxy = true
+metadata_proxy_shared_secret = METADATA_SECRET
+
+[privsep_osbrick]
+user = nova
+helper_command = sudo /opt/nova/venv/bin/privsep-helper
+
+[notifications]
+notify_on_state_change = vm_and_task_state
+
+[oslo_messaging_notifications]
+driver = messaging
+
+EOF
+
+
+tee /etc/nova/rootwrap.d/compute.filters > /dev/null <<EOF
+
+# nova-rootwrap command filters for compute nodes
+# This file should be owned by (and only-writeable by) the root user
+
+[Filters]
+privsep-helper: CommandFilter, /opt/nova/venv/bin/privsep-helper, root
+# os_brick.privileged.default oslo.privsep context
+privsep-rootwrap-os_brick: RegExpFilter, privsep-helper, root, privsep-helper, --config-file, /etc/(?!\.\.).*, --privsep_context, os_brick.privileged.default, --privsep_sock_path, /tmp/.*
+
+# nova.privsep.sys_admin_pctxt oslo.privsep context
+privsep-rootwrap-sys_admin: RegExpFilter, privsep-helper, root, privsep-helper, --config-file, /etc/(?!\.\.).*, --privsep_context, nova.privsep.sys_admin_pctxt, --privsep_sock_path, /tmp/.*
+EOF
+
+
+ mysql -e "\
+    CREATE DATABASE nova_api; \
+    CREATE DATABASE nova; \
+    CREATE DATABASE nova_cell0; \
+    GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'localhost' IDENTIFIED BY 'nova'; \
+    GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'%' IDENTIFIED BY 'nova'; \
+    GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIED BY 'nova'; \
+    GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY 'nova'; \
+    GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'localhost' IDENTIFIED BY 'nova'; \
+    GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%' IDENTIFIED BY 'nova';"
+
+su -s /bin/sh -c "nova-manage api_db sync" nova && \
+    su -s /bin/sh -c "nova-manage cell_v2 map_cell0" nova && \
+    su -s /bin/sh -c "nova-manage cell_v2 create_cell --name=cell1 --verbose" nova && \
+    su -s /bin/sh -c "nova-manage db sync" nova && \
+    su -s /bin/sh -c "nova-manage cell_v2 list_cells" nova && \
+    su -s /bin/sh -c "nova-manage cell_v2 discover_hosts --verbose" nova
+    
+    
+    
+    source ~/.admin-openrc && openstack user create --domain default --password "nova" nova \
+    && openstack role add --project service --user nova admin \
+    && openstack service create --name nova --description "OpenStack Compute" compute \
+    && openstack endpoint create --region RegionOne compute public http://$hostname:8774/v2.1 \
+    && openstack endpoint create --region RegionOne compute internal http://$hostname:8774/v2.1 \
+    && openstack endpoint create --region RegionOne compute admin http://$hostname:8774/v2.1
+    
+    
+    tee /etc/sudoers.d/nova > /dev/null <<EOF
+Defaults:nova !requiretty
+
+nova ALL = (root) NOPASSWD: /usr/bin/nova-rootwrap /etc/nova/rootwrap.conf *
+nova ALL = (root) NOPASSWD: /usr/bin/privsep-helper *
+EOF
+
+
+tee /usr/lib/systemd/system/openstack-nova-api.service > /dev/null <<EOF
+[Unit]
+Description=OpenStack Nova API Server
+After=syslog.target network.target
+
+[Service]
+Type=notify
+NotifyAccess=all
+TimeoutStartSec=0
+Restart=always
+User=nova
+ExecStart=/usr/local/bin/nova-api
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+ln -s /usr/lib/systemd/system/openstack-nova-api.service /etc/systemd/system/openstack-nova-api.service
+
+
+tee /usr/lib/systemd/system/openstack-nova-metadata-api.service > /dev/null <<EOF
+[Unit]
+Description=OpenStack Nova Metadata API Server
+After=syslog.target network.target
+
+[Service]
+Type=notify
+NotifyAccess=all
+TimeoutStartSec=0
+Restart=always
+User=nova
+ExecStart=/usr/local/bin/nova-api-metadata
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+ln -s /usr/lib/systemd/system/openstack-nova-metadata-api.service /etc/systemd/system/openstack-nova-metadata-api.service
+
+
+tee /usr/lib/systemd/system/openstack-nova-conductor.service > /dev/null <<EOF
+[Unit]
+Description=OpenStack Nova Conductor Server
+After=syslog.target network.target
+
+[Service]
+Type=notify
+NotifyAccess=all
+TimeoutStartSec=0
+Restart=always
+User=nova
+ExecStart=/usr/local/bin/nova-conductor
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+ln -s /usr/lib/systemd/system/openstack-nova-conductor.service /etc/systemd/system/openstack-nova-conductor.service
+
+
+tee /usr/lib/systemd/system/openstack-nova-scheduler.service > /dev/null <<EOF
+[Unit]
+Description=OpenStack Nova Scheduler Server
+After=syslog.target network.target
+
+[Service]
+Type=notify
+NotifyAccess=all
+TimeoutStartSec=0
+Restart=always
+User=nova
+ExecStart=/usr/local/bin/nova-scheduler
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+ln -s /usr/lib/systemd/system/openstack-nova-scheduler.service /etc/systemd/system/openstack-nova-scheduler.service
+
+tee /usr/lib/systemd/system/openstack-nova-novncproxy.service > /dev/null <<EOF
+[Unit]
+Description=OpenStack Nova NoVNC Proxy Server
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=nova
+EnvironmentFile=-/etc/sysconfig/openstack-nova-novncproxy
+ExecStart=/usr/local/bin/nova-novncproxy --web /usr/share/novnc/ $OPTIONS
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+ln -s /usr/lib/systemd/system/openstack-nova-novncproxy.service /etc/systemd/system/openstack-nova-novncproxy.service
+
+
+tee /usr/lib/systemd/system/openstack-nova-compute.service > /dev/null <<EOF
+[Unit]
+Description=OpenStack Nova Compute Server
+After=syslog.target network.target libvirtd.service
+
+[Service]
+Environment=LIBGUESTFS_ATTACH_METHOD=appliance
+Type=notify
+NotifyAccess=all
+TimeoutStartSec=0
+Restart=always
+User=nova
+ExecStart=/usr/local/bin/nova-compute
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+ln -s /usr/lib/systemd/system/openstack-nova-compute.service /etc/systemd/system/openstack-nova-compute.service
+```
+
+
+
+### neutron
+
+```bash
+git clone $repo_url/neutron.git /opt/neutron && cd /opt/neutron && git checkout -b stable/2023.2 remotes/origin/stable/2023.2
+
+python -m venv venv && source /opt/neutron/venv/bin/activate && python /opt/neutron/setup.py install && cp /opt/neutron/venv/bin/neutron-* /usr/bin/
+```
 

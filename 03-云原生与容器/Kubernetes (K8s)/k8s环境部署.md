@@ -23,8 +23,6 @@ systemctl stop firewalld && systemctl disable firewalld
 
 ```shell
 swapoff -a
-
-
 ```
 
 vi /etc/fstab 注释swap行![注释swap行](./images/注释swap行.png)
