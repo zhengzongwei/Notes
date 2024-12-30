@@ -1,0 +1,41 @@
+```
+digraph "Deployment Steps" {
+    node [shape=box, style=rounded, fontsize=10];
+    edge [fontsize=10];
+
+    /* cylinder shape works only in graphviz 2.39+ */
+    { rank=same; node [shape=cylinder]; "Nova DB"; "Ironic DB"; }
+    { rank=same; "Nova API"; "Ironic API"; }
+    { rank=same; "Nova Message Queue"; "Ironic Message Queue"; }
+    { rank=same; "Ironic Conductor"; "TFTP Server"; }
+    { rank=same; "Deploy Interface"; "Boot Interface"; "Power Interface"; "Management Interface"; }
+    { rank=same; "Glance"; "Neutron"; }
+    "Bare Metal Nodes" [shape=box3d];
+
+    "Nova API" -> "Nova Message Queue" [label=" 1"];
+    "Nova Message Queue" -> "Nova Conductor" [dir=both];
+    "Nova Message Queue" -> "Nova Scheduler" [label=" 2"];
+    "Nova Conductor" -> "Nova DB" [dir=both, label=" 3"];
+    "Nova Message Queue" -> "Nova Compute" [dir=both];
+    "Nova Compute" -> "Neutron" [label=" 4"];
+    "Nova Compute" -> "Nova Ironic Virt Driver" [label=5];
+    "Nova Ironic Virt Driver" -> "Ironic API" [label=6];
+    "Ironic API" -> "Ironic Message Queue";
+    "Ironic Message Queue" -> "Ironic Conductor" [dir=both];
+    "Ironic API" -> "Ironic DB" [dir=both];
+    "Ironic Conductor" -> "Ironic DB" [dir=both, label=16];
+    "Ironic Conductor" -> "Boot Interface" [label="8, 14"];
+    "Ironic Conductor" -> "Management Interface" [label=" 9"];
+    "Ironic Conductor" -> "Deploy Interface" [label=10];
+    "Deploy Interface" -> "Network Interface" [label="7, 15"];
+    "Ironic Conductor" -> "Power Interface" [label=11];
+    "Ironic Conductor" -> "Glance";
+    "Network Interface" -> "Neutron";
+    "Power Interface" -> "Bare Metal Nodes";
+    "Management Interface" -> "Bare Metal Nodes";
+    "TFTP Server" -> "Bare Metal Nodes" [label=12];
+    "Ironic Conductor" -> "Bare Metal Nodes" [style=dotted, label=13];
+    "Boot Interface" -> "TFTP Server";
+}
+```
+
