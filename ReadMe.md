@@ -40,6 +40,7 @@
 ├── 01-开发与编程
 │   ├── git
 │   │   ├── git 项目配置.md
+│   │   ├── github不能pull.md
 │   │   ├── git提交规范.md
 │   │   └── git操作.md
 │   ├── golang
@@ -280,6 +281,14 @@
 │   │   │   │       ├── image-20241121155454415.png
 │   │   │   │       └── octavia-component-overview.svg
 │   │   │   └── octavia调研.md
+│   │   ├── 07-ironic
+│   │   │   ├── deployment_steps.dot
+│   │   │   ├── ironic
+│   │   │   │   └── images
+│   │   │   │       ├── conceptual_architecture.png
+│   │   │   │       ├── deployment_steps.png
+│   │   │   │       └── direct-deploy.svg
+│   │   │   └── ironic.md
 │   │   ├── Build Octavia Amphora Images.md
 │   │   └── OpenStack Client.md
 │   └── 05-images
@@ -288,7 +297,9 @@
 │   ├── Kubernetes (K8s)
 │   │   ├── images
 │   │   │   └── 注释swap行.png
-│   │   └── k8s环境部署.md
+│   │   ├── k8s环境部署.md
+│   │   ├── minikube.md
+│   │   └── openEuler k8s.md
 │   └── docker
 │       ├── docker registry.md
 │       ├── docker 基本操作.md
@@ -311,12 +322,12 @@
 │   │   │   ├── brctl.md
 │   │   │   └── firewall-cmd.md
 │   │   ├── Linux磁盘扩容.md
-│   │   ├── github不能pull.md
 │   │   ├── mirrors.md
 │   │   ├── openeuler
 │   │   │   └── openeuler.md
 │   │   ├── repo
 │   │   │   └── linux源配置.md
+│   │   ├── 内网穿透.md
 │   │   ├── 证书生成.md
 │   │   └── 防火墙配置.md
 │   ├── 01-Windows
@@ -357,7 +368,8 @@
 │           └── zsh.md
 ├── 05-数据库
 │   ├── mysql
-│   │   └── mysql.md
+│   │   ├── mysql.md
+│   │   └── 完全卸载数据库.md
 │   └── redis
 │       └── redis.md
 ├── ReadMe.md
@@ -365,5 +377,5 @@
 ├── openeuler loongarch.md
 └── 画图示例.md
 
-105 directories, 259 files
+108 directories, 268 files
 ```
