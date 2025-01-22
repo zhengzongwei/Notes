@@ -74,6 +74,7 @@
 3. 确保安装了最新版本的 pip：
 
    ```
+   pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
    pip install -U pip
    ```
 
@@ -118,16 +119,39 @@
    
    workaround_ansible_issue_8743: yes
    kolla_base_distro: "debian"
-   openstack_release: "2023.1"
+   openstack_release: "2023.2"
    # aarch64
    openstack_tag_suffix: "-aarch64"
    kolla_internal_vip_address: "192.168.237.250"
    docker_registry: "quay.nju.edu.cn"
    network_interface: "ens160"
    neutron_external_interface: "ens192"
-   enable_skyline: "yes"
    nova_compute_virt_type: "qemu"
    
+   enable_neutron: "yes"
+   enable_nova: "yes"
+   
+   # ironic
+   enable_ironic: "yes"
+   ironic_dnsmasq_interface: "ens160"
+   ironic_cleaning_network: "public1"
+   ironic_dnsmasq_dhcp_ranges:
+     - range: "192.168.237.130,192.168.237.140"
+   
+   ironic_dnsmasq_boot_file: pxelinux.0
+   ironic_inspector_kernel_cmdline_extras: ['ipa-lldp-timeout=90.0', 'ipa-collect-lldp=1']
+   ironic_http_port: "8089"
+   ironic_dnsmasq_serve_ipxe: "no"
+   
+   # curl https://tarballs.opendev.org/openstack/ironic-python-agent/dib/files/ipa-centos9-master.kernel -o /etc/kolla/config/ironic/ironic-agent.kernel
+   
+   # curl https://tarballs.opendev.org/openstack/ironic-python-agent/dib/files/ipa-centos9-master.initramfs -o /etc/kolla/config/ironic/ironic-agent.initramfs
+   
+   # skyline
+   
+   skyline_version: "2024.1"
+   enable_skyline: "yes"
+   skyline_enable_sso: "yes"
    
    
    ```
@@ -154,11 +178,22 @@
    
    # 部署
    kolla-ansible -i /etc/kolla/all-in-one deploy
+   
+   # 升级单组件
+   docker pull quay.nju.edu.cn/openstack.kolla/skyline-apiserver:2024.1
+   docker pull quay.nju.edu.cn/openstack.kolla/skyline-console:2024.1
+   
+   kolla-ansible -i /etc/kolla/all-in-one pull -t skyline
+   kolla-ansible -i /etc/kolla/all-in-one upgrade -t skyline
    ```
 
 ## 参考链接
 
 1. [支持矩阵 — kolla-ansible 16.1.0.dev7 文档 (openstack.org)](https://docs.openstack.org/kolla-ansible/latest/user/support-matrix)
+
+2. [Quick Start for deployment/evaluation — kolla-ansible 19.1.0.dev108 documentation](https://docs.openstack.org/kolla-ansible/latest/user/quickstart.html)
+
+   
 
 
 

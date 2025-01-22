@@ -33,6 +33,7 @@ git clone https://opendev.org/openstack/devstack /opt/devstack
 # pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 /opt/stack/data/venv/bin/pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+
 # 修改目录权限
 sudo chown -R stack:stack /opt/devstack
 sudo chown -R stack:stack /opt/stack
@@ -41,7 +42,7 @@ sudo chmod -R 755 /opt/stack
 
 git checkout .
 # 切换到要部署的openstack版本分支，以yoga为例，不切换的话，默认安装的是master版本的openstack
-git checkout remotes/origin/stable/2023.2 -b stable/2023.2
+git checkout  -b stable/2023.2 remotes/origin/stable/2023.2
 ```
 
 ### 初始化devstacl配置文件
@@ -68,15 +69,26 @@ SPICE_REPO=http://git.trystack.cn/git/spice/spice-html5.git
 
 HOST_IP=127.0.0.1
 
-
-Q_PLUGIN=ml2
-ENABLE_TENANT_VLANS=True
-ML2_VLAN_RANGES=physnet1:1000:2000
-
-
 OVN_BUILD_FROM_SOURCE=True
 
+# 启用 Ironic
+enable_plugin ironic https://opendev.org/openstack/ironic
+enable_plugin ironic-ui https://opendev.org/openstack/ironic-ui
+enable_service ironic
+enable_service ironic-api
+enable_service ironic-conductor
+enable_service dhcp
+enable_service dnsmasq
+enable_service tftp
+enable_service tempest
 
+# 网络配置
+FLAT_INTERFACE=enp0s5  # 替换为你的网络接口名称
+PUBLIC_INTERFACE=enp0s6
+
+# 使用 qemu 模拟裸机
+IRONIC_DEPLOY_DRIVER=fake-hardware
+IRONIC_ENABLED_NETWORK_INTERFACES=flat,neutron
 
 # Enabling Neutron (network) Service
 # openeuler 
@@ -91,23 +103,21 @@ OVN_BUILD_FROM_SOURCE=True
 # enable_service q-metering
 # enable_service neutron
 enable_plugin skyline-apiserver https://opendev.org/openstack/skyline-apiserver stable/2023.2
-disable_service horizon
+# disable_service horizon
 
 
 ## Neutron options
 Q_USE_SECGROUP=True
 FLOATING_RANGE="192.168.1.0/24"
 FIXED_RANGE="10.0.0.0/24"
-Q_FLOATING_ALLOCATION_POOL=start=192.168.1.102,end=192.168.1.110
-PUBLIC_NETWORK_GATEWAY="192.168.1.2"
+Q_FLOATING_ALLOCATION_POOL=start=10.211.55.100,end=10.211.55.110
+PUBLIC_NETWORK_GATEWAY="10.211.55.2"
 Q_L3_ENABLED=True
-PUBLIC_INTERFACE=ens37
+PUBLIC_INTERFACE=enp0s6
 Q_USE_PROVIDERNET_FOR_PUBLIC=True
 OVS_PHYSICAL_BRIDGE=br-ex
 PUBLIC_BRIDGE=br-ex
 OVS_BRIDGE_MAPPINGS=public:br-ex
-
-disable_service horizon
 
 # #VLAN configuration.
 Q_PLUGIN=ml2
@@ -126,11 +136,6 @@ SCREEN_LOGDIR=/opt/stack/logs
 cpu_mode=custom
 cpu_model=cortex-a72
 
-
-systemctl enable neutron-server.service neutron-linuxbridge-agent.service   
-neutron-dhcp-agent.service neutron-metadata-agent.service 
-systemctl enable neutron-l3-agent.service
-systemctl restart openstack-nova-api.service neutron-server.service neutron-linuxbridge-agent.service neutron-dhcp-agent.service neutron-metadata-agent.service neutron-l3-agent.service
 ```
 
 #### Ubuntu 2204 LTS配置
@@ -154,6 +159,98 @@ HOST_IP=127.0.0.1
 enable_plugin skyline-apiserver https://opendev.org/openstack/skyline-apiserver stable/2023.2
 disable_service horizon
 
+[[post-config|$NOVA_CONF]]
+[libvirt]
+cpu_mode=custom
+cpu_model=cortex-a72
+```
+
+
+
+#### debian 配置
+
+```
+[[local|localrc]]
+# 基本密码设置
+ADMIN_PASSWORD=admin
+DATABASE_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+
+# 使用国内镜像加速
+GIT_BASE=http://git.trystack.cn
+NOVNC_REPO=http://git.trystack.cn/kanaka/noVNC.git
+SPICE_REPO=http://git.trystack.cn/git/spice/spice-html5.git
+
+# 主机 IP 配置
+HOST_IP=127.0.0.1
+
+# 使用 OVN（Open Virtual Network）
+OVN_BUILD_FROM_SOURCE=True
+
+# 启用 Ironic
+enable_plugin ironic https://opendev.org/openstack/ironic
+enable_plugin ironic-ui https://opendev.org/openstack/ironic-ui
+enable_service ironic
+enable_service ironic-api
+enable_service ironic-conductor
+enable_service dhcp
+enable_service dnsmasq
+enable_service tftp
+enable_service tempest
+
+# 网络配置
+FLAT_INTERFACE=ens33              # 平坦网络的物理网卡
+PUBLIC_INTERFACE=ens34           # 公网访问的物理网卡
+
+# 使用 qemu 模拟裸机
+IRONIC_DEPLOY_DRIVER=fake-hardware
+IRONIC_ENABLED_NETWORK_INTERFACES=flat,neutron
+
+# 启用 Neutron 和 OVS
+disable_service ovn-northd
+disable_service ovn-controller
+disable_service ovn-controller-vtep
+disable_service ovn-metadata-agent
+disable_service ovn
+
+enable_service q-svc              # 启用 Neutron 服务
+# enable_service q-agt              # 启用 Neutron OVS Agent
+enable_service q-dhcp             # 启用 DHCP 服务
+enable_service q-l3               # 启用 L3 路由
+enable_service q-meta             # 启用 Metadata 服务
+enable_service q-ovs
+
+# 启用 Skyline 组件
+enable_plugin skyline-apiserver https://opendev.org/openstack/skyline-apiserver stable/2023.2
+# disable_service horizon          # 禁用 Horizon
+
+## Neutron 网络选项
+Q_USE_SECGROUP=True
+FLOATING_RANGE="192.168.31.0/24"    # 浮动 IP 范围
+FIXED_RANGE="10.0.0.0/24"          # 固定 IP 范围
+Q_FLOATING_ALLOCATION_POOL=start=192.168.31.200,end=192.168.31.210
+PUBLIC_NETWORK_GATEWAY="192.168.31.1"
+Q_L3_ENABLED=True
+Q_USE_PROVIDERNET_FOR_PUBLIC=True
+
+# Open vSwitch 配置
+OVS_PHYSICAL_BRIDGE=br-ex          # 公网桥接
+PUBLIC_BRIDGE=br-ex
+OVS_BRIDGE_MAPPINGS=public:br-ex   # 将物理网络映射到 br-ex
+
+# VLAN 配置
+Q_PLUGIN=ml2
+ENABLE_TENANT_VLANS=True
+ML2_VLAN_RANGES=physnet1:1000:2000
+
+# 日志配置
+LOGFILE=/opt/stack/logs/stack.sh.log
+VERBOSE=True
+LOG_COLOR=True
+SCREEN_LOGDIR=/opt/stack/logs
+
+# ARM 架构配置
 [[post-config|$NOVA_CONF]]
 [libvirt]
 cpu_mode=custom
