@@ -287,7 +287,9 @@
 │   │   │   │   └── images
 │   │   │   │       ├── conceptual_architecture.png
 │   │   │   │       ├── deployment_steps.png
-│   │   │   │       └── direct-deploy.svg
+│   │   │   │       ├── direct-deploy.svg
+│   │   │   │       ├── image-20250108144422996.png
+│   │   │   │       └── image-20250114104258863.png
 │   │   │   └── ironic.md
 │   │   ├── Build Octavia Amphora Images.md
 │   │   └── OpenStack Client.md
@@ -344,7 +346,11 @@
 │       ├── brew
 │       │   ├── homebrew.md
 │       │   ├── init_mac.sh
-│       │   └── install.sh
+│       │   ├── install.sh
+│       │   └── lrzsz
+│       │       ├── iterm2-recv-zmodem.sh
+│       │       ├── iterm2-send-zmodem.sh
+│       │       └── rzsz.md
 │       ├── iterm2
 │       │   ├── iterm2.json
 │       │   └── iterm2配置.md
@@ -377,5 +383,5 @@
 ├── openeuler loongarch.md
 └── 画图示例.md
 
-108 directories, 268 files
+110 directories, 273 files
 ```
