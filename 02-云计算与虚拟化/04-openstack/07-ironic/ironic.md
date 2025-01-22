@@ -6,7 +6,13 @@ ironic是一个OpenStack项目，为裸机机器提供服务，它可以单独�
 
 ### 概念架构
 
+#### ironic在openstack组件中的位置
+
 ![ConceptualArchitecture](./ironic/images/conceptual_architecture.png)
+
+####  ironic 组件内部运行流程图
+
+![image-20250108144422996](./ironic/images//image-20250108144422996.png)
 
 ### ironic 服务组件
 
@@ -118,7 +124,120 @@ ironic是一个OpenStack项目，为裸机机器提供服务，它可以单独�
 
 此过程是 [Direct deploy](https://docs.openstack.org/ironic/latest/admin/interfaces/deploy.html#direct-deploy) 的工作原理。
 
-![../_images/direct-deploy.svg](./ironic/images/direct-deploy.svg)
+<img src="./ironic/images/direct-deploy.svg" alt="../_images/direct-deploy.svg" />
+
+## 裸金属镜像IPA制作
+
+### IPA简介
+
+Ironic 是 OpenStack 的一个项目，用于裸机管理和部署。Ironic Python Agent (IPA) 是 Ironic 的一个重要组成部分。
+
+官方默认支持的ipa镜像是x86的，下载地址 [Index of /openstack/ironic-python-agent/dib/files](https://tarballs.opendev.org/openstack/ironic-python-agent/dib/files/)
+
+ 其他架构的ipa镜像需要自行编译。
+
+#### Ironic Python Agent (IPA) 镜像的作用
+
+IPA 镜像是一个轻量级的操作系统镜像，通常是基于 Linux 的系统（例如 TinyCore Linux）。其主要作用如下：
+
+1. **裸机检查**：IPA 镜像被部署到裸机服务器上，用于检查服务器的硬件状态和配置。例如，检查 CPU 信息、内存大小、硬盘状态等。
+2. **裸机配置**：IPA 镜像可以配置裸机的启动顺序、BIOS 设置、RAID 配置等。
+3. **裸机部署**：IPA 镜像可以从网络上下载和部署操作系统到裸机服务器上。部署过程中，IPA 会根据 Ironic 的指示执行特定的操作，例如擦除磁盘、分区、格式化、安装操作系统以及配置网络等。
+4. **维护和故障排除**：IPA 镜像可以用于维护和故障排除。例如，当裸机服务器出现问题时，可以通过 IPA 镜像进入维护模式，检查和修复系统问题。
+
+#### 工作流程
+
+1. **启动 IPA 镜像**：通过网络引导（PXE）或其他方式将裸机服务器引导到 IPA 镜像。
+2. **连接 Ironic**：IPA 镜像启动后，会自动连接到 Ironic 服务，并注册自身。
+3. **执行任务**：Ironic 根据配置和操作需求，向 IPA 发送指令。IPA 执行这些指令，例如检查硬件状态、配置服务器、部署操作系统等。
+4. **报告状态**：IPA 执行完任务后，将结果和状态报告给 Ironic。
+
+#### 总结
+
+Ironic Python Agent 镜像在裸机管理和部署过程中起到了关键作用。它提供了一个灵活的环境，可以执行各种硬件检查、配置和操作系统部署任务，使得 Ironic 能够高效地管理和部署裸机服务器。
+
+### 官方镜像制作步骤
+
+```bash
+dnf install qemu-img python
+# 克隆 Ironic Python Agent Builder 仓库
+git clone https://opendev.org/openstack/ironic-python-agent-builder.git
+cd ironic-python-agent-builder
+
+# 创建并激活Python虚拟环境
+python -m venv venv
+source venv/bin/activate
+
+
+pip install diskimage-builder ironic-python-agent-builder
+
+# 安装依赖包
+pip install -r requirements.txt
+
+# 构建镜像
+aarch64
+export ARCH=aarch64
+export= ARCH=loongarch64
+ironic-python-agent-builder -o my-ipa --release 9-stream centos
+# 构建 ISO 镜像
+make dib DISK_FORMAT=iso
+
+# 启动生成的 ISO 镜像进行验证
+qemu-system-x86_64 -m 1024 -cdrom output/ironic-python-agent.iso
+```
+
+### 龙芯镜像制作
+
+```bash
+ironic-python-agent-builder -o ipa-loongarch64 -e "devuser dynamic-login dhcp-all-interfaces deploy-baremetal" --release 22.03-LTS openeuler-minimal --extra-args=-x
+
+
+
+#!/bin/bash
+
+set -x  # 开启调试模式
+
+# 清理可能残留的挂载点和目录
+cleanup() {
+    echo "Cleaning up any previous build artifacts..."
+    sudo umount -lf /tmp/dib_build* 2>/dev/null || true
+    sudo umount -lf /tmp/dib_image* 2>/dev/null || true
+    sudo rm -rf /tmp/dib_build* 2>/dev/null || true
+    sudo rm -rf /tmp/dib_image* 2>/dev/null || true
+}
+
+# 在构建开始之前清理
+cleanup
+
+# 设置构建环境变量
+export ARCH=loongarch64
+export DIB_RELEASE=2203
+export DIB_PYTHON_EXEC="/usr/bin/python3"
+export DIB_DEV_USER_USERNAME=devuser
+export DIB_DEV_USER_PWDLESS_SUDO=YES
+export DIB_DEV_USER_PASSWORD=PASSWORD
+
+# 禁用 Git SSL 证书验证
+git config --global http.sslverify false
+
+# 设置元素路径
+export ELEMENTS_PATH=elements
+
+# 调试信息
+echo "Starting disk-image-builder with the following settings:"
+echo "ARCH: $ARCH"
+echo "DIB_RELEASE: $DIB_RELEASE"
+echo "DIB_PYTHON_EXEC: $DIB_PYTHON_EXEC"
+echo "ELEMENTS_PATH: $ELEMENTS_PATH"
+
+# 运行 diskimage-builder 构建命令
+disk-image-create -o ipa-loongarch64 ironic-python-agent-ramdisk openeuler-minimal devuser dynamic-login dhcp-all-interfaces deploy-baremetal -x
+
+# 在构建结束时清理
+cleanup
+
+set +x  # 关闭调试模式
+```
 
 ## 附录
 
@@ -143,3 +262,62 @@ ironic是一个OpenStack项目，为裸机机器提供服务，它可以单独�
 
   IPMI 是一种标准化的计算机系统接口，供系统管理员进行计算机系统的带外管理以及监控其运行状态。这种方法通过仅与硬件建立网络连接，而不是通过操作系统，实现对可能无响应或已关闭的系统的管理。
 
+
+
+
+
+
+
+## 龙芯裸机问题解决
+
+1. 排查裸金属报错问题，修改policy解决问题
+
+   ![image-20250114104258863](./ironic/images//image-20250114104258863.png)
+
+   
+
+```bash
+
+openstack compute service set --enable kec-longxin-1 nova-compute
+
+openstack server create --flavor baremetal-flavor --nic net-id=a2ab5149-9b71-472b-b12a-2c1caab7d769 --image ba1153d2-b49a-43d8-a62d-ecf3c8fa801a zzw-ironic-test
+
+
+openstack server create --flavor m1.small --image cirros-0.5.2-x86_64-disk --network private --key-name mykey --availability-zone ironic node1-instance
+
+openstack baremetal node list --fields uuid name resource_class
+
+
+openstack baremetal node set c54cead6-436a-4aa4-8ca8-d3a9e42fef16 --resource-class BAREMETAL_TEST
+
+# 查看 裸机是否绑定 instance
+openstack baremetal node list
+# 取消instance 
+openstack baremetal node set --instance-uuid null c54cead6-436a-4aa4-8ca8-d3a9e42fef16
+# 检测 裸机资源
+openstack resource provider list 
+
+openstack server delete zzw-ironic-test
+
+
+req-2c81f21b-c9f1-44a1-8c1e-63c0dee606c8
+ComputeFilter
+
+
+openstack baremetal node resource-provider set c54cead6-436a-4aa4-8ca8-d3a9e42fef16 --resource-provider d39d3138-d91b-46b7-b63c-663f89ad7b85
+
+
+openstack resource provider set --name baremental-provider --resource-class CUSTOM_BAREMETAL_TEST d39d3138-d91b-46b7-b63c-663f89ad7b85
+```
+
+
+
+## 参考链接
+
+1. ironic ipa build https://docs.openstack.org/ironic/2023.1/install/deploy-ramdisk.html
+
+2. build ipa 参考[hikunpeng.com/doc_center/source/zh/kunpengcpfs/ecosystemEnable/OpenStack/kunpengopenstacksteinhybrid_04_0084.html](https://www.hikunpeng.com/doc_center/source/zh/kunpengcpfs/ecosystemEnable/OpenStack/kunpengopenstacksteinhybrid_04_0084.html)
+
+3. openstack 组件部署参考 https://openstack-sig.readthedocs.io/zh/latest/install/openEuler-24.03-LTS/OpenStack-antelope/#trove
+
+   
