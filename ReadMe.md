@@ -380,9 +380,10 @@
 │       └── redis.md
 ├── ReadMe.md
 ├── UOS系统.md
+├── dashDoc 制作指南.md
 ├── gen.sh
 ├── openeuler loongarch.md
 └── 画图示例.md
 
-110 directories, 274 files
+110 directories, 275 files
 ```
