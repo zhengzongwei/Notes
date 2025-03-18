@@ -293,8 +293,10 @@
 │   │   │   └── ironic.md
 │   │   ├── Build Octavia Amphora Images.md
 │   │   └── OpenStack Client.md
-│   └── 05-images
-│       └── images.md
+│   ├── 05-images
+│   │   └── images.md
+│   └── 06-Proxmox VE
+│       └── Windows系统安装.md
 ├── 03-云原生与容器
 │   ├── Kubernetes (K8s)
 │   │   ├── images
@@ -396,5 +398,5 @@
 │       └── image-20250310112826439.png
 └── 隧道登陆方式.md
 
-112 directories, 284 files
+113 directories, 285 files
 ```
