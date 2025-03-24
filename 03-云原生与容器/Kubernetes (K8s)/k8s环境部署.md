@@ -30,16 +30,59 @@ vi /etc/fstab 注释swap行![注释swap行](./images/注释swap行.png)
 ### 4. 修改内核参数和模块
 
 ```shell
+#开启内核路由转发
+sed -i 's/net.ipv4.ip_forward=0/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
+
 cat <<EOF > /etc/sysctl.d/k8s.conf
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
- 
+
 # sysctl --system
  
 # modprobe br_netfilter
 # lsmod | grep br_netfilter
 ```
+
+### 安装 controllerd
+
+```shell
+dnf install containerd
+
+containerd config dump | grep cgroup
+
+
+# 生成容器配置文件
+containerd config default  >> /etc/containerd/config.toml
+
+
+4.配置systemdcgroup 驱动程序
+# vi /etc/containerd/config.toml
+ 
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+  ...
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+  
+    SystemdCgroup = true
+    
+    
+# vi /etc/containerd/config.toml
+ 
+         
+  [plugins."io.containerd.grpc.v1.cri"]
+    systemd_cgroup = true
+
+    
+    
+[plugins."io.containerd.grpc.v1.cri"]
+  sandbox_image = "registry.aliyuncs.com/google_containers/pause:3.6"
+  
+  
+# systemctl start containerd
+# systemctl enable containerd
+```
+
+
 
 ### 5. 安装docker
 
