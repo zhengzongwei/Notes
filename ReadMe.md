@@ -297,6 +297,7 @@
 │   ├── 05-images
 │   │   └── images.md
 │   └── 06-Proxmox VE
+│       ├── 00-PVE简介.md
 │       ├── Windows系统安装.md
 │       └── 虚拟机镜像管理.md
 ├── 03-云原生与容器
@@ -400,5 +401,5 @@
 │       └── image-20250310112826439.png
 └── 隧道登陆方式.md
 
-113 directories, 287 files
+113 directories, 288 files
 ```
