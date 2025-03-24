@@ -209,6 +209,7 @@
 │   │   ├── 01-部署
 │   │   │   ├── DevStack部署.md
 │   │   │   ├── Kolla-ansible部署.md
+│   │   │   ├── OpenEuler OpenStack Bobcat 部署指南.md
 │   │   │   ├── OpenEuler 部署.md
 │   │   │   ├── OpenStack Python虚拟环境搭建.md
 │   │   │   ├── openstack-ansible.md
@@ -399,5 +400,5 @@
 │       └── image-20250310112826439.png
 └── 隧道登陆方式.md
 
-113 directories, 286 files
+113 directories, 287 files
 ```
