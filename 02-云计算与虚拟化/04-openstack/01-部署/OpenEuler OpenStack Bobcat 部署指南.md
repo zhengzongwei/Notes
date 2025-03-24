@@ -1674,9 +1674,7 @@ dnf install gcc python3-devel python3-unversioned-command git
      ovs-vsctl del-br br-tun
      
      # 手动配置IP地址
-     ip addr add $IP/24 dev br-ex
      ip link set br-ex up
-     ip route add default via $GATEWAY
      ```
 
   2. 绑定网卡
@@ -1685,8 +1683,6 @@ dnf install gcc python3-devel python3-unversioned-command git
 
      ```shell
      #  将网卡绑定到网桥
-     ovs-vsctl add-port br-ex $NETNAME
-     ovs-vsctl del-port br-ex $NETNAME
      
      # 移除原有的IP地址
      ip addr del 10.211.55.74/24 dev enp0s5
@@ -1722,9 +1718,7 @@ dnf install gcc python3-devel python3-unversioned-command git
        DEVICETYPE=ovs
        TYPE=OVSBridge
        BOOTPROTO=static
-       IPADDR=$IP
        NETMASK=255.255.255.0
-       GATEWAY=$GATEWAY
        DELAY=0
        DNS1=114.114.114.114
        DNS2=8.8.8.8
@@ -1740,7 +1734,6 @@ dnf install gcc python3-devel python3-unversioned-command git
        ```shell
        tee /etc/sysconfig/network-scripts/ifcfg-enp0s5 > /dev/null << EOF
        TYPE=OVSPort
-       DEVICE=$NETNAME
        ONBOOT=yes
        OVS_BRIDGE=br-ex
        NM_CONTROLLED=no
