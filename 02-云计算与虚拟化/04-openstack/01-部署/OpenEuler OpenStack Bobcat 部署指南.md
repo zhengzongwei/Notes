@@ -977,9 +977,10 @@ dnf install gcc python3-devel python3-unversioned-command git
     WantedBy=multi-user.target
     EOF
     
+
   ln -s /usr/lib/systemd/system/openstack-glance-api.service /etc/systemd/system/openstack-glance-api.service
     ```
-
+  
   - 服务启动
   
     ```shell
@@ -1710,6 +1711,8 @@ dnf install gcc python3-devel python3-unversioned-command git
 
   3. 网卡持久化配置
 
+     在centos8版本以后，默认网络管理的方式是 NetworkManager，如果需要通过NetworkManager 管理OVS相关设备，需要安装插件`NetworkManager-ovs`, 该插件在openeuler 没有，所以还是使用 `network`方式去管理设备
+
      - 创建br-ex网卡配置
 
        ```shell
@@ -1718,6 +1721,7 @@ dnf install gcc python3-devel python3-unversioned-command git
        DEVICETYPE=ovs
        TYPE=OVSBridge
        BOOTPROTO=static
+       IPADDR=$IP
        NETMASK=255.255.255.0
        DELAY=0
        DNS1=114.114.114.114
