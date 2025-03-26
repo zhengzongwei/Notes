@@ -1729,12 +1729,27 @@ dnf install gcc python3-devel python3-unversioned-command git
        ONBOOT=yes
        NM_CONTROLLED=no
        EOF
+       
+       # 多IP配置
+       tee /etc/sysconfig/network-scripts/ifcfg-br-ex:0 > /dev/null << EOF
+       DEVICE=br-ex:0
+       DEVICETYPE=ovs
+       TYPE=OVSBridge
+       BOOTPROTO=static
+       IPADDR=$IP2 
+       NETMASK=255.255.255.0
+       DELAY=0
+       DNS1=114.114.114.114
+       DNS2=8.8.8.8
+       ONBOOT=yes
+       NM_CONTROLLED=no
+       EOF
        ```
-
+     
      - 修改对应绑定网卡的配置文件
-
+     
        备份原有配置`cp /etc/sysconfig/network-scripts/ifcfg-enp0s5 /etc/sysconfig/network-scripts/ifcfg-enp0s5.bak`
-
+     
        ```shell
        tee /etc/sysconfig/network-scripts/ifcfg-enp0s5 > /dev/null << EOF
        TYPE=OVSPort
