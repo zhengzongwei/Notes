@@ -404,8 +404,7 @@
 │   │       └── image-20250310112826439.png
 │   └── 隧道登陆方式.md
 ├── ReadMe.md
-├── gen.sh
-└── openeuler loongarch.md
+└── gen.sh
 
-117 directories, 290 files
+117 directories, 289 files
 ```
