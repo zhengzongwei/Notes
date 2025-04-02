@@ -26,9 +26,34 @@
 - 变量
 
   ```shell
-  HOSTNAME=controller-1
-  IP=10.211.55.82
+  HOSTNAME=openstack-dev
+  IP=10.211.55.85
   IPADDR=10.211.55.0/24
+  
+  RABBITMQ_SERVER_OPENSTACK_PASSWD=openstack
+  REPO_URL=https://opendev.org/openstack
+  BRANCH_VERSION="2023.2"
+  ADMIN_PASS=admin
+  KEYSTONE_PASS=keystone
+  GLANCE_PASS=glance
+  NOVA_PASS=nova
+  PLACEMENT_PASS=placement
+  NEUTRON_PASS=neutron
+  CINDER_PASS=cinder
+  SKYLINE_PASS=skyline
+  OCTAVIA_PASS=octavia
+  
+  # neutron
+  NETNAME=enp0s5
+  GATEWAY=10.211.55.1
+  ```
+  
+  
+  
+  ```shell
+  HOSTNAME=controller-1
+  IP=192.168.31.211
+  IPADDR=192.168.31.0/24
   
   RABBITMQ_SERVER_OPENSTACK_PASSWD=openstack
   REPO_URL=https://opendev.org/openstack
@@ -43,8 +68,8 @@
   OCTAVIA_PASS=octavia
   
   # neutron
-  NETNAME=enp0s5
-  GATEWAY=10.211.55.1
+  NETNAME=enp18
+  GATEWAY=192.168.31.1
   ```
   
 
@@ -56,8 +81,8 @@
 hostnamectl set-hostname $HOSTNAME
 
 
-if ! grep -q "$IPADDR $HOSTNAME" /etc/hosts; then
-    sed -i "\$a $IPADDR $HOSTNAME" /etc/hosts
+if ! grep -q "$IP $HOSTNAME" /etc/hosts; then
+    sed -i "\$a $IP $HOSTNAME" /etc/hosts
 fi
 ```
 
@@ -154,7 +179,7 @@ pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 #### 6. 依赖包安装
 
 ```shell
-dnf install gcc python3-devel python3-unversioned-command git 
+dnf install gcc python3-devel python3-unversioned-command git patch
 ```
 
 ### 中间件
@@ -213,7 +238,7 @@ dnf install gcc python3-devel python3-unversioned-command git
    ```shell
    cat <<EOF | sudo tee /etc/my.cnf.d/openstack.cnf > /dev/null
    [mysqld]
-   bind-address = $IPADDR
+   bind-address = $IP
    default-storage-engine = innodb
    innodb_file_per_table = on
    max_connections = 4096
@@ -350,10 +375,12 @@ dnf install gcc python3-devel python3-unversioned-command git
 
      ```shell
      pip install openstackclient
+     
+     pip install python-zaqarclient==2.10.0
      ```
 
   5. 将openstack命令移动到 /usr/bin/
-
+  
      ```shell
      cp /opt/openstackclient/venv/bin/openstack* /usr/bin/
      ```
@@ -412,7 +439,7 @@ dnf install gcc python3-devel python3-unversioned-command git
   1. 拉取keystone代码
 
      ```shell
-     git clone $REPO_URL/keystone.git /opt/keystone && git config --global --add safe.directory 
+     git clone $REPO_URL/keystone.git /opt/keystone && git config --global --add safe.directory /opt/keystone
      ```
 
   2. 切换分支
@@ -440,6 +467,14 @@ dnf install gcc python3-devel python3-unversioned-command git
      ```shell
      pip install -r requirements.txt && python /opt/keystone/setup.py install && pip install python-memcached pymysql SQLAlchemy==1.4.52
      ```
+
+  4. 移动可执行文件
+
+     ```shell
+     cp /opt/keystone/venv/bin/keystone-* /usr/bin/
+     ```
+
+     
 
 - 配置文件
 
@@ -892,8 +927,8 @@ dnf install gcc python3-devel python3-unversioned-command git
     ```shell
     cp /opt/glance/etc/glance-api-paste.ini /etc/glance/
     
-    cp /etc/glance/glance-api.conf.sample /etc/glance/glance-api.conf
-    cp /etc/glance/glance-registry.conf.sample /etc/glance/glance-registry.conf
+    # cp /etc/glance/glance-api.conf.sample /etc/glance/glance-api.conf
+    # cp /etc/glance/glance-registry.conf.sample /etc/glance/glance-registry.conf
     ```
 
 - 数据库配置
@@ -977,12 +1012,12 @@ dnf install gcc python3-devel python3-unversioned-command git
     WantedBy=multi-user.target
     EOF
     
-
-  ln -s /usr/lib/systemd/system/openstack-glance-api.service /etc/systemd/system/openstack-glance-api.service
     ```
-  
+
+    ln -s /usr/lib/systemd/system/openstack-glance-api.service /etc/systemd/system/openstack-glance-api.service
+
   - 服务启动
-  
+
     ```shell
     systemctl enable --now openstack-glance-api.service
     ```
@@ -1033,8 +1068,13 @@ dnf install gcc python3-devel python3-unversioned-command git
     ```shell
     dnf install libguestfs python3-libguestfs
     
+    # python3.9
     cp -r /usr/lib64/python3.9/site-packages/guestfs.py /opt/nova/venv/lib/python3.9/site-packages/
     cp /usr/lib64/python3.9/site-packages/libguestfsmod.cpython-39-aarch64-linux-gnu.so /opt/nova/venv/lib/python3.9/site-packages/
+    
+    # python3.11
+    cp -r /usr/lib64/python3.11/site-packages/guestfs.py /opt/nova/venv/lib/python3.11/site-packages/
+    cp /usr/lib64/python3.11/site-packages/libguestfsmod.cpython-39-aarch64-linux-gnu.so /opt/nova/venv/lib/python3.11/site-packages/
     ```
 
   - novnc
@@ -1224,7 +1264,7 @@ dnf install gcc python3-devel python3-unversioned-command git
        metadata_workers = 4
        enabled_apis = osapi_compute,metadata
        transport_url = rabbit://openstack:$RABBITMQ_SERVER_OPENSTACK_PASSWD@$HOSTNAME:5672/
-       my_ip = $IPADDR
+       my_ip = $IP
        use_neutron = true
        firewall_driver = nova.virt.firewall.NoopFirewallDriver
        compute_driver=libvirt.LibvirtDriver
@@ -1611,7 +1651,7 @@ dnf install gcc python3-devel python3-unversioned-command git
   1. 拉取neutron代码
 
      ```shell
-     git clone $REPO_URL/neutron.git /opt/neutron && git config --global --add safe.directory 
+     git clone $REPO_URL/neutron.git /opt/neutron && git config --global --add safe.directory /opt/neutron
      ```
 
   2. 切换分支
@@ -1971,7 +2011,7 @@ dnf install gcc python3-devel python3-unversioned-command git
      ```shell
      tee  /etc/neutron/plugins/openvswitch/openvswitch_agent.ini  > /dev/null <<EOF
      [ovs]
-     local_ip = $IPADDR
+     local_ip = $IP
      integration_bridge = br-int
      tunnel_bridge = br-tun
      # 物理网络和 Open vSwitch 逻辑桥接的映射
@@ -2203,7 +2243,7 @@ dnf install gcc python3-devel python3-unversioned-command git
       WantedBy=multi-user.target
       EOF
       
-      ln -s /usr/lib/systemd/system/neutron-metadata-agent.service /etc/systemd/system/neutron-metadata-agent.service
+      # ln -s /usr/lib/systemd/system/neutron-metadata-agent.service /etc/systemd/system/neutron-metadata-agent.service
       ```
 
   - 计算节点
@@ -2287,13 +2327,13 @@ dnf install gcc python3-devel python3-unversioned-command git
   1. 拉取cinder代码
 
      ```shell
-     git clone $REPO_URL/cinder.git /opt/cinder && git config --global --add safe.directory /opt/nova
+     git clone $REPO_URL/cinder.git /opt/cinder && git config --global --add safe.directory /opt/cinder
      ```
 
   2. 切换分支
 
      ```shell
-     cd /opt/neutron && git checkout -b stable/$BRANCH_VERSION remotes/origin/stable/$BRANCH_VERSION
+     cd /opt/cinder && git checkout -b stable/$BRANCH_VERSION remotes/origin/stable/$BRANCH_VERSION
      ```
 
      
@@ -2329,13 +2369,13 @@ dnf install gcc python3-devel python3-unversioned-command git
   3. 依赖安装
 
      ```shell
-     pip install -r requirements.txt && python /opt/nova/setup.py install && pip install python-memcached pymysql SQLAlchemy==1.4.52
+     pip install -r requirements.txt && python /opt/cinder/setup.py install && pip install python-memcached pymysql SQLAlchemy==1.4.52
      ```
 
   4. 移动执行文件到指定目录
 
      ```shell
-     cp /opt/nova/venv/bin/cinder-* /usr/bin/
+     cp /opt/cinder/venv/bin/cinder-* /usr/bin/
      ```
 
 - 配置文件
@@ -2371,7 +2411,7 @@ dnf install gcc python3-devel python3-unversioned-command git
        [DEFAULT]
        transport_url = rabbit://openstack:$RABBITMQ_SERVER_OPENSTACK_PASSWD@${HOSTNAME}
        auth_strategy = keystone
-       my_ip = $IPADDR
+       my_ip = $IP
        enabled_backends = lvm
        backup_driver=cinder.backup.drivers.nfs.NFSBackupDriver
        backup_share=controller:/data/cinder/backup
@@ -2563,6 +2603,190 @@ dnf install gcc python3-devel python3-unversioned-command git
   systemctl restart openstack-cinder-api 
   openstack volume service list
   ```
+
+#### skyline-apiserver
+
+```shell
+mysql -e "\
+    CREATE DATABASE skyline; \
+    GRANT ALL PRIVILEGES ON skyline.* TO 'skyline'@'localhost' IDENTIFIED BY '$SKYLINE_PASS'; \
+    GRANT ALL PRIVILEGES ON skyline.* TO 'skyline'@'%' IDENTIFIED BY '$SKYLINE_PASS';"
+
+# 创建用户
+source ~/.admin-openrc && openstack user create --domain default --password skyline $SKYLINE_PASS 
+
+openstack role add --project service --user skyline admin
+
+
+git clone $REPO_URL/skyline-apiserver.git /opt/skyline-apiserver/
+
+cd /opt/skyline-apiserver && git checkout -b stable/$BRANCH_VERSION remotes/origin/stable/$BRANCH_VERSION
+
+python -m venv /opt/skyline-apiserver/venv/
+
+pip install -r requirements.txt && python /opt/skyline-apiserver/setup.py install && pip install python-memcached pymysql SQLAlchemy==1.4.41
+
+cp /opt/skyline-apiserver/venv/bin/skyline-* /usr/bin/
+
+mkdir -p /etc/skyline /var/log/skyline /etc/skyline/policy
+
+
+sudo cp /opt/skyline-apiserver/etc/gunicorn.py /etc/skyline/gunicorn.py
+sudo sed -i "s/^bind = *.*/bind = ['0.0.0.0:28000']/g" /etc/skyline/gunicorn.py
+sudo cp /opt/skyline-apiserver/etc/skyline.yaml.sample /etc/skyline/skyline.yaml
+
+# 同步数据库
+cd /opt/skyline-apiserver/
+make db_sync
+
+/etc/systemd/system/skyline-apiserver.service
+
+[Unit]
+Description=Skyline APIServer
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/gunicorn -c /etc/skyline/gunicorn.py skyline_apiserver.main:app
+LimitNOFILE=32768
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+sudo systemctl enable skyline-apiserver
+sudo systemctl start skyline-apiserver
+```
+
+
+
+```yaml
+default:
+  access_token_expire: 3600
+  access_token_renew: 1800
+  cors_allow_origins: []
+  database_url: mysql://skyline:skyline@openstack-dev:3306/skyline
+  debug: false
+  log_dir: /var/log/skyline
+  log_file: skyline.log
+  prometheus_basic_auth_password: ''
+  prometheus_basic_auth_user: ''
+  prometheus_enable_basic_auth: false
+  prometheus_endpoint: http://localhost:9091
+  secret_key: aCtmgbcUqYUy_HNVg5BDXCaeJgJQzHJXwqbXr0Nmb2o
+  session_name: session
+  ssl_enabled: true
+openstack:
+  base_domains:
+  - heat_user_domain
+  default_region: RegionOne
+  enforce_new_defaults: true
+  extension_mapping:
+    floating-ip-port-forwarding: neutron_port_forwarding
+    fwaas_v2: neutron_firewall
+    qos: neutron_qos
+    vpnaas: neutron_vpn
+  interface_type: public
+  keystone_url: http:/openstack-dev:5000/v3/
+  nginx_prefix: /api/openstack
+  reclaim_instance_interval: 604800
+  service_mapping:
+    baremetal: ironic
+    compute: nova
+    container: zun
+    container-infra: magnum
+    database: trove
+    identity: keystone
+    image: glance
+    key-manager: barbican
+    load-balancer: octavia
+    network: neutron
+    object-store: swift
+    orchestration: heat
+    placement: placement
+    sharev2: manilav2
+    volumev3: cinder
+  sso_enabled: false
+  sso_protocols:
+  - openid
+  sso_region: RegionOne
+  system_admin_roles:
+  - admin
+  - system_admin
+  system_project: service
+  system_project_domain: Default
+  system_reader_roles:
+  - system_reader
+  system_user_domain: Default
+  system_user_name: skyline
+  system_user_password: 'skyline'
+setting:
+  base_settings:
+  - flavor_families
+  - gpu_models
+  - usb_models
+  flavor_families:
+  - architecture: x86_architecture
+    categories:
+    - name: general_purpose
+      properties: []
+    - name: compute_optimized
+      properties: []
+    - name: memory_optimized
+      properties: []
+    - name: high_clock_speed
+      properties: []
+  - architecture: heterogeneous_computing
+    categories:
+    - name: compute_optimized_type_with_gpu
+      properties: []
+    - name: visualization_compute_optimized_type_with_gpu
+      properties: []
+  gpu_models:
+  - nvidia_t4
+  usb_models:
+  - usb_c
+```
+
+
+
+#### skyline-console
+
+```shell
+dnf install nginx
+
+# 安装 nvm
+wget -P /root/ --tries=10 --retry-connrefused --waitretry=60 --no-dns-cache --no-cache  https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh
+
+chmod +x install.sh
+sh /root/install.sh
+. /root/.nvm/nvm.sh
+
+# 安装 nodejs
+nvm install --lts=gallium
+nvm alias default lts/gallium
+nvm use default
+
+# 安装yarn
+npm install -g yarn
+
+git clone https://opendev.org/openstack/skyline-console.git /opt/skyline-console
+
+cd /opt/skyline-console
+make package
+
+source /opt/skyline-apiserver/venv/bin/activate
+
+pip install --force-reinstall dist/skyline_console-*.whl
+
+# 生成nginx配置文件
+skyline-nginx-generator -o /etc/nginx/nginx.conf
+sed -i "s/server .* fail_timeout=0;/server 0.0.0.0:28000 fail_timeout=0;/g" /etc/nginx/nginx.conf
+
+sudo systemctl start nginx.service
+sudo systemctl enable nginx.service
+```
+
+
 
 #### neutron fwaas
 
@@ -2992,7 +3216,7 @@ dnf install gcc python3-devel python3-unversioned-command git
     default_rpc_exchange = octavia
     
     [api_settings]
-    bind_host = $IPADDR
+    bind_host = $IP
     bind_port = 9876
     api_handler = queue_producer
     auth_strategy = keystone
@@ -3037,8 +3261,8 @@ dnf install gcc python3-devel python3-unversioned-command git
     client_cert = /etc/octavia/certs/client.cert-and-key.pem
     [health_manager]
     bind_port = 5555
-    bind_ip = $IPADDR
-    controller_ip_port_list = $IPADDR:5555
+    bind_ip = $IP
+    controller_ip_port_list = $IP:5555
     
     [controller_worker]
     amp_image_owner_id = 229a31ea311645f89d747df3671a51ee
@@ -3337,14 +3561,15 @@ dnf install gcc python3-devel python3-unversioned-command git
 ## 验证
 
 ```shell
-PROJECT_ID=4877a30e870d49bc91bd63257fe321ae
+PROJECT_ID=$(openstack project list | awk '/admin/{print $2}')
 
 external 需要和 /etc/neutron/plugins/ml2对应 
 
 # 创建网络
 openstack network create --project $PROJECT_ID --share --provider-network-type flat --external --provider-physical-network external external-net
 
-NETWORK_ID=6e6c050d-764a-4244-9518-6074ab83bcf9
+NETWORK_ID=$(openstack network list | awk '/external-net/{print $2}')
+
 
  # 创建子网    
  openstack subnet create ext_subnet --network external-net --project $PROJECT_ID --subnet-range 192.168.5.0/24 --allocation-pool start=192.168.5.70,end=192.168.5.79 --gateway 192.168.5.1 --dns-nameserver 114.114.114.114
