@@ -83,8 +83,8 @@ enable_service tftp
 enable_service tempest
 
 # 网络配置
-FLAT_INTERFACE=enp0s5  # 替换为你的网络接口名称
-PUBLIC_INTERFACE=enp0s6
+FLAT_INTERFACE=ens34  # 替换为你的网络接口名称
+PUBLIC_INTERFACE=ens33
 
 # 使用 qemu 模拟裸机
 IRONIC_DEPLOY_DRIVER=fake-hardware
@@ -163,6 +163,61 @@ disable_service horizon
 [libvirt]
 cpu_mode=custom
 cpu_model=cortex-a72
+
+
+
+
+
+[[local|localrc]]
+ADMIN_PASSWORD=admin
+DATABASE_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+HOST_IP=192.168.248.143
+
+# 启用 Skyline 组件
+enable_plugin skyline-apiserver https://opendev.org/openstack/skyline-apiserver
+enable_plugin skyline-console https://opendev.org/openstack/skyline-console
+enable_service skyline-api skyline-console
+
+# Neutron 网络配置
+disable_service n-net
+enable_service q-svc,q-agt,q-dhcp,q-l3,q-meta,neutron
+
+# Neutron ML2 插件配置
+[[post-config|$NEUTRON_CONF]]
+[DEFAULT]
+service_plugins = router
+allow_overlapping_ips = True
+
+[[post-config|/etc/neutron/plugins/ml2/ml2_conf.ini]]
+[ml2]
+type_drivers = flat,vxlan
+tenant_network_types = vxlan
+mechanism_drivers = openvswitch,l2population
+
+[ml2_type_vxlan]
+vni_ranges = 1:1000
+
+[securitygroup]
+enable_ipset = True
+
+# Open vSwitch 配置
+[[post-config|/etc/neutron/plugins/ml2/openvswitch_agent.ini]]
+[agent]
+tunnel_types = vxlan
+l2_population = True
+
+[ovs]
+local_ip = $HOST_IP
+bridge_mappings = public:br-ex
+
+USE_PYTHON3=True
+
+# 加速下载配置
+GIT_BASE=http://git.trystack.cn
+NOVNC_REPO=http://git.trystack.cn/kanaka/noVNC.git
+USE_PYTHON3=True
 ```
 
 
