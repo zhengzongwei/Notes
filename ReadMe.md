@@ -304,32 +304,34 @@
 │       └── 虚拟机镜像管理.md
 ├── 03-云原生与容器
 │   ├── Kubernetes (K8s)
-│   │   ├── images
-│   │   │   └── 注释swap行.png
-│   │   ├── k8s环境部署.md
-│   │   ├── minikube.md
-│   │   └── openEuler k8s.md
-│   └── docker
-│       ├── docker registry.md
-│       ├── docker 基本操作.md
-│       ├── docker-compose
-│       │   ├── mariadb
-│       │   │   └── mariadb.md
-│       │   └── nginx
-│       │       └── nginx.md
-│       ├── dockerfile
-│       │   ├── centos.dockerfile
-│       │   ├── dockerfile.md
-│       │   ├── gitea.yml
-│       │   └── openeuler.dockerfile
-│       ├── docker配置.md
-│       └── gitea.md
+│   │   ├── install kubernets.md
+│   │   └── kubernets 命令.md
+│   ├── docker
+│   │   ├── docker registry.md
+│   │   ├── docker 基本操作.md
+│   │   ├── docker-compose
+│   │   │   ├── mariadb
+│   │   │   │   └── mariadb.md
+│   │   │   └── nginx
+│   │   │       └── nginx.md
+│   │   ├── dockerfile
+│   │   │   ├── centos.dockerfile
+│   │   │   ├── dockerfile.md
+│   │   │   ├── gitea.yml
+│   │   │   └── openeuler.dockerfile
+│   │   ├── docker配置.md
+│   │   └── gitea.md
+│   ├── harbor
+│   │   └── harbor 安装.md
+│   └── kubevirt
+│       └── kubevirt.md
 ├── 04-运维与系统管理
 │   ├── 00-Linux
 │   │   ├── Linux 双网卡服务器选择默认路由.md
 │   │   ├── Linux命令详解
 │   │   │   ├── brctl.md
 │   │   │   └── firewall-cmd.md
+│   │   ├── Linux基础运维.md
 │   │   ├── Linux磁盘扩容.md
 │   │   ├── mirrors.md
 │   │   ├── openeuler
@@ -407,5 +409,5 @@
 ├── ReadMe.md
 └── gen.sh
 
-117 directories, 290 files
+118 directories, 291 files
 ```
