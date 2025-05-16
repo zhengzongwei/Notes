@@ -4,7 +4,11 @@
 
 ## 环境准备
 
-
+| 主机名 |  role  | IP地址 | CPU  | 内存 | 组件 |
+| :----: | :----: | :--: | :--: | :--: | :--: |
+| k8s-01 | master |  192.168.248.137  |  4  | 4 | kubeadm, kubelet, kubectl, containerd |
+| k8s-02 | node01 | 192.168.248.138 |  4   | 8 | kubeadm, kubelet, kubectl, containerd |
+| k8s-03 | node02 | 192.168.248.139 |  4   | 8 | kubeadm, kubelet, kubectl, containerd |
 
 ## 环境配置
 
@@ -121,7 +125,7 @@ vi /etc/containerd/config.toml
 
 ```shell
 kubeadm init \
---apiserver-advertise-address=192.168.40.128 \
+--apiserver-advertise-address=192.168.248.137 \
 --image-repository registry.aliyuncs.com/google_containers \
 --kubernetes-version v1.32.3 \
 --pod-network-cidr=10.100.0.0/16 --service-cidr=10.1.0.0/16
@@ -141,6 +145,24 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
   修改 net-conf.json
 
   网段和--pod-network-cidr 对应
+
+## Worker 节点加入集群
+
+在控制平面执行
+
+```shell
+kubeadm token create --print-join-command
+```
+
+在worker节点执行控制平面的命令
+
+```shell
+kubeadm join 192.168.248.137:6443 --token vqj8ea.acvu39y33mbd33hz --discovery-token-ca-cert-hash sha256:5ca15322edb9cf23245d956ddb079f44c531490d81a6926d8c54c5b6b3b3d667
+```
+
+
+
+
 
 ## HELM安装
 
@@ -209,3 +231,13 @@ helm install kubernetes-dashboard ./kubernetes-dashboard-7.11.1.tgz \
 ## 参考链接
 
 1. kubevirt安装参考 [KubeVirt 02：部署 KubeVirt – 小菜园](https://www.imxcai.com/k8s/kubevirt/kubevirt-02-deploy-kubevirt.html)
+2. [KubeVirt 03：部署一个简单的 VM – 小菜园](https://www.imxcai.com/k8s/kubevirt/kubevirt-03-deploy-simple-vm.html)
+
+
+
+
+
+`````
+openstack image create --name=centos-76-fix-repo --container-format=ovf --disk-format=qcow2 --file=centos-76-fix-repo --is-public=True --property os_version=centos-7.6 --min-disk=20 --min-ram=0 --property is_online=True --property invisible=0 --property is_npe=true --property image_user_defined_category=common --progress --property image_openstack_defined_live_upgrade=true
+`````
+
